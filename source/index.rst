@@ -3,17 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Clojure 初心者のためのドキュメント
+Clojure 言語の日本語ガイド
 ============================================
 
-Contents: TEST
+Contents:
 
 .. toctree::
    :maxdepth: 2
 
 
 
-Indices and tables
+インデックス
 ==================
 
 * :ref:`genindex`
