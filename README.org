@@ -1,5 +1,5 @@
 * Clojure 初心者向けのドキュメント
 
   HTML 版はこちらから参照できます。
-  http://ayato0211.github.io/clojure-beginner/
 
+  http://ayato0211.github.io/clojure-beginner/
