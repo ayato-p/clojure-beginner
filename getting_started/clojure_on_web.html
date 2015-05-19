@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>Emacs と inf-clojure で始める &mdash; Clojure 言語の日本語ガイド</title>
+    <title>Clojure を Web で試してみる &mdash; Clojure 言語の日本語ガイド</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -51,8 +51,8 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="top" title="Clojure 言語の日本語ガイド" href="../index.html" />
     <link rel="up" title="Clojure を始めよう" href="index.html" />
-    <link rel="next" title="LightTable で始める" href="light_table.html" />
-    <link rel="prev" title="Eamcs と Cider-mode で始める" href="emacs_with_cider.html" /> 
+    <link rel="next" title="Eamcs と Cider-mode で始める" href="emacs_with_cider.html" />
+    <link rel="prev" title="Clojure を始めよう" href="index.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -68,14 +68,27 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Clojure を Web で試してみる</a><ul>
+<li><a class="reference internal" href="#try-clojure-clojure">Try Clojure で Clojure を試してみる</a></li>
+<li><a class="reference internal" href="#clojure-instarepl-clojure">Clojure  instaREPL で Clojure を試してみる</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
 
             
-              <li><a href="emacs_with_cider.html" title="Eamcs と Cider-mode で始める" accesskey="P">前へ </a></li>
-              <li><a href="light_table.html" title="LightTable で始める" accesskey="N">次へ </a></li>
+              <li><a href="index.html" title="Clojure を始めよう" accesskey="P">前へ </a></li>
+              <li><a href="emacs_with_cider.html" title="Eamcs と Cider-mode で始める" accesskey="N">次へ </a></li>
               <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
               <li><a href="index.html" accesskey="U">Clojure を始めよう</a></li>
             
-            <li class="visible-xs"><a href="../_sources/getting_started/emacs_with_inf_clojure.txt" rel="nofollow">ソースコードを表示</a></li>
+            <li class="visible-xs"><a href="../_sources/getting_started/clojure_on_web.txt" rel="nofollow">ソースコードを表示</a></li>
 
             <li class="visible-xs">
                 <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
@@ -111,9 +124,9 @@
 <h3><a href="../index.html">目次</a></h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">Clojure を始めよう</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="">Clojure を Web で試してみる</a></li>
 <li class="toctree-l2"><a class="reference internal" href="emacs_with_cider.html">Eamcs と Cider-mode で始める</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="">Emacs と inf-clojure で始める</a></li>
+<li class="toctree-l2"><a class="reference internal" href="emacs_with_inf_clojure.html">Emacs と inf-clojure で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_table.html">LightTable で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="intellij_with_cursive.html">Intellij IDEA と Cursive で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="eclipse_with_counterclockwise.html">Eclipse と Counterclockwise で始める</a></li>
@@ -124,15 +137,15 @@
 
 </div>
   <h4>前のトピックへ</h4>
-  <p class="topless"><a href="emacs_with_cider.html"
-                        title="前の章へ">Eamcs と Cider-mode で始める</a></p>
+  <p class="topless"><a href="index.html"
+                        title="前の章へ">Clojure を始めよう</a></p>
   <h4>次のトピックへ</h4>
-  <p class="topless"><a href="light_table.html"
-                        title="次の章へ">LightTable で始める</a></p>
+  <p class="topless"><a href="emacs_with_cider.html"
+                        title="次の章へ">Eamcs と Cider-mode で始める</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/getting_started/emacs_with_inf_clojure.txt"
+      <li><a href="../_sources/getting_started/clojure_on_web.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
@@ -162,8 +175,59 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="emacs-inf-clojure">
-<h1>Emacs と inf-clojure で始める<a class="headerlink" href="#emacs-inf-clojure" title="このヘッドラインへのパーマリンク">¶</a></h1>
+  <div class="section" id="clojure-web">
+<h1>Clojure を Web で試してみる<a class="headerlink" href="#clojure-web" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Clojure を触ってみたいけど、環境構築するのがめんどくさい…と戸惑っている人は Web 上で Clojure を触ってみましょう。</p>
+<ul class="simple">
+<li><a class="reference internal" href="#try-clojure"><span>Try Clojure で Clojure を試してみる</span></a></li>
+<li><a class="reference internal" href="#clojure-instarepl"><span>Clojure  instaREPL で Clojure を試してみる</span></a></li>
+</ul>
+<div class="section" id="try-clojure-clojure">
+<span id="try-clojure"></span><h2>Try Clojure で Clojure を試してみる<a class="headerlink" href="#try-clojure-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>5 分程度で終わる簡単なチュートリアル付き Web 上の REPL です。以下のリンクから開くことができます <a class="footnote-reference" href="#id3" id="id1">[1]</a> 。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.tryclj.com/">Try Clojure</a></li>
+</ul>
+<p>開くと次のような画面が出てくるので、下のガイドに従って進めましょう。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="../_images/open_try_clojure.png" src="../_images/open_try_clojure.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p><cite>next</cite> と REPL 中でタイプすればガイドが次に進み、 <cite>back</cite> とタイプすれば前のガイドに戻ります。 <cite>restart</cite> とタイプすると一番始めのガイドへと戻ります。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="../_images/usage_try_clojure.png" src="../_images/usage_try_clojure.png" />
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>2015/05: 現在 <cite>defn</cite> がうまく機能しておらず関数の定義が出来ないので、今後の修正に期待したいところ。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="clojure-instarepl-clojure">
+<span id="clojure-instarepl"></span><h2>Clojure  instaREPL で Clojure を試してみる<a class="headerlink" href="#clojure-instarepl-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Try Clojure より後発でチュートリアルこそないですが、 LightTable のように Clojure のフォームをインタラクティブに評価して結果を表示してくれるのでとても分かりやすいと思います。以下のリンクから開くことが出来ます。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://web.clojurerepl.com/">Clojure instaREPL</a></li>
+</ul>
+<p>開くと次のような画面が出てくると思います。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="../_images/open_clojurerepl.png" src="../_images/open_clojurerepl.png" />
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>試しに画面上部にある <cite>qsort</cite> というリンクをクリックしてみると、下の画面のようなサンプルが表示されます。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<img alt="../_images/qsort_clojurerepl.png" src="../_images/qsort_clojurerepl.png" />
+</div>
 </div>
 
 
@@ -185,8 +249,8 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="emacs_with_cider.html" title="Eamcs と Cider-mode で始める" >前へ</a></li>
-        <li><a href="light_table.html" title="LightTable で始める" >次へ</a></li>
+        <li><a href="index.html" title="Clojure を始めよう" >前へ</a></li>
+        <li><a href="emacs_with_cider.html" title="Eamcs と Cider-mode で始める" >次へ</a></li>
         <li><a href="../genindex.html" title="総合索引" >索引</a></li>
         <li><a href="index.html" >Clojure を始めよう</a></li>
         <li><a href="#">top</a></li> 
