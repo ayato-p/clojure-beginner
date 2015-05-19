@@ -1,0 +1,19 @@
+{
+  "name": "clojure-beginner",
+  "version": "0.0.1",
+  "description": "* Clojure 初心者向けのドキュメント",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-shell": "^0.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayato0211/clojure-beginner.git"
+  },
+  "author": "ayato_p",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ayato0211/clojure-beginner/issues"
+  },
+  "homepage": "http://ayato0211.github.io/clojure-beginner/"
+}
