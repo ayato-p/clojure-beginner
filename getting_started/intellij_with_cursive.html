@@ -51,7 +51,7 @@
     <link rel="shortcut icon" href="../_static/favicon.png"/>
     <link rel="top" title="Clojure 言語の日本語ガイド" href="../index.html" />
     <link rel="up" title="Clojure を始めよう" href="index.html" />
-    <link rel="next" title="Eclipse と Counterclockwise で始める" href="eclipse_with_counterclockwise.html" />
+    <link rel="next" title="Cursive を入手する" href="intellij_with_cursive/getting_started.html" />
     <link rel="prev" title="LightTable で始める" href="light_table.html" /> 
   </head>
   <body role="document">
@@ -68,10 +68,24 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Intellij IDEA と Cursive で始める</a><ul>
+<li><a class="reference internal" href="#about-cursive">概要</a></li>
+<li><a class="reference internal" href="#feature-of-cursive">機能</a></li>
+<li><a class="reference internal" href="#userguide-for-cursive">ユーザーガイド</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
 
             
               <li><a href="light_table.html" title="LightTable で始める" accesskey="P">前へ </a></li>
-              <li><a href="eclipse_with_counterclockwise.html" title="Eclipse と Counterclockwise で始める" accesskey="N">次へ </a></li>
+              <li><a href="intellij_with_cursive/getting_started.html" title="Cursive を入手する" accesskey="N">次へ </a></li>
               <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
               <li><a href="index.html" accesskey="U">Clojure を始めよう</a></li>
             
@@ -127,8 +141,8 @@
   <p class="topless"><a href="light_table.html"
                         title="前の章へ">LightTable で始める</a></p>
   <h4>次のトピックへ</h4>
-  <p class="topless"><a href="eclipse_with_counterclockwise.html"
-                        title="次の章へ">Eclipse と Counterclockwise で始める</a></p>
+  <p class="topless"><a href="intellij_with_cursive/getting_started.html"
+                        title="次の章へ">Cursive を入手する</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -164,6 +178,42 @@
                   
   <div class="section" id="intellij-idea-cursive">
 <h1>Intellij IDEA と Cursive で始める<a class="headerlink" href="#intellij-idea-cursive" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Cursive は Clojure 開発で必要な機能、あるいはあると便利な機能を統合的に提供してくれます。</p>
+<ul class="simple">
+<li><a class="reference internal" href="#about-cursive"><span>概要</span></a></li>
+<li><a class="reference internal" href="#feature-of-cursive"><span>機能</span></a></li>
+<li><a class="reference internal" href="#userguide-for-cursive"><span>ユーザーガイド</span></a></li>
+</ul>
+<div class="section" id="about-cursive">
+<span id="id1"></span><h2>概要<a class="headerlink" href="#about-cursive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>日本ではあまり使用例を見かけませんが、海外では Emacs に次ぐ人気の高い開発環境となっています。</p>
+<p>現在 Cursive は Intellij IDEA のプラグインとして提供されており、他の JetBrains 製品
+と同様にバージョン管理システムやインスペクターなどといった機能を使うことができます。</p>
+<p>Clojure エコシステムと親和性の高い機能を備えており、 nREPL や Leiningen などといったツールと併用して使うことができます。またそれらを Cursive 上から操作することも出来ます。</p>
+</div>
+<div class="section" id="feature-of-cursive">
+<span id="id2"></span><h2>機能<a class="headerlink" href="#feature-of-cursive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>シンタックスハイライト</li>
+<li>ナビゲーション(シンボル間ジャンプ、使い方の検索)</li>
+<li>シンボルのリネーム</li>
+<li>nREPL をベースにした REPL</li>
+<li>Leiningen のサポート</li>
+<li>Paredit スタイルの構造的編集機能</li>
+<li>コードフォーマット</li>
+<li>シンボリックデバッガ</li>
+<li>プロジェクト内で Java を一緒に使うことが容易</li>
+<li>全ての Intellij の機能( VCS やプロジェクト管理など)</li>
+</ul>
+</div>
+<div class="section" id="userguide-for-cursive">
+<span id="id3"></span><h2>ユーザーガイド<a class="headerlink" href="#userguide-for-cursive" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intellij_with_cursive/getting_started.html">Cursive を入手する</a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
@@ -186,7 +236,7 @@
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="light_table.html" title="LightTable で始める" >前へ</a></li>
-        <li><a href="eclipse_with_counterclockwise.html" title="Eclipse と Counterclockwise で始める" >次へ</a></li>
+        <li><a href="intellij_with_cursive/getting_started.html" title="Cursive を入手する" >次へ</a></li>
         <li><a href="../genindex.html" title="総合索引" >索引</a></li>
         <li><a href="index.html" >Clojure を始めよう</a></li>
         <li><a href="#">top</a></li> 
