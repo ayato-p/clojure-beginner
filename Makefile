@@ -46,6 +46,9 @@ help:
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 
+test:
+	exit 0
+
 clean:
 	rm -rf $(BUILDDIR)/*
 

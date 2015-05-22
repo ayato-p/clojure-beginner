@@ -13,10 +13,6 @@ dependencies:
     - pip install Sphinx
     - pip install sphinxjp.themes.basicstrap
 
-test:
-  override:
-    - exit 0
-
 deployment:
   publish:
     branch: master
