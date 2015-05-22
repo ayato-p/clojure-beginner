@@ -19,6 +19,7 @@ git checkout gh-pages
 # build
 cd "$root_dir"
 make html
+cp ./source/circle.yml "$pages_dir"
 
 cd "$pages_dir"
 git add .
