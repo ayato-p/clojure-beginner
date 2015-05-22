@@ -15,16 +15,10 @@ dependencies:
 
 test:
   override:
-    - git config --global user.name "ayato_p"
-    - git config --global user.email "ayato.skycrawlers@gmail.com"
-    - git branch -a
-    - mkdir build
-    - ./bin/push-gh-pages build
-    - git branch -a
-    - make html
+    - exit 0
 
 deployment:
   publish:
     branch: master
     commands:
-      - ./bin/push-gh-pages build
+      - ./bin/deploy build

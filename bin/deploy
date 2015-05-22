@@ -1,35 +1,33 @@
 #!/bin/sh
 
-# usage: push-gh-pages DIRECTORY # DIRECTORY is where GitHub pages contents are in (eg. build)
-
 set -e
 
+root_dir=$(pwd)
 remote=$(git config remote.origin.url)
 described_rev=$(git rev-parse HEAD | git name-rev --stdin)
-
 pages_dir="$1"
 
-if [ ! -d "$pages_dir" ]
-then
-    echo "Usage: $0 DIRECTORY"
-    exit 1
-fi
+# pre
+rm -rf "$pages_dir"
+mkdir "$pages_dir"
 
 cd "$pages_dir"
-
-cdup=$(git rev-parse --show-cdup)
-if [ "$cdup" != '' ]
-then
-    git init
-    git remote add --fetch origin "$remote"
-fi
+git init
+git remote add --fetch origin "$remote"
 
 if git rev-parse --verify origin/gh-pages > /dev/null 2>&1
 then
+    echo "1"
     git checkout gh-pages
 else
+    echo "2"
     git checkout --orphan gh-pages
 fi
+
+# build
+cd "$root_dir"
+make html
+
 
 git add .
 git commit -m "pages built at $described_rev"
