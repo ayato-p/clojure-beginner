@@ -1,7 +1,30 @@
-deployment:
+general:
+  branches:
+    ignore:
+      - gh-pages
+
+machine:
+  timezone: Asia/Tokyo
+  python:
+    version: 2.7.6
+
+dependencies:
   pre:
+    - pip install Sphinx
+    - pip install sphinxjp.themes.basicstrap
+
+test:
+  override:
+    - git config --global user.name "ayato_p"
+    - git config --global user.email "ayato.skycrawlers@gmail.com"
+    - git branch -a
+    - mkdir build
+    - ./bin/push-gh-pages build
+    - git branch -a
     - make html
-  staging:
+
+deployment:
+  publish:
     branch: master
     commands:
-      - ./bin/push-gh-pages
+      - ./bin/push-gh-pages build
