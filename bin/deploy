@@ -14,21 +14,14 @@ mkdir "$pages_dir"
 cd "$pages_dir"
 git init
 git remote add --fetch origin "$remote"
-
-if git rev-parse --verify origin/gh-pages > /dev/null 2>&1
-then
-    echo "1"
-    git checkout gh-pages
-else
-    echo "2"
-    git checkout --orphan gh-pages
-fi
+git checkout gh-pages
 
 # build
 cd "$root_dir"
 make html
 
-
 git add .
 git commit -m "pages built at $described_rev"
+
+exit 1
 git push origin gh-pages
