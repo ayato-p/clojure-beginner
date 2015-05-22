@@ -1,0 +1,12 @@
+.navbar-default {
+  background-color: #63B132;
+  border-color: #63B132;
+}
+
+a {
+    color: #5881d8;
+}
+
+a:hover, a:focus {
+  color: #90B4FE;
+}
