@@ -128,7 +128,7 @@
 <li class="toctree-l2"><a class="reference internal" href="emacs_with_cider.html">Eamcs と Cider-mode で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="emacs_with_inf_clojure.html">Emacs と inf-clojure で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="light_table.html">LightTable で始める</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intellij_with_cursive.html">Intellij IDEA と Cursive で始める</a></li>
+<li class="toctree-l2"><a class="reference internal" href="intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="eclipse_with_counterclockwise.html">Eclipse と Counterclockwise で始める</a></li>
 </ul>
 </li>
@@ -178,13 +178,16 @@
   <div class="section" id="clojure-web">
 <h1>Clojure を Web で試してみる<a class="headerlink" href="#clojure-web" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <p>Clojure を触ってみたいけど、環境構築するのがめんどくさい…と戸惑っている人は Web 上で Clojure を触ってみましょう。</p>
+<div class="contents local topic" id="id1">
+<p class="topic-title first">ページ内目次</p>
 <ul class="simple">
-<li><a class="reference internal" href="#try-clojure"><span>Try Clojure で Clojure を試してみる</span></a></li>
-<li><a class="reference internal" href="#clojure-instarepl"><span>Clojure  instaREPL で Clojure を試してみる</span></a></li>
+<li><a class="reference internal" href="#try-clojure-clojure" id="id4">Try Clojure で Clojure を試してみる</a></li>
+<li><a class="reference internal" href="#clojure-instarepl-clojure" id="id5">Clojure  instaREPL で Clojure を試してみる</a></li>
 </ul>
+</div>
 <div class="section" id="try-clojure-clojure">
-<span id="try-clojure"></span><h2>Try Clojure で Clojure を試してみる<a class="headerlink" href="#try-clojure-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>5 分程度で終わる簡単なチュートリアル付き Web 上の REPL です。以下のリンクから開くことができます <a class="footnote-reference" href="#id3" id="id1">[1]</a> 。</p>
+<h2><a class="toc-backref" href="#id4">Try Clojure で Clojure を試してみる</a><a class="headerlink" href="#try-clojure-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>5 分程度で終わる簡単なチュートリアル付き Web 上の REPL です。以下のリンクから開くことができます <a class="footnote-reference" href="#id3" id="id2">[1]</a> 。</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.tryclj.com/">Try Clojure</a></li>
 </ul>
@@ -196,7 +199,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p><cite>next</cite> と REPL 中でタイプすればガイドが次に進み、 <cite>back</cite> とタイプすれば前のガイドに戻ります。 <cite>restart</cite> とタイプすると一番始めのガイドへと戻ります。</p>
+<p><code class="docutils literal"><span class="pre">next</span></code> と REPL 中でタイプすればガイドが次に進み、 <code class="docutils literal"><span class="pre">back</span></code> とタイプすれば前のガイドに戻ります。 <code class="docutils literal"><span class="pre">restart</span></code> とタイプすると一番始めのガイドへと戻ります。</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -204,12 +207,12 @@
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>2015/05: 現在 <cite>defn</cite> がうまく機能しておらず関数の定義が出来ないので、今後の修正に期待したいところ。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>2015/05: 現在 <code class="docutils literal"><span class="pre">defn</span></code> がうまく機能しておらず関数の定義が出来ないので、今後の修正に期待したいところ。</td></tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="clojure-instarepl-clojure">
-<span id="clojure-instarepl"></span><h2>Clojure  instaREPL で Clojure を試してみる<a class="headerlink" href="#clojure-instarepl-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2><a class="toc-backref" href="#id5">Clojure  instaREPL で Clojure を試してみる</a><a class="headerlink" href="#clojure-instarepl-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Try Clojure より後発でチュートリアルこそないですが、 LightTable のように Clojure のフォームをインタラクティブに評価して結果を表示してくれるのでとても分かりやすいと思います。以下のリンクから開くことが出来ます。</p>
 <ul class="simple">
 <li><a class="reference external" href="http://web.clojurerepl.com/">Clojure instaREPL</a></li>
@@ -222,7 +225,7 @@
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<p>試しに画面上部にある <cite>qsort</cite> というリンクをクリックしてみると、下の画面のようなサンプルが表示されます。</p>
+<p>試しに画面上部にある <code class="docutils literal"><span class="pre">qsort</span></code> というリンクをクリックしてみると、下の画面のようなサンプルが表示されます。</p>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>

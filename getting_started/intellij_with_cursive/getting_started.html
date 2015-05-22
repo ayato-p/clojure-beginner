@@ -50,9 +50,9 @@
 </script>
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
     <link rel="top" title="Clojure 言語の日本語ガイド" href="../../index.html" />
-    <link rel="up" title="Intellij IDEA と Cursive で始める" href="../intellij_with_cursive.html" />
+    <link rel="up" title="IntelliJ IDEA と Cursive で始める" href="../intellij_with_cursive.html" />
     <link rel="next" title="Eclipse と Counterclockwise で始める" href="../eclipse_with_counterclockwise.html" />
-    <link rel="prev" title="Intellij IDEA と Cursive で始める" href="../intellij_with_cursive.html" /> 
+    <link rel="prev" title="IntelliJ IDEA と Cursive で始める" href="../intellij_with_cursive.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -68,13 +68,28 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Cursive を入手する</a><ul>
+<li><a class="reference internal" href="#intellij">IntelliJ をダウンロード</a></li>
+<li><a class="reference internal" href="#la-clojure">La Clojure を削除</a></li>
+<li><a class="reference internal" href="#id3">Cursive をインストール</a></li>
+<li><a class="reference internal" href="#id4">IntelliJ の設定</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
 
             
-              <li><a href="../intellij_with_cursive.html" title="Intellij IDEA と Cursive で始める" accesskey="P">前へ </a></li>
+              <li><a href="../intellij_with_cursive.html" title="IntelliJ IDEA と Cursive で始める" accesskey="P">前へ </a></li>
               <li><a href="../eclipse_with_counterclockwise.html" title="Eclipse と Counterclockwise で始める" accesskey="N">次へ </a></li>
               <li><a href="../../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
               <li><a href="../index.html" >Clojure を始めよう</a></li>
-              <li><a href="../intellij_with_cursive.html" accesskey="U">Intellij IDEA と Cursive で始める</a></li>
+              <li><a href="../intellij_with_cursive.html" accesskey="U">IntelliJ IDEA と Cursive で始める</a></li>
             
             <li class="visible-xs"><a href="../../_sources/getting_started/intellij_with_cursive/getting_started.txt" rel="nofollow">ソースコードを表示</a></li>
 
@@ -116,7 +131,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../emacs_with_cider.html">Eamcs と Cider-mode で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../emacs_with_inf_clojure.html">Emacs と inf-clojure で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../light_table.html">LightTable で始める</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../intellij_with_cursive.html">Intellij IDEA と Cursive で始める</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../eclipse_with_counterclockwise.html">Eclipse と Counterclockwise で始める</a></li>
 </ul>
 </li>
@@ -126,7 +141,7 @@
 </div>
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="../intellij_with_cursive.html"
-                        title="前の章へ">Intellij IDEA と Cursive で始める</a></p>
+                        title="前の章へ">IntelliJ IDEA と Cursive で始める</a></p>
   <h4>次のトピックへ</h4>
   <p class="topless"><a href="../eclipse_with_counterclockwise.html"
                         title="次の章へ">Eclipse と Counterclockwise で始める</a></p>
@@ -165,6 +180,45 @@
                   
   <div class="section" id="cursive">
 <h1>Cursive を入手する<a class="headerlink" href="#cursive" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">警告</p>
+<p class="last">Cursive は現在も開発中のため安定はしていません。とはいえ、 Cursive の開発者とたくさんの Cursive ユーザーが既に日々の仕事で使用しています。</p>
+</div>
+<div class="contents local topic" id="id1">
+<p class="topic-title first">ページ内目次</p>
+<ul class="simple">
+<li><a class="reference internal" href="#intellij" id="id5">IntelliJ をダウンロード</a></li>
+<li><a class="reference internal" href="#la-clojure" id="id6">La Clojure を削除</a></li>
+<li><a class="reference internal" href="#id3" id="id7">Cursive をインストール</a></li>
+<li><a class="reference internal" href="#id4" id="id8">IntelliJ の設定</a></li>
+</ul>
+</div>
+<div class="section" id="intellij">
+<h2><a class="toc-backref" href="#id5">IntelliJ をダウンロード</a><a class="headerlink" href="#intellij" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>まず初めに <a class="reference external" href="https://www.jetbrains.com/idea/download/index.html">ココ</a> から IntelliJ をダウンロードしましょう。もし Ultimate Edition を持っていないなら Community Edition でも大丈夫です。 IntelliJ は Windows, Mac OS X それと Linux で使用可能です。 Cursive は IntelliJ のバージョン 12.1, 13.1 14 と 14.1 EAP で動作します。</p>
+</div>
+<div class="section" id="la-clojure">
+<h2><a class="toc-backref" href="#id6">La Clojure を削除</a><a class="headerlink" href="#la-clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>もしあなたが既に JetBrains の La Clojure もしくは Jan Thomä の Leiningen プラグインをインストールしている場合は Cursive と Leiningen の統合で競合するのでアンインストールする必要があります。 IntelliJ の <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Plugins</span></code> を開き、それらのプラグインを選択して uninstall ボタンを押して Ok を押しましょう。その後、 IntelliJ を再起動すれば終わりです。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">Disable にするだけでは十分ではないので、しっかりアンインストールしましょう。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id7">Cursive をインストール</a><a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>プラグインをインストールします。 IntelliJ の <code class="docutils literal"><span class="pre">Settings</span></code> を開き、それから <code class="docutils literal"><span class="pre">Plugins</span></code>, <code class="docutils literal"><span class="pre">Browse</span> <span class="pre">Repositories</span></code>, <code class="docutils literal"><span class="pre">Manage</span> <span class="pre">Repositories</span></code> と順番に開いていきます。リポジトリの URL をあなたの IntelliJ のバージョンと一致するものを以下から選んで入力します。</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">https://cursiveclojure.com/plugins.xml</span></code> for IntelliJ 12.1</li>
+<li><code class="docutils literal"><span class="pre">https://cursiveclojure.com/plugins-13.1.xml</span></code> for IntelliJ 13.1</li>
+<li><code class="docutils literal"><span class="pre">https://cursiveclojure.com/plugins-14.xml</span></code> for IntelliJ 14</li>
+<li><code class="docutils literal"><span class="pre">https://cursiveclojure.com/plugins-14.1.xml</span></code> for IntelliJ 14.1</li>
+</ul>
+<p><code class="docutils literal"><span class="pre">Browse</span> <span class="pre">Repositories</span></code> に戻ると、リポジトリリストの中に <code class="docutils literal"><span class="pre">cursive-14.1.0.1.xx</span></code> というような新しいプラグインが見えると思います。 install ボタンを押してインストールをしたら <code class="docutils literal"><span class="pre">Browse</span> <span class="pre">Repositories</span></code> ウィンドウと <code class="docutils literal"><span class="pre">Settings</span></code> ウィンドウを閉じて IntelliJ を再起動しましょう。</p>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id8">IntelliJ の設定</a><a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+</div>
 </div>
 
 
@@ -186,11 +240,11 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="../intellij_with_cursive.html" title="Intellij IDEA と Cursive で始める" >前へ</a></li>
+        <li><a href="../intellij_with_cursive.html" title="IntelliJ IDEA と Cursive で始める" >前へ</a></li>
         <li><a href="../eclipse_with_counterclockwise.html" title="Eclipse と Counterclockwise で始める" >次へ</a></li>
         <li><a href="../../genindex.html" title="総合索引" >索引</a></li>
         <li><a href="../index.html" >Clojure を始めよう</a></li>
-        <li><a href="../intellij_with_cursive.html" >Intellij IDEA と Cursive で始める</a></li>
+        <li><a href="../intellij_with_cursive.html" >IntelliJ IDEA と Cursive で始める</a></li>
         <li><a href="#">top</a></li> 
       
     </ul>
