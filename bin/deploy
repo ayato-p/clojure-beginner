@@ -20,8 +20,7 @@ git checkout gh-pages
 cd "$root_dir"
 make html
 
+cd "$pages_dir"
 git add .
 git commit -m "pages built at $described_rev"
-
-exit 1
 git push origin gh-pages
