@@ -1,0 +1,7 @@
+deployment:
+  pre:
+    - make html
+  staging:
+    branch: master
+    commands:
+      - ./bin/push-gh-pages
