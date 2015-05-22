@@ -17,4 +17,6 @@ deployment:
   publish:
     branch: master
     commands:
+      - git config --global user.email "ayato.skycrawlers@gmail.com"
+      - git config --global user.name "ayato_p"
       - ./bin/deploy build
