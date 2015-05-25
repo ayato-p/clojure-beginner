@@ -36,3 +36,4 @@ Cursive はそのほぼ全てを Clojure で書かれており、 Clojure エコ
 .. toctree::
    ./intellij_with_cursive/getting_started
    ./intellij_with_cursive/ui
+   ./intellij_with_cursive/keybindings
