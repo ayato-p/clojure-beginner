@@ -1,3 +1,8 @@
+.. |refresh| image:: /image/cursive_with_leiningen/refresh.png
+.. |add| image:: /image/cursive_with_leiningen/add.png
+.. |remove| image:: /image/cursive_with_leiningen/remove.png
+.. |execute| image:: /image/cursive_with_leiningen/execute.png
+
 ==================
  Leiningen を使う
 ==================
@@ -7,54 +12,52 @@ Leiningen は Clojure のためのデファクトなプロジェクト管理ツ�
 既存のプロジェクトをインポートする
 ==================================
 
-Select File→Import Project… [#]_ and select the project you would like to import. You can select either the project.clj or the directory containing it.
+``File`` -> ``Import Project…`` [#]_ を選択してインポートしたいプロジェクトを選択します。 ``project.clj`` かそれを含むディレクトリが選択できます。
 
 .. image:: /image/cursive_with_leiningen/import-choose-project.png
 
-If required, select “Import project from external model” and select Leiningen.
+もし要求されたら ``Import project from external model`` と Leiningen を選択します [#]_ 。
 
 .. image:: /image/cursive_with_leiningen/import-choose-lein.png
 
-The root directory of your project will be filled in for you. You can choose to search recursively within that directory for other projects (see Multi Module Projects, below), and you can also choose to put the project files in a directory other than the main project directory.
+プロジェクトのルートディレクトリは埋めてあります。このディレクトリを他のプロジェクトのために再帰的に検索するかを選ぶことができ [#]_ 、それからプロジェクトファイルをメインプロジェクトのディレクトリ以外に置くかも選ぶことができます。
 
 .. image:: /image/cursive_with_leiningen/import-project-details.png
 
-You will then be presented with a list of the Leiningen projects found, and you can select which to import.
+Leiningen プロジェクトの一覧が表示されるので、どれをインポートするかを選択できます。
 
 .. image:: /image/cursive_with_leiningen/import-project-list.png
 
-Pick an SDK, then confirm your project name and file locations.
+SDK をひとつ選び、プロジェクトの名前とファイルロケーションを確認します。
 
 .. image:: /image/cursive_with_leiningen/import-confirm-name.png
 
-Your project will then be opened and is ready to use.
+プロジェクトを開いた画面になり、これで使う準備が出来ました。
 
 .. image:: /image/cursive_with_leiningen/import-new-project.png
 
-Coming Soon: We’ll be allowing more fine-grained use of profiles during this process.
+Leiningen プロジェクトを使う
+============================
 
-Working with your Leiningen project
-===================================
-
-The Leiningen tool window shows the currently active Leiningen projects, and presents you with a list of the most common tasks to run.
+Leiningen ツールウィンドウでは現在アクティブになっている Leiningen プロジェクトを表示し、とても一般的なタスクの一覧を表示しています。
 
 .. image:: /image/cursive_with_leiningen/lein-toolwindow.png
 
-Coming Soon: We’ll be reading the list of available tasks from the project which will include tasks provided by plugins.
+カミングスーン: プラグインから提供されるタスクをプロジェクトから読み取れるようにします。
 
-You can select a task and run it using the  icon in the tool window toolbar.
+タスクを選択し、ツールウィンドウのツールバーにある |execute| を押すことでタスクを実行できます。
 
 .. image:: /image/cursive_with_leiningen/lein-run-task.png
 
-The  and  icons allow you to add and remove Leiningen projects to and from your IntelliJ project (see Multi Module Projects below).
+|add| と |remove| アイコンを使うことで Leiningen プロジェクトを IntelliJ プロジェクトに追加したり削除することができます。
 
-Refreshing Leiningen dependencies
-=================================
+Leiningen の依存性を再読み込みする
+==================================
 
-When you have updated your project.clj file, you can press the  icon to re-read the project file and refresh the project dependencies. Note that this is not performed automatically when the project.clj is updated, unlike the Maven plugin. The project may also be refreshed before starting a REPL by adding “Synchronize Leiningen Projects” to the Before Launch section of its run configuration.
+``project.clj`` を更新したら |refresh| を押すことでプロジェクトファイルをリロードし、プロジェクトの依存性を再読み込みします。 Maven プラグインのように自動では行われないことに注意してください。実行設定 [#]_ の Before Launch セクションに ``Synchronize Leiningen Projects`` を追加して REPL 起動前にプロジェクトを再読み込みするようにしてもいいかもしれません。
 
-Sources and Javadocs for Leiningen dependencies
-===============================================
+Leiningen の依存性のためのソースと Javadoc
+==========================================
 
 Since 0.1.12, Cursive can download sources and javadocs for Leiningen dependencies. When you navigate to a Java class file that belongs to a library without sources attached, you will be prompted to download the sources - they will be downloaded and added to the library. Sources and Javadocs can also be automatically downloaded for Leiningen projects, but this option is not recommended because it can make project synchronisation extremely slow. This is because most Clojure libraries are distributed as source, and thus don’t have a separate source artifact. If you really need it, this functionality is controlled by the setting Settings→Leiningen→Automatically download sources/javadocs.
 
@@ -69,8 +72,10 @@ Leiningen を使って新しいプロジェクトを作る
 近い将来実装予定。
 現在はコマンドラインから ``lein`` コマンドを使ってプロジェクトを作り上で説明したようにインポートしてください。
 
-マルチモジュールプロジェクトでの作業
-====================================
+.. _working_with_multimodule:
+
+マルチモジュールプロジェクトを扱う
+==================================
 
 もしあなたがもっと複数のモジュールをもつ複雑なプロジェクトを持っている場合、 Cursive は自動的にそれを見つけすべて整えてくれます。インポートするときに ``Search for projects recursively`` にチェックしてください。
 
@@ -92,3 +97,6 @@ Checkout Dependencies
 Leiningen’s standard mechanism for managing multi-module projects is to use Checkout Dependencies. Cursive fully supports checkout dependencies and will add the appropriate modules and dependencies automatically.
 
 .. [#] ``File`` メニューにない場合はアクションを検索して Import Project を探します。
+.. [#] ``project.clj`` がないディレクトリをインポートするとき
+.. [#] :ref:`working_with_multimodule` を参照
+.. [#] ``Run`` -> ``Edit Cofigurations...`` から。詳細は REPL のセクションで扱います。
