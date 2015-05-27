@@ -75,12 +75,12 @@
                 <ul>
 <li><a class="reference internal" href="#">Leiningen を使う</a><ul>
 <li><a class="reference internal" href="#id1">既存のプロジェクトをインポートする</a></li>
-<li><a class="reference internal" href="#working-with-your-leiningen-project">Working with your Leiningen project</a></li>
-<li><a class="reference internal" href="#refreshing-leiningen-dependencies">Refreshing Leiningen dependencies</a></li>
-<li><a class="reference internal" href="#sources-and-javadocs-for-leiningen-dependencies">Sources and Javadocs for Leiningen dependencies</a></li>
-<li><a class="reference internal" href="#id3">クイックプロジェクトインポート</a></li>
-<li><a class="reference internal" href="#id4">Leiningen を使って新しいプロジェクトを作る</a></li>
-<li><a class="reference internal" href="#id5">マルチモジュールプロジェクトでの作業</a></li>
+<li><a class="reference internal" href="#id5">Leiningen プロジェクトを使う</a></li>
+<li><a class="reference internal" href="#id6">Leiningen の依存性を再読み込みする</a></li>
+<li><a class="reference internal" href="#leiningen-javadoc">Leiningen の依存性のためのソースと Javadoc</a></li>
+<li><a class="reference internal" href="#id8">クイックプロジェクトインポート</a></li>
+<li><a class="reference internal" href="#id9">Leiningen を使って新しいプロジェクトを作る</a></li>
+<li><a class="reference internal" href="#working-with-multimodule">マルチモジュールプロジェクトを扱う</a></li>
 <li><a class="reference internal" href="#checkout-dependencies">Checkout Dependencies</a></li>
 </ul>
 </li>
@@ -132,11 +132,20 @@
 <h3><a href="../../index.html">目次</a></h3>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Clojure を始めよう</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../clojure_on_web.html">Clojure を Web で試してみる</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../clojure_on_web.html#try-clojure-clojure">Try Clojure で Clojure を試してみる</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clojure_on_web.html#clojure-instarepl-clojure">Clojure  instaREPL で Clojure を試してみる</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../emacs_with_cider.html">Emacs と Cider-mode で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../emacs_with_inf_clojure.html">Emacs と inf-clojure で始める</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../light_table.html">LightTable で始める</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../intellij_with_cursive.html#id2">概要</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../intellij_with_cursive.html#id3">機能</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../intellij_with_cursive.html#id4">ユーザーガイド</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../eclipse_with_counterclockwise.html">Eclipse と Counterclockwise で始める</a></li>
 </ul>
 </li>
@@ -189,48 +198,47 @@
 <p>Leiningen は Clojure のためのデファクトなプロジェクト管理ツールです。 Cursive は Leiningen を使ってプロジェクトのビルドと管理をサポートしてくれます。将来的には今よりも多くの機能が提供される予定です。</p>
 <div class="section" id="id1">
 <h2>既存のプロジェクトをインポートする<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Select File→Import Project… <a class="footnote-reference" href="#id6" id="id2">[1]</a> and select the project you would like to import. You can select either the project.clj or the directory containing it.</p>
+<p><code class="docutils literal"><span class="pre">File</span></code> -&gt; <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Project…</span></code> <a class="footnote-reference" href="#id11" id="id2">[1]</a> を選択してインポートしたいプロジェクトを選択します。 <code class="docutils literal"><span class="pre">project.clj</span></code> かそれを含むディレクトリが選択できます。</p>
 <img alt="../../_images/import-choose-project.png" src="../../_images/import-choose-project.png" />
-<p>If required, select “Import project from external model” and select Leiningen.</p>
+<p>もし要求されたら <code class="docutils literal"><span class="pre">Import</span> <span class="pre">project</span> <span class="pre">from</span> <span class="pre">external</span> <span class="pre">model</span></code> と Leiningen を選択します <a class="footnote-reference" href="#id12" id="id3">[2]</a> 。</p>
 <img alt="../../_images/import-choose-lein.png" src="../../_images/import-choose-lein.png" />
-<p>The root directory of your project will be filled in for you. You can choose to search recursively within that directory for other projects (see Multi Module Projects, below), and you can also choose to put the project files in a directory other than the main project directory.</p>
+<p>プロジェクトのルートディレクトリは埋めてあります。このディレクトリを他のプロジェクトのために再帰的に検索するかを選ぶことができ <a class="footnote-reference" href="#id13" id="id4">[3]</a> 、それからプロジェクトファイルをメインプロジェクトのディレクトリ以外に置くかも選ぶことができます。</p>
 <img alt="../../_images/import-project-details.png" src="../../_images/import-project-details.png" />
-<p>You will then be presented with a list of the Leiningen projects found, and you can select which to import.</p>
+<p>Leiningen プロジェクトの一覧が表示されるので、どれをインポートするかを選択できます。</p>
 <img alt="../../_images/import-project-list.png" src="../../_images/import-project-list.png" />
-<p>Pick an SDK, then confirm your project name and file locations.</p>
+<p>SDK をひとつ選び、プロジェクトの名前とファイルロケーションを確認します。</p>
 <img alt="../../_images/import-confirm-name.png" src="../../_images/import-confirm-name.png" />
-<p>Your project will then be opened and is ready to use.</p>
+<p>プロジェクトを開いた画面になり、これで使う準備が出来ました。</p>
 <img alt="../../_images/import-new-project.png" src="../../_images/import-new-project.png" />
-<p>Coming Soon: We’ll be allowing more fine-grained use of profiles during this process.</p>
 </div>
-<div class="section" id="working-with-your-leiningen-project">
-<h2>Working with your Leiningen project<a class="headerlink" href="#working-with-your-leiningen-project" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The Leiningen tool window shows the currently active Leiningen projects, and presents you with a list of the most common tasks to run.</p>
+<div class="section" id="id5">
+<h2>Leiningen プロジェクトを使う<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Leiningen ツールウィンドウでは現在アクティブになっている Leiningen プロジェクトを表示し、とても一般的なタスクの一覧を表示しています。</p>
 <img alt="../../_images/lein-toolwindow.png" src="../../_images/lein-toolwindow.png" />
-<p>Coming Soon: We’ll be reading the list of available tasks from the project which will include tasks provided by plugins.</p>
-<p>You can select a task and run it using the  icon in the tool window toolbar.</p>
+<p>カミングスーン: プラグインから提供されるタスクをプロジェクトから読み取れるようにします。</p>
+<p>タスクを選択し、ツールウィンドウのツールバーにある <img alt="execute" src="../../_images/execute.png" /> を押すことでタスクを実行できます。</p>
 <img alt="../../_images/lein-run-task.png" src="../../_images/lein-run-task.png" />
-<p>The  and  icons allow you to add and remove Leiningen projects to and from your IntelliJ project (see Multi Module Projects below).</p>
+<p><img alt="add" src="../../_images/add.png" /> と <img alt="remove" src="../../_images/remove.png" /> アイコンを使うことで Leiningen プロジェクトを IntelliJ プロジェクトに追加したり削除することができます。</p>
 </div>
-<div class="section" id="refreshing-leiningen-dependencies">
-<h2>Refreshing Leiningen dependencies<a class="headerlink" href="#refreshing-leiningen-dependencies" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>When you have updated your project.clj file, you can press the  icon to re-read the project file and refresh the project dependencies. Note that this is not performed automatically when the project.clj is updated, unlike the Maven plugin. The project may also be refreshed before starting a REPL by adding “Synchronize Leiningen Projects” to the Before Launch section of its run configuration.</p>
+<div class="section" id="id6">
+<h2>Leiningen の依存性を再読み込みする<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">project.clj</span></code> を更新したら <img alt="refresh" src="../../_images/refresh.png" /> を押すことでプロジェクトファイルをリロードし、プロジェクトの依存性を再読み込みします。 Maven プラグインのように自動では行われないことに注意してください。実行設定 <a class="footnote-reference" href="#id14" id="id7">[4]</a> の Before Launch セクションに <code class="docutils literal"><span class="pre">Synchronize</span> <span class="pre">Leiningen</span> <span class="pre">Projects</span></code> を追加して REPL 起動前にプロジェクトを再読み込みするようにしてもいいかもしれません。</p>
 </div>
-<div class="section" id="sources-and-javadocs-for-leiningen-dependencies">
-<h2>Sources and Javadocs for Leiningen dependencies<a class="headerlink" href="#sources-and-javadocs-for-leiningen-dependencies" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="leiningen-javadoc">
+<h2>Leiningen の依存性のためのソースと Javadoc<a class="headerlink" href="#leiningen-javadoc" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Since 0.1.12, Cursive can download sources and javadocs for Leiningen dependencies. When you navigate to a Java class file that belongs to a library without sources attached, you will be prompted to download the sources - they will be downloaded and added to the library. Sources and Javadocs can also be automatically downloaded for Leiningen projects, but this option is not recommended because it can make project synchronisation extremely slow. This is because most Clojure libraries are distributed as source, and thus don’t have a separate source artifact. If you really need it, this functionality is controlled by the setting Settings→Leiningen→Automatically download sources/javadocs.</p>
 </div>
-<div class="section" id="id3">
-<h2>クイックプロジェクトインポート<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id8">
+<h2>クイックプロジェクトインポート<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>シンプルなプロジェクトの場合、明示的にインポートする必要はありません。いつも通り <code class="docutils literal"><span class="pre">File</span></code> -&gt; <code class="docutils literal"><span class="pre">Open…</span></code> と開き <code class="docutils literal"><span class="pre">project.clj</span></code> かそれを含んでいるディレクトリを選択すれば自動的にインポートされます。</p>
 </div>
-<div class="section" id="id4">
-<h2>Leiningen を使って新しいプロジェクトを作る<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id9">
+<h2>Leiningen を使って新しいプロジェクトを作る<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>近い将来実装予定。
 現在はコマンドラインから <code class="docutils literal"><span class="pre">lein</span></code> コマンドを使ってプロジェクトを作り上で説明したようにインポートしてください。</p>
 </div>
-<div class="section" id="id5">
-<h2>マルチモジュールプロジェクトでの作業<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="working-with-multimodule">
+<span id="id10"></span><h2>マルチモジュールプロジェクトを扱う<a class="headerlink" href="#working-with-multimodule" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>もしあなたがもっと複数のモジュールをもつ複雑なプロジェクトを持っている場合、 Cursive は自動的にそれを見つけすべて整えてくれます。インポートするときに <code class="docutils literal"><span class="pre">Search</span> <span class="pre">for</span> <span class="pre">projects</span> <span class="pre">recursively</span></code> にチェックしてください。</p>
 <img alt="../../_images/import-recursive-search.png" src="../../_images/import-recursive-search.png" />
 <p>Select the projects you would like to import from the list of discovered projects. Their location within the project is displayed along with the artifact details.</p>
@@ -242,10 +250,28 @@
 <div class="section" id="checkout-dependencies">
 <h2>Checkout Dependencies<a class="headerlink" href="#checkout-dependencies" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Leiningen’s standard mechanism for managing multi-module projects is to use Checkout Dependencies. Cursive fully supports checkout dependencies and will add the appropriate modules and dependencies automatically.</p>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
+<table class="docutils footnote" frame="void" id="id11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><code class="docutils literal"><span class="pre">File</span></code> メニューにない場合はアクションを検索して Import Project を探します。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><code class="docutils literal"><span class="pre">project.clj</span></code> がないディレクトリをインポートするとき</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td><a class="reference internal" href="#working-with-multimodule"><span>マルチモジュールプロジェクトを扱う</span></a> を参照</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td><code class="docutils literal"><span class="pre">Run</span></code> -&gt; <code class="docutils literal"><span class="pre">Edit</span> <span class="pre">Cofigurations...</span></code> から。詳細は REPL のセクションで扱います。</td></tr>
 </tbody>
 </table>
 </div>
