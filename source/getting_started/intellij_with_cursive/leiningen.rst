@@ -59,7 +59,7 @@ Leiningen の依存性を再読み込みする
 Leiningen の依存性のためのソースと Javadoc
 ==========================================
 
-Since 0.1.12, Cursive can download sources and javadocs for Leiningen dependencies. When you navigate to a Java class file that belongs to a library without sources attached, you will be prompted to download the sources - they will be downloaded and added to the library. Sources and Javadocs can also be automatically downloaded for Leiningen projects, but this option is not recommended because it can make project synchronisation extremely slow. This is because most Clojure libraries are distributed as source, and thus don’t have a separate source artifact. If you really need it, this functionality is controlled by the setting Settings→Leiningen→Automatically download sources/javadocs.
+Cursive 0.1.12 から Leiningen の依存性のためにソースと Javadoc をダウンロード出来るようになりました。 Java のクラスファイルにナビゲートされるときにソースが存在しない場合、ソースをダウンロードするか尋ねられます。ソースと Javadoc を Leiningen プロジェクトで自動的にダウンロードすることもできますが、プロジェクトの同期が非常に遅くなるためこのオプションはオススメしていません。ほとんどの Clojure ライブラリはソースと分離されていて、ソースアーティファクトを持っていないためです。もし本当にあなたがそれを必要なら設定でコントロールすることができます。 ``Settings`` -> ``Leiningen`` -> ``Automatically download sources/javadocs`` [#]_ 。
 
 クイックプロジェクトインポート
 ==============================
@@ -81,22 +81,23 @@ Leiningen を使って新しいプロジェクトを作る
 
 .. image:: /image/cursive_with_leiningen/import-recursive-search.png
 
-Select the projects you would like to import from the list of discovered projects. Their location within the project is displayed along with the artifact details.
+インポートしたいプロジェクトをリストの中から選択します。プロジェクト内での場所がアーティファクトの詳細に沿って表示されています。
 
 .. image:: /image/cursive_with_leiningen/import-select-projects.png
 
-And your project will be set up. An IntelliJ Module will be created for each Leiningen module, and dependencies between them and the appropriate library dependencies will be set up as well.
+そしたらプロジェクトがセットアップされます。 IntelliJ モジュールが各 Leiningen モジュールに対して作られ、それらの依存性も適切にセットアップされます。
 
 .. image:: /image/cursive_with_leiningen/lein-multi-modules.png
 
-You can then add new modules to the project using either the  button in the Leiningen tool window, or using the context menu in the project tool window. You can remove Leiningen modules from the project and optionally remove the corresponding IntelliJ module using the  in the Leiningen tool window.
+新しいモジュールを追加するには Leiningen ツールウィンドウの |add| ボタンかプロジェクトツールウィンドウのコンテキストメニューが使えます。プロジェクトから Leiningen モジュールを削除するには Leiningen ツールウィンドウの |remove| ボタンを使います。
 
 Checkout Dependencies
 =====================
 
-Leiningen’s standard mechanism for managing multi-module projects is to use Checkout Dependencies. Cursive fully supports checkout dependencies and will add the appropriate modules and dependencies automatically.
+マルチモジュールプロジェクトの管理には Leiningen の基本的な仕組みである ``Checkout Dependencies`` が使えます。 Cursive は checkout dependencies をサポートしており、適切なモジュールと依存性を自動的に追加します。
 
 .. [#] ``File`` メニューにない場合はアクションを検索して Import Project を探します。
 .. [#] ``project.clj`` がないディレクトリをインポートするとき
 .. [#] :ref:`working_with_multimodule` を参照
 .. [#] ``Run`` -> ``Edit Cofigurations...`` から。詳細は REPL のセクションで扱います。
+.. [#] 現在( cursive 0.1.54 )ではこの設定が見当たりませんが、上述の通りクラスファイルを開いたタイミングでソースをダウンロードすることは可能です。
