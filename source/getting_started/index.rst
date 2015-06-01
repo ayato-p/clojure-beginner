@@ -6,8 +6,10 @@
 
 .. toctree::
    clojure_on_web
-   emacs_with_cider
-   emacs_with_inf_clojure
-   light_table
+   ..
+      emacs_with_cider
+      emacs_with_inf_clojure
+      light_table
    intellij_with_cursive
-   eclipse_with_counterclockwise
+   ..
+      eclipse_with_counterclockwise

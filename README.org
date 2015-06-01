@@ -3,3 +3,8 @@
   HTML 版はこちらから参照できます。
 
   http://ayato0211.github.io/clojure-beginner/
+
+* このドキュメントについて
+
+  Clojure 初心者 / Clojure を始めたい方を対象に書いています。
+  またまとまったドキュメントの翻訳を置いたりするかもしれません。
