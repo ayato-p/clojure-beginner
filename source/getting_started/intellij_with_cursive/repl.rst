@@ -25,18 +25,20 @@ REPL を Leiningen を使って実行する場合、 Cursive は内部的に ``l
 
 もし特定の実行構成タイプの初期設定を変更したければ、左側 Defaults セクションから変更出来ます。新しい設定を作成する場合にその設定が使用されます。
 
-There is also a shortcut method for creating a run configuration - if you right click on the project window anywhere except inside a source root, you will get an option to create a run configuration directly.
+それらには同様の実行構成を作成するためのショートカットがあります。もし、プロジェクトウィンドウのソースルート以外の適当なところで右クリックをしたら、直接実行構成を作成するための選択肢が表示されます。
 
 .. image:: /image/cursive_repl/repl-context-menu.png
 
-Starting a debug REPL
-=====================
+デバッグ REPL を開始する
+========================
 
-One very useful feature is the ability to debug a REPL session. This is now very simple - simply run your local configuration in debug mode and a debugger will be automatically connected to it.
+非常に有用なひとつの特徴は REPL セッションをデバッグできることです。これは今とても単純です。あなたのローカル設定をデバッグモードで実行するとデバッガーは自動的に接続します。
 
 .. image:: /image/cursive_repl/local-debug-config.png
 
-One thing that makes debugging with Clojure very difficult is locals clearing. This means that the Clojure compiler will insert code to set any memory reference that it can prove will never be used again to nil. This is a problem when debugging; you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. This is done to prevent memory leaks from lazy sequences, which are cached in memory to ensure that the same sequence will always return the same values in the same order. It’s very confusing for newcomers, and very frustrating when debugging for pretty much everyone.
+Cursive でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) [#]_ です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と ``nil`` にならないということです。これはデバッグ時に問題になります。
+
+This is a problem when debugging; you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. This is done to prevent memory leaks from lazy sequences, which are cached in memory to ensure that the same sequence will always return the same values in the same order. It’s very confusing for newcomers, and very frustrating when debugging for pretty much everyone.
 
 Cursive starts all debug REPLs with locals clearing disabled, and all REPLs provide a toolwindow button () which will toggle it in the REPL server. Note that this is a feature of the compiler, so it only affects code when it is compiled - it’s not a run-time flag. This means that if you toggle it you must recompile any code you’d like to debug. This generally means reloading it in the REPL after turning the flag on. Also, be very careful disabling locals clearing in any long-running process (e.g. a production server process) since it may cause memory leaks.
 
@@ -83,3 +85,5 @@ You can also switch the REPL namespace to that of the current file using “Swit
 
 ..
    repl gif here
+
+.. [#] 訳しててよくわからないのであとで修正するかもしれない。
