@@ -1,3 +1,5 @@
+.. |start-debug| image:: /image/cursive_repl/startDebugger.png
+
 ======
  REPL
 ======
@@ -36,11 +38,11 @@ REPL を Leiningen を使って実行する場合、 Cursive は内部的に ``l
 
 .. image:: /image/cursive_repl/local-debug-config.png
 
-Cursive でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) [#]_ です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と ``nil`` にならないということです。これはデバッグ時に問題になります。
+Cursive でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) [#]_ です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と ``nil`` にならないということです。これはデバッグ時に問題になります。you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. 常に遅延シーケンスをメモリに確保することで常に値と順序の変わらない同じシーケンスを返し、こうすることで遅延シーケンス起因のメモリリークを防ぐことができます。それは新しくやってきた人には混乱をもたらし、全ての人がデバッグ時にフラストレーションを感じることでしょう。
 
-This is a problem when debugging; you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. This is done to prevent memory leaks from lazy sequences, which are cached in memory to ensure that the same sequence will always return the same values in the same order. It’s very confusing for newcomers, and very frustrating when debugging for pretty much everyone.
+Cursvie は全てのデバッグ REPL でローカルクリアリングを無効にして開始し、全ての REPL はツールウィンドウの |start-debug| ボタンから REPL サーバーのデバッグモードをトグル出来ます。注目するのはこれがコンパイラの機能であるということで、つまりコンパイル時のみに影響があるということであり、それはランタイムフラグではありません。
 
-Cursive starts all debug REPLs with locals clearing disabled, and all REPLs provide a toolwindow button () which will toggle it in the REPL server. Note that this is a feature of the compiler, so it only affects code when it is compiled - it’s not a run-time flag. This means that if you toggle it you must recompile any code you’d like to debug. This generally means reloading it in the REPL after turning the flag on. Also, be very careful disabling locals clearing in any long-running process (e.g. a production server process) since it may cause memory leaks.
+This means that if you toggle it you must recompile any code you’d like to debug. This generally means reloading it in the REPL after turning the flag on. Also, be very careful disabling locals clearing in any long-running process (e.g. a production server process) since it may cause memory leaks.
 
 
 REPL startup timeout
