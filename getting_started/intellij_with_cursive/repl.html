@@ -77,7 +77,7 @@
 <li><a class="reference internal" href="#id2">デバッグ REPL を開始する</a></li>
 <li><a class="reference internal" href="#id4">REPL 起動時のタイムアウト</a></li>
 <li><a class="reference internal" href="#id6">リモート REPL</a></li>
-<li><a class="reference internal" href="#using-the-repl">Using the REPL</a></li>
+<li><a class="reference internal" href="#id8">REPL を使う</a></li>
 <li><a class="reference internal" href="#interaction-with-the-editor">Interaction with the editor</a></li>
 </ul>
 </li>
@@ -203,25 +203,24 @@
 <h2>デバッグ REPL を開始する<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>非常に有用なひとつの特徴は REPL セッションをデバッグできることです。これは今とても単純です。あなたのローカル設定をデバッグモードで実行するとデバッガーは自動的に接続します。</p>
 <img alt="../../_images/local-debug-config.png" src="../../_images/local-debug-config.png" />
-<p>Clojure でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) <a class="footnote-reference" href="#id7" id="id3">[1]</a> です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と <code class="docutils literal"><span class="pre">nil</span></code> にならないということです。これはデバッグ時に問題になります。
+<p>Clojure でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) <a class="footnote-reference" href="#id9" id="id3">[1]</a> です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と <code class="docutils literal"><span class="pre">nil</span></code> にならないということです。これはデバッグ時に問題になります。
 you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. 常に遅延シーケンスをメモリに確保することで常に値と順序の変わらない同じシーケンスを返し、こうすることで遅延シーケンス起因のメモリリークを防ぐことができます。それは新しくやってきた人には混乱をもたらし、全ての人がデバッグ時にフラストレーションを感じることでしょう。</p>
 <p>Cursvie は全てのデバッグ REPL でローカルクリアリングを無効にして開始し、全ての REPL はツールウィンドウの <img alt="start-debug" src="../../_images/startDebugger.png" /> ボタンから REPL サーバーのデバッグモードをトグル出来ます。注目するのはこれがコンパイラの機能であるということで、つまりコンパイル時のみに影響があるということであり、それはランタイムフラグではありません。</p>
 <p>これはそれをトグルした場合にあなたがデバッグするコードを再コンパイルする必要があるということです。一般的にはトグルをオンにしたあとにそれを REPL をリロードするということです。それからロングランニングプロセス(例えばプロダクションサーバープロセス)の中でローカルクリアリングを無効にするのはとても注意が必要です。それはメモリリークの原因となります。</p>
 </div>
 <div class="section" id="id4">
 <h2>REPL 起動時のタイムアウト<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Cursive は REPL 起動時のタイムアウトを設定出来ます。これは REPL を起動させるまでに Cursive が待つ時間だと考えるのは誤りです <a class="footnote-reference" href="#id8" id="id5">[2]</a> 。デフォルトでは 60 秒に設定されています。 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Clojure</span></code> -&gt; <code class="docutils literal"><span class="pre">REPL</span> <span class="pre">startup</span> <span class="pre">timeout</span></code> から変更できます。</p>
+<p>Cursive は REPL 起動時のタイムアウトを設定出来ます。これは REPL を起動させるまでに Cursive が待つ時間だと考えるのは誤りです <a class="footnote-reference" href="#id10" id="id5">[2]</a> 。デフォルトでは 60 秒に設定されています。 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Clojure</span></code> -&gt; <code class="docutils literal"><span class="pre">REPL</span> <span class="pre">startup</span> <span class="pre">timeout</span></code> から変更できます。</p>
 </div>
 <div class="section" id="id6">
 <h2>リモート REPL<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>もうひとつの方法として、もしあなたが既に走っている nREPL サーバーを持っている場合、それを Remote 設定を使えば nREPL サーバーに接続出来ます。
-There are two options here - either you can configure it to connect to a host and port, or you can configure it to connect to 127.0.0.1 and get the port from the port file written by Leiningen. You can use this option if you want to start a REPL with Leiningen from the command line for some reason (for example, your REPL doesn’t work with the trampoline option used by Cursive).</p>
+<p>もうひとつの方法として、もしあなたが既に走っている nREPL サーバーを持っている場合、それを Remote 設定を使えば nREPL サーバーに接続出来ます。ふたつのオプションがあり、接続するホストとポートを指定するか、 <code class="docutils literal"><span class="pre">127.0.0.1</span></code> と Leiningen に書かれたポートに接続するよう設定できます。もし何らかの理由で(例えば Cursive から trampoline オプションを付けた REPL が起動出来ないとか <a class="footnote-reference" href="#id11" id="id7">[3]</a> ) REPL を Leiningen を用いてコマンドラインから起動させたいといった場合に、このオプションを使うことが出来ます。</p>
 <img alt="../../_images/remote-repl-config.png" src="../../_images/remote-repl-config.png" />
-<p>You can start as many REPLs as you like of whatever type, and they’ll appear in tabs in the REPL tool window.</p>
+<p>あなたは幾つもの REPL を好きなように起動でき、それらは REPL ツールウィンドウの中にタブで表示されます。</p>
 </div>
-<div class="section" id="using-the-repl">
-<h2>Using the REPL<a class="headerlink" href="#using-the-repl" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Now that you have your REPL running, you can type code into the editor window below, the results appear above. The current namespace is shown in the tab title at the top of the tool window. You can execute code by pressing Enter if the cursor is at the end of a valid form, or you can execute at any time by pressing Ctrl Enter (Cmd Enter on the Mac). The editor is fully multi-line, and supports all functionality available in the main Clojure editor. You can move through your command history by using the up/down arrow keys, or jump between multi line items using Ctrl and arrow keys (Cmd arrows on Mac). If you don’t want the editor to move between history items using the normal arrow keys, you can disable this with Settings→Clojure→Up/Down arrow keys move between history items.</p>
+<div class="section" id="id8">
+<h2>REPL を使う<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>今あなたが REPL を実行していれば、下の方にあるエディターウィンドウにタイプすると、その結果が上の方に表示されます。現在のネームスペースはツールウィンドウのタブタイトルに表示されます。正しいフォームの最後にカーソルがあるときに Enter を押すか、 Ctrl + Enter(Mac なら Cmd + Enter) を押せばいつでもコードを実行することが出来ます。エディターは複数行書けますし、メインの Clojure エディターで使える機能を全てサポートしています。実行したコマンドの履歴はカーソルキーの up/down か、複数行のアイテムであれば Ctrl とカーソルキー (Mac なら Cmd とカーソルキー)を使って移動できます。もしただのカーソルキーを使った場合にヒストリーを移動したくないのであれば、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Clojure</span></code> -&gt; <code class="docutils literal"><span class="pre">Up/Down</span> <span class="pre">arrow</span> <span class="pre">keys</span> <span class="pre">move</span> <span class="pre">between</span> <span class="pre">history</span> <span class="pre">items</span></code> から無効に出来ます。</p>
 <p>Using the buttons above the output window, you can interrupt the current execution, toggle soft wrapping of the output, clear the output, stop the REPL and reconnect (for remote REPLs).</p>
 </div>
 <div class="section" id="interaction-with-the-editor">
@@ -232,16 +231,22 @@ There are two options here - either you can configure it to connect to a host an
 <p>This loading of dependent namespaces can have unexpected side effects, especially if one of the dependent namespaces creates data that would be overwritten by reloading it. If this bothers you, you can turn off this dependency functionality with Settings→Clojure→Load out-of-date file dependencies transitively.</p>
 <img alt="../../_images/repl-load-file.png" src="../../_images/repl-load-file.png" />
 <p>You can also switch the REPL namespace to that of the current file using “Switch REPL NS to current file”, and execute individual forms from the editor using the “Run form before cursor” and “Run top form” commands.</p>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
+<table class="docutils footnote" frame="void" id="id9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id3">[1]</a></td><td>訳しててよくわからないのであとで修正するかもしれない。 <a class="reference external" href="http://clojure.org/lazy">http://clojure.org/lazy</a> 現段階での私の理解としては、遅延シーケンスにおいてスタックオーバーフローが起こらないように、スタックをクリアにすることを local clearing(or local-variables clearing) と Clojure では言うということ。そして Cursive はそれを無効にすることが出来る(らしい)。</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
+<table class="docutils footnote" frame="void" id="id10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td>日本語が難しいですが、タイムアウトまでの時間という解釈で問題ないと思います。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td>日本語が難しいですが、タイムアウトまでの時間を設定出来るという解釈で問題ないと思います。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>元のドキュメントでは言及されていませんが、 Boot などを用いる場合もリモート REPL から接続することになります。 <a class="reference external" href="https://www.google.co.jp/search?sourceid=chrome-psyapi2&amp;ion=1&amp;espv=2&amp;es_th=1&amp;ie=UTF-8&amp;q=Cursive%20boot&amp;oq=Cursive%20boot&amp;aqs=chrome..69i57j0l2j69i59.1712j0j1">https://www.google.co.jp/search?sourceid=chrome-psyapi2&amp;ion=1&amp;espv=2&amp;es_th=1&amp;ie=UTF-8&amp;q=Cursive%20boot&amp;oq=Cursive%20boot&amp;aqs=chrome..69i57j0l2j69i59.1712j0j1</a></td></tr>
 </tbody>
 </table>
 </div>
