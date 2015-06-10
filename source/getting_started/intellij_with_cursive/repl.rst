@@ -53,17 +53,16 @@ Cursive は REPL 起動時のタイムアウトを設定出来ます。これは
 リモート REPL
 =============
 
-もうひとつの方法として、もしあなたが既に走っている nREPL サーバーを持っている場合、それを Remote 設定を使えば nREPL サーバーに接続出来ます。
-There are two options here - either you can configure it to connect to a host and port, or you can configure it to connect to 127.0.0.1 and get the port from the port file written by Leiningen. You can use this option if you want to start a REPL with Leiningen from the command line for some reason (for example, your REPL doesn’t work with the trampoline option used by Cursive).
+もうひとつの方法として、もしあなたが既に走っている nREPL サーバーを持っている場合、それを Remote 設定を使えば nREPL サーバーに接続出来ます。ふたつのオプションがあり、接続するホストとポートを指定するか、 ``127.0.0.1`` と Leiningen に書かれたポートに接続するよう設定できます。もし何らかの理由で(例えば Cursive から trampoline オプションを付けた REPL が起動出来ないとか [#]_ ) REPL を Leiningen を用いてコマンドラインから起動させたいといった場合に、このオプションを使うことが出来ます。
 
 .. image:: /image/cursive_repl/remote-repl-config.png
 
-You can start as many REPLs as you like of whatever type, and they’ll appear in tabs in the REPL tool window.
+あなたは幾つもの REPL を好きなように起動でき、それらは REPL ツールウィンドウの中にタブで表示されます。
 
-Using the REPL
-==============
+REPL を使う
+===========
 
-Now that you have your REPL running, you can type code into the editor window below, the results appear above. The current namespace is shown in the tab title at the top of the tool window. You can execute code by pressing Enter if the cursor is at the end of a valid form, or you can execute at any time by pressing Ctrl Enter (Cmd Enter on the Mac). The editor is fully multi-line, and supports all functionality available in the main Clojure editor. You can move through your command history by using the up/down arrow keys, or jump between multi line items using Ctrl and arrow keys (Cmd arrows on Mac). If you don’t want the editor to move between history items using the normal arrow keys, you can disable this with Settings→Clojure→Up/Down arrow keys move between history items.
+今あなたが REPL を実行していれば、下の方にあるエディターウィンドウにタイプすると、その結果が上の方に表示されます。現在のネームスペースはツールウィンドウのタブタイトルに表示されます。正しいフォームの最後にカーソルがあるときに Enter を押すか、 Ctrl + Enter(Mac なら Cmd + Enter) を押せばいつでもコードを実行することが出来ます。エディターは複数行書けますし、メインの Clojure エディターで使える機能を全てサポートしています。実行したコマンドの履歴はカーソルキーの up/down か、複数行のアイテムであれば Ctrl とカーソルキー (Mac なら Cmd とカーソルキー)を使って移動できます。もしただのカーソルキーを使った場合にヒストリーを移動したくないのであれば、 ``Settings`` -> ``Clojure`` -> ``Up/Down arrow keys move between history items`` から無効に出来ます。
 
 ..
    rpel gif here
@@ -89,4 +88,5 @@ You can also switch the REPL namespace to that of the current file using “Swit
    repl gif here
 
 .. [#] 訳しててよくわからないのであとで修正するかもしれない。 http://clojure.org/lazy 現段階での私の理解としては、遅延シーケンスにおいてスタックオーバーフローが起こらないように、スタックをクリアにすることを local clearing(or local-variables clearing) と Clojure では言うということ。そして Cursive はそれを無効にすることが出来る(らしい)。
-.. [#] 日本語が難しいですが、タイムアウトまでの時間という解釈で問題ないと思います。
+.. [#] 日本語が難しいですが、タイムアウトまでの時間を設定出来るという解釈で問題ないと思います。
+.. [#] 元のドキュメントでは言及されていませんが、 Boot などを用いる場合もリモート REPL から接続することになります。 https://www.google.co.jp/search?sourceid=chrome-psyapi2&ion=1&espv=2&es_th=1&ie=UTF-8&q=Cursive%20boot&oq=Cursive%20boot&aqs=chrome..69i57j0l2j69i59.1712j0j1
