@@ -67,22 +67,23 @@ REPL を使う
 ..
    rpel gif here
 
-Using the buttons above the output window, you can interrupt the current execution, toggle soft wrapping of the output, clear the output, stop the REPL and reconnect (for remote REPLs).
+アウトプットウィンドウ上部にあるボタンを使えば、実行中のコードの中断、アウトプットの折り返し、アウトプットのクリア、 REPL の停止に再接続(リモート REPL に対して)が出来ます。
 
-Interaction with the editor
-===========================
 
-Often you’ll be editing code in the main project windows, and you’ll want to send code from your project to the running REPL. The commands to do this are under Tools→REPL. “Load file in REPL” will send the contents of the current editor window to the REPL, execute its contents and switch to the first namespace in the file, if any. A message will be printed out so you can see what happened.
+エディタとの対話
+================
 
-“Load file in REPL” will calculate all the namespace dependencies of the file you’re loading, and will also load those dependencies in the correct order if any of them are out of date. This is very useful when editing multi-namespace projects as it’s often easy to forget when you’ve updated a file containing a function used by the main code you’re working on. It’s also very useful when working on code that’s require’d by its tests.
+しばしば、あなたはメインプロジェクトウィンドウで編集中のコードを、プロジェクトから実行中の REPL へと送りたくなるでしょう。それは ``Tools`` -> ``REPL`` の下のコマンド群からできます。 ``Load file in REPL`` は現在のエディタウィンドウの内容を REPL へと送り、もしあればそれらのコードを実行し、最初のネームスペースへとスイッチします。何が起きたかはメッセージが画面上へと表示されます。
 
-“Sync files in REPL” will load all out-of-date files from the editor to the REPL in the correct order, using the same transitive dependency calculation as “Load file in REPL”. It will not change the active namespace in the REPL.
+``Load file in REPL`` はファイルのネームスペース依存性を解消してロードし、もし古い依存性があれば正しい順序で依存性を解消します。これは複数のネームスペースを持つプロジェクトで編集しているときに、あなたがメインで作業しているファイルが更新されたファイルを知らないうちに含んでしまっているときなどにとても役に立ちます。同様にテストコードを書いているときなどにも便利です。
 
-This loading of dependent namespaces can have unexpected side effects, especially if one of the dependent namespaces creates data that would be overwritten by reloading it. If this bothers you, you can turn off this dependency functionality with Settings→Clojure→Load out-of-date file dependencies transitively.
+``Sync files in REPL`` は古くなった全てのファイルをエディターから REPL へと正しい順序で、 ``Load file in REPL`` と同じように依存性を解消してロードします。これは REPL 内でアクティブになっているネームスペースを変更しません。
+
+この依存しているネームスペースの読み込みは期待しない副作用をもたらすことがあります。特に、ある依存しているネームスペースがデータを作っている場合には再読み込みすることで上書きしてしまします。もしこれが嫌な場合は ``Settings`` -> ``Clojure`` -> ``Load out-of-date file dependencies transitively`` から依存性解消機能をオフにできます。
 
 .. image:: /image/cursive_repl/repl-load-file.png
 
-You can also switch the REPL namespace to that of the current file using “Switch REPL NS to current file”, and execute individual forms from the editor using the “Run form before cursor” and “Run top form” commands.
+それから ``Switch REPL NS to current file`` で REPL のネームスペースを現在のファイルにスイッチでき、 ``Run form before cursor`` と ``Run top form`` コマンドでエディタから単一のフォームを評価できます。
 
 ..
    repl gif here
