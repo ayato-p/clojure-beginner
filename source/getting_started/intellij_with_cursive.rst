@@ -39,3 +39,4 @@ Cursive はそのほぼ全てを Clojure で書かれており、 Clojure エコ
    ./intellij_with_cursive/keybindings
    ./intellij_with_cursive/leiningen
    ./intellij_with_cursive/repl
+   ./intellij_with_cursive/general_editing
