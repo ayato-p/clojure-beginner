@@ -208,8 +208,7 @@
 <h2>デバッグ REPL を開始する<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>非常に有用なひとつの特徴は REPL セッションをデバッグできることです。これは今とても単純です。あなたのローカル設定をデバッグモードで実行するとデバッガーは自動的に接続します。</p>
 <img alt="../../_images/local-debug-config.png" src="../../_images/local-debug-config.png" />
-<p>Clojure でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) <a class="footnote-reference" href="#id10" id="id3">[1]</a> です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と <code class="docutils literal"><span class="pre">nil</span></code> にならないということです。これはデバッグ時に問題になります。
-you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. 常に遅延シーケンスをメモリに確保することで常に値と順序の変わらない同じシーケンスを返し、こうすることで遅延シーケンス起因のメモリリークを防ぐことができます。それは新しくやってきた人には混乱をもたらし、全ての人がデバッグ時にフラストレーションを感じることでしょう。</p>
+<p>Clojure でデバッグするうえで非常に困難なことのひとつはローカルクリアリング(locals clearing) <a class="footnote-reference" href="#id10" id="id3">[1]</a> です。それは Clojure コンパイラがメモリ参照へと <code class="docutils literal"><span class="pre">nil</span></code> を挿入し、それが二度と使われないことを保証するという意味です。これはデバッグ時に問題になります。あなたは <code class="docutils literal"><span class="pre">null</span></code> になるはずのないコードで多数のローカル変数に <code class="docutils literal"><span class="pre">null</span></code> がセットされているのをみることになるでしょう。常に遅延シーケンスをメモリに確保することで常に値と順序の変わらない同じシーケンスを返し、こうすることで遅延シーケンス起因のメモリリークを防ぐことができます。それは新しくやってきた人には混乱をもたらし、全ての人がデバッグ時にフラストレーションを感じることでしょう。</p>
 <p>Cursvie は全てのデバッグ REPL でローカルクリアリングを無効にして開始し、全ての REPL はツールウィンドウの <img alt="start-debug" src="../../_images/startDebugger.png" /> ボタンから REPL サーバーのデバッグモードをトグル出来ます。注目するのはこれがコンパイラの機能であるということで、つまりコンパイル時のみに影響があるということであり、それはランタイムフラグではありません。</p>
 <p>これはそれをトグルした場合にあなたがデバッグするコードを再コンパイルする必要があるということです。一般的にはトグルをオンにしたあとにそれを REPL をリロードするということです。それからロングランニングプロセス(例えばプロダクションサーバープロセス)の中でローカルクリアリングを無効にするのはとても注意が必要です。それはメモリリークの原因となります。</p>
 </div>
