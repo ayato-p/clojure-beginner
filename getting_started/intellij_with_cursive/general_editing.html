@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>General Editing &mdash; Clojure の日本語ガイド</title>
+    <title>通常の編集 &mdash; Clojure の日本語ガイド</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -72,13 +72,13 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">General Editing</a><ul>
-<li><a class="reference internal" href="#id1">オートセーブ</a></li>
-<li><a class="reference internal" href="#id2">補完</a></li>
-<li><a class="reference internal" href="#id3">クラス補完</a></li>
-<li><a class="reference internal" href="#id5">リネーム</a></li>
-<li><a class="reference internal" href="#id6">メソッドの実装とオーバーライド</a></li>
-<li><a class="reference internal" href="#id7">使い方から関数を作成する</a></li>
+<li><a class="reference internal" href="#">通常の編集</a><ul>
+<li><a class="reference internal" href="#id2">オートセーブ</a></li>
+<li><a class="reference internal" href="#id3">補完</a></li>
+<li><a class="reference internal" href="#id4">クラス補完</a></li>
+<li><a class="reference internal" href="#id6">リネーム</a></li>
+<li><a class="reference internal" href="#id7">メソッドの実装とオーバーライド</a></li>
+<li><a class="reference internal" href="#id8">使い方から関数を作成する</a></li>
 </ul>
 </li>
 </ul>
@@ -182,41 +182,41 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="general-editing">
-<h1>General Editing<a class="headerlink" href="#general-editing" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="section" id="id1">
-<h2>オートセーブ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+  <div class="section" id="id1">
+<h1>通常の編集<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>オートセーブ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>IntelliJ を新しく使い始めた人にとって一番意外なのは自分で保存できないように見えることだろう。たしかに、 IntelliJ は一定時間が経過するか(初期値は何もしないで 15 秒)、幾つかのクリティカルな部分(フォーカスが外れたときや、何かを実行したときなど)において自動的に保存を行う。</p>
 <p>多くの人がこれを初めて見たときにとても奇妙思うだろうけど、次第に好きになるはずです。もしそうならなければ、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">General</span></code> から無効に出来ます。もしあなたが変更を元に戻したい場合、 <a class="reference external" href="https://confluence.jetbrains.com/display/IntelliJIDEA/Local+History">Local History</a> 機能が使えます。</p>
 </div>
-<div class="section" id="id2">
-<h2>補完<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id3">
+<h2>補完<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>あなたがタイピングしているとき、 Cursive は現在のタイピングされているシンボルに対して自動補完をサジェストします。シンボル、キーワード、ネームスペース、などに対して自動補完を行います。関数のパラメーターとその関数がどのネームスペースから提供されるのかを補完リストの中で見ることができます。タブを押すと、ハイライトされているオプションを選び(もし何も選択していなければ一番上のオプション)現在のシンボルをそれに置き換えます。エンターを押すと、ハイライトされているオプションを選び、現在のシンボルを削除することなくダイレクトに文字列を挿入します。</p>
 <p>Cursive は補完文字列の何処にでもあなたがタイプした文字列を一致させるので、先頭文字から入力する必要はありません。</p>
 </div>
-<div class="section" id="id3">
-<h2>クラス補完<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>まだインポートされていないクラス名をあなたが補完入力した場合、 Cursive はそれをインポートします。 Cursive がクラス名を入力するのを見つけられなかった場合 <a class="footnote-reference" href="#id8" id="id4">[1]</a> 、それをインポートするか尋ねます。</p>
+<div class="section" id="id4">
+<h2>クラス補完<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>まだインポートされていないクラス名をあなたが補完入力した場合、 Cursive はそれをインポートします。 Cursive がクラス名を入力するのを見つけられなかった場合 <a class="footnote-reference" href="#id9" id="id5">[1]</a> 、それをインポートするか尋ねます。</p>
 <p>REPL の中でも同様の動作をします。</p>
 <p>Coming Soon: 将来的に Clojure のシンボルを自動で require する機能を提供します。</p>
 </div>
-<div class="section" id="id5">
-<h2>リネーム<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id6">
+<h2>リネーム<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>また Cursive は Shift + F6 を使うことでシンボルのリネームをすることができます。これは定義と使用されている全ての箇所をリネームします。</p>
 <p>ファイルをまたいでいる場合も同様です。</p>
 </div>
-<div class="section" id="id6">
-<h2>メソッドの実装とオーバーライド<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id7">
+<h2>メソッドの実装とオーバーライド<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Java のインターフェイスを実装するもしくは、クラスを <code class="docutils literal"><span class="pre">proxy</span></code> で継承する場合、 Cursive はあなたが作成する特定のクラスに必要なメソッドをスタブとして埋めることができます。これらにはメソッドを実装する、またはメソッドをオーバーライドする、というふたつのオプションがあります。通常、実装する場合は特定のクラスに必要な、実装する必要のある全てのメソッド(インターフェイスメソッドと基底クラスの抽象メソッド)一覧にします。そして、オーバーライドした基底クラスのメソッド(プロキシの基底クラスか Object )から選択してオーバーライドすることができます。この機能は現在 <code class="docutils literal"><span class="pre">proxy</span></code>, <code class="docutils literal"><span class="pre">reify</span></code>, <code class="docutils literal"><span class="pre">defrecord</span></code> と <code class="docutils literal"><span class="pre">deftype</span></code> をサポートしています。</p>
 <p>Coming Soon: <code class="docutils literal"><span class="pre">protocols</span></code> のための実装機能を提供します。</p>
 </div>
-<div class="section" id="id7">
-<h2>使い方から関数を作成する<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id8">
+<h2>使い方から関数を作成する<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Cursive は同様に関数のスタブを使い方の例から作成できます。これは同じファイル内でも違うネームスペースでも機能します。</p>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
+<table class="docutils footnote" frame="void" id="id9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td>つまり、補完で入力せずに全て手動でインプットするか、コピー &amp; ペーストを行った場合</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id5">[1]</a></td><td>つまり、補完で入力せずに全て手動でインプットするか、コピー &amp; ペーストを行った場合</td></tr>
 </tbody>
 </table>
 </div>
