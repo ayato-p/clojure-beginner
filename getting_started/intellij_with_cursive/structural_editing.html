@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     
-    <title>通常の編集 &mdash; Clojure の日本語ガイド</title>
+    <title>構造的編集 (a.k.a. Paredit) &mdash; Clojure の日本語ガイド</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -52,8 +52,7 @@
     <link rel="shortcut icon" href="../../_static/favicon.png"/>
     <link rel="top" title="Clojure の日本語ガイド" href="../../index.html" />
     <link rel="up" title="IntelliJ IDEA と Cursive で始める" href="../intellij_with_cursive.html" />
-    <link rel="next" title="構造的編集 (a.k.a. Paredit)" href="structural_editing.html" />
-    <link rel="prev" title="REPL" href="repl.html" /> 
+    <link rel="prev" title="通常の編集" href="general_editing.html" /> 
   </head>
   <body role="document">
     <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
@@ -73,13 +72,13 @@
                 <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
                 <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
                 <ul>
-<li><a class="reference internal" href="#">通常の編集</a><ul>
-<li><a class="reference internal" href="#id2">オートセーブ</a></li>
-<li><a class="reference internal" href="#id3">補完</a></li>
-<li><a class="reference internal" href="#id4">クラス補完</a></li>
-<li><a class="reference internal" href="#id6">リネーム</a></li>
-<li><a class="reference internal" href="#id7">メソッドの実装とオーバーライド</a></li>
-<li><a class="reference internal" href="#id8">使い方から関数を作成する</a></li>
+<li><a class="reference internal" href="#">構造的編集 (a.k.a. Paredit)</a><ul>
+<li><a class="reference internal" href="#id1">構造的編集の有効化と無効化</a></li>
+<li><a class="reference internal" href="#selecting-things">Selecting things</a></li>
+<li><a class="reference internal" href="#creating-things">Creating things</a></li>
+<li><a class="reference internal" href="#deleting-things">Deleting things</a></li>
+<li><a class="reference internal" href="#getting-around">Getting around</a></li>
+<li><a class="reference internal" href="#editing-commands">Editing commands</a></li>
 </ul>
 </li>
 </ul>
@@ -88,13 +87,12 @@
               </li>
 
             
-              <li><a href="repl.html" title="REPL" accesskey="P">前へ </a></li>
-              <li><a href="structural_editing.html" title="構造的編集 (a.k.a. Paredit)" accesskey="N">次へ </a></li>
+              <li><a href="general_editing.html" title="通常の編集" accesskey="P">前へ </a></li>
               <li><a href="../../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
               <li><a href="../index.html" >Clojure を始めよう</a></li>
               <li><a href="../intellij_with_cursive.html" accesskey="U">IntelliJ IDEA と Cursive で始める</a></li>
             
-            <li class="visible-xs"><a href="../../_sources/getting_started/intellij_with_cursive/general_editing.txt" rel="nofollow">ソースコードを表示</a></li>
+            <li class="visible-xs"><a href="../../_sources/getting_started/intellij_with_cursive/structural_editing.txt" rel="nofollow">ソースコードを表示</a></li>
 
             <li class="visible-xs">
                 <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../../search.html" method="get">
@@ -149,15 +147,12 @@
 </div>
 <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   <h4>前のトピックへ</h4>
-  <p class="topless"><a href="repl.html"
-                        title="前の章へ">REPL</a></p>
-  <h4>次のトピックへ</h4>
-  <p class="topless"><a href="structural_editing.html"
-                        title="次の章へ">構造的編集 (a.k.a. Paredit)</a></p>
+  <p class="topless"><a href="general_editing.html"
+                        title="前の章へ">通常の編集</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../../_sources/getting_started/intellij_with_cursive/general_editing.txt"
+      <li><a href="../../_sources/getting_started/intellij_with_cursive/structural_editing.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div>
@@ -187,43 +182,37 @@
               <div class="bodywrapper">
                 <div class="body">
                   
-  <div class="section" id="id1">
-<h1>通常の編集<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="section" id="id2">
-<h2>オートセーブ<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>IntelliJ を新しく使い始めた人にとって一番意外なのは自分で保存できないように見えることだろう。たしかに、 IntelliJ は一定時間が経過するか(初期値は何もしないで 15 秒)、幾つかのクリティカルな部分(フォーカスが外れたときや、何かを実行したときなど)において自動的に保存を行う。</p>
-<p>多くの人がこれを初めて見たときにとても奇妙思うだろうけど、次第に好きになるはずです。もしそうならなければ、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">General</span></code> から無効に出来ます。もしあなたが変更を元に戻したい場合、 <a class="reference external" href="https://confluence.jetbrains.com/display/IntelliJIDEA/Local+History">Local History</a> 機能が使えます。</p>
+  <div class="section" id="a-k-a-paredit">
+<h1>構造的編集 (a.k.a. Paredit)<a class="headerlink" href="#a-k-a-paredit" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>構造的編集( Emacs の Paredit モードとして知られている)は他の機能同様に Clojure デベロッパーをそれを好きな人と嫌いな人、好きから嫌いになった人に分けます。 Cursive は構造的編集を降るで提供し、ふたつの簡単でフラストレーションの少ないオンオフするための方法を提供します。構造的編集はタッチタイピングのように習得するまでは苦痛で練習も必要ですが、一度それに慣れてしまうともう二度とない生活に戻れないでしょう。</p>
+<div class="section" id="id1">
+<h2>構造的編集の有効化と無効化<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<dl class="docutils">
+<dt>Clojure のコードに対して構造的編集はデフォルトで有効になっています。もしそれが好きでないなら、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Clojure</span></code> -&gt; <code class="docutils literal"><span class="pre">use</span> <span class="pre">structural</span> <span class="pre">editings</span></code> から無効にできます。</dt>
+<dd>If you’d like to toggle it on and off quickly, you can use the widget in the status bar at the bottom of the screen, or you can use the Edit→Structural Editing→Toggle Structural Editing action. If you find yourself doing that a lot you can even assign a shortcut key to the action.</dd>
+</dl>
 </div>
-<div class="section" id="id3">
-<h2>補完<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>あなたがタイピングしているとき、 Cursive は現在のタイピングされているシンボルに対して自動補完をサジェストします。シンボル、キーワード、ネームスペース、などに対して自動補完を行います。関数のパラメーターとその関数がどのネームスペースから提供されるのかを補完リストの中で見ることができます。タブを押すと、ハイライトされているオプションを選び(もし何も選択していなければ一番上のオプション)現在のシンボルをそれに置き換えます。エンターを押すと、ハイライトされているオプションを選び、現在のシンボルを削除することなくダイレクトに文字列を挿入します。</p>
-<p>Cursive は補完文字列の何処にでもあなたがタイプした文字列を一致させるので、先頭文字から入力する必要はありません。</p>
+<div class="section" id="selecting-things">
+<h2>Selecting things<a class="headerlink" href="#selecting-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>One of the nicest editing features of IntelliJ is its structural selection. Pressing Ctrl W (Alt up arrow on the Mac) will expand the selection to the surrounding semantic unit. You can shrink it back with Ctrl Shift W (Alt down arrow on the Mac). This is one of those features that seems trivial but soon you can’t live without it.</p>
 </div>
-<div class="section" id="id4">
-<h2>クラス補完<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>まだインポートされていないクラス名をあなたが補完入力した場合、 Cursive はそれをインポートします。 Cursive がクラス名を入力するのを見つけられなかった場合 <a class="footnote-reference" href="#id9" id="id5">[1]</a> 、それをインポートするか尋ねます。</p>
-<p>REPL の中でも同様の動作をします。</p>
-<p>Coming Soon: 将来的に Clojure のシンボルを自動で require する機能を提供します。</p>
+<div class="section" id="creating-things">
+<h2>Creating things<a class="headerlink" href="#creating-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The basic goal of structural editing is to make sure that your parenthesis always remain balanced. We’ll talk about parentheses here but all of the features for this work equivalently for forms created with curly brackets, square brackets or strings. When you open a parenthesis it is always created balanced, and when you press the close paren key the cursor will jump to the end of the nearest corresponding closing paren and tidy up any whitespace. In order to maintain everything balanced, inserting quotes inside a string automatically escapes it with a backslash, and opening a comment will shunt forms to the next line if required.</p>
+<p>When opening a balanced form with text selected, Cursive’s behavior is controlled by Settings→Editor→Smart Keys→Surround selection on typing quote or brace. If this option is selected, opening a balanced form will wrap the selection, otherwise the selection will be deleted and replaced with the empty delimiters. The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.</p>
 </div>
-<div class="section" id="id6">
-<h2>リネーム<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>また Cursive は Shift + F6 を使うことでシンボルのリネームをすることができます。これは定義と使用されている全ての箇所をリネームします。</p>
-<p>ファイルをまたいでいる場合も同様です。</p>
+<div class="section" id="deleting-things">
+<h2>Deleting things<a class="headerlink" href="#deleting-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Deletion also works to maintain everything balanced. Backspace will jump over a closing delimiter and delete the contents - only empty delimiter pairs are actually deleted. Delete does the same but forwards instead of backwards. Kill will cut from the cursor to the end of the current list or to the end of the line. If the last element on the line extends past the end of the line, the entire list will be deleted.</p>
 </div>
-<div class="section" id="id7">
-<h2>メソッドの実装とオーバーライド<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Java のインターフェイスを実装するもしくは、クラスを <code class="docutils literal"><span class="pre">proxy</span></code> で継承する場合、 Cursive はあなたが作成する特定のクラスに必要なメソッドをスタブとして埋めることができます。これらにはメソッドを実装する、またはメソッドをオーバーライドする、というふたつのオプションがあります。通常、実装する場合は特定のクラスに必要な、実装する必要のある全てのメソッド(インターフェイスメソッドと基底クラスの抽象メソッド)一覧にします。そして、オーバーライドした基底クラスのメソッド(プロキシの基底クラスか Object )から選択してオーバーライドすることができます。この機能は現在 <code class="docutils literal"><span class="pre">proxy</span></code>, <code class="docutils literal"><span class="pre">reify</span></code>, <code class="docutils literal"><span class="pre">defrecord</span></code> と <code class="docutils literal"><span class="pre">deftype</span></code> をサポートしています。</p>
-<p>Coming Soon: <code class="docutils literal"><span class="pre">protocols</span></code> のための実装機能を提供します。</p>
+<div class="section" id="getting-around">
+<h2>Getting around<a class="headerlink" href="#getting-around" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>There are also some structural navigation commands under Navigate→Structural Movement. Move Forward/Backward move over forms or parentheses, and Move Into/Out Of Forward/Backward move into the next list or out of the current one.</p>
 </div>
-<div class="section" id="id8">
-<h2>使い方から関数を作成する<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Cursive は同様に関数のスタブを使い方の例から作成できます。これは同じファイル内でも違うネームスペースでも機能します。</p>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[1]</a></td><td>つまり、補完で入力せずに全て手動でインプットするか、コピー &amp; ペーストを行った場合</td></tr>
-</tbody>
-</table>
+<div class="section" id="editing-commands">
+<h2>Editing commands<a class="headerlink" href="#editing-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>The amusingly named slurp and barf commands are some of the most commonly used. Slurp will find the form following your current list and pull it inside the list. Barf does the opposite - it finds the last form inside your current list and pushes it out. Raise will take your current list and remove its parent, moving it up the hierarchy.</p>
+<p>Splice inserts the contents of your current list directly into the parent. Split will split the current list or string at the current cursor position, and join will join them back up.</p>
 </div>
 </div>
 
@@ -246,8 +235,7 @@
     </ul>
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
-        <li><a href="repl.html" title="REPL" >前へ</a></li>
-        <li><a href="structural_editing.html" title="構造的編集 (a.k.a. Paredit)" >次へ</a></li>
+        <li><a href="general_editing.html" title="通常の編集" >前へ</a></li>
         <li><a href="../../genindex.html" title="総合索引" >索引</a></li>
         <li><a href="../index.html" >Clojure を始めよう</a></li>
         <li><a href="../intellij_with_cursive.html" >IntelliJ IDEA と Cursive で始める</a></li>
