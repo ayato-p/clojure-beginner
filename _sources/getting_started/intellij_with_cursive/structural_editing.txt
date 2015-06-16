@@ -6,25 +6,28 @@
 
 構造的編集の有効化と無効化
 ==========================
-Clojure のコードに対して構造的編集はデフォルトで有効になっています。もしそれが好きでないなら、 ``Settings`` -> ``Clojure`` -> ``use structural editings`` から無効にできます。
- If you’d like to toggle it on and off quickly, you can use the widget in the status bar at the bottom of the screen, or you can use the Edit→Structural Editing→Toggle Structural Editing action. If you find yourself doing that a lot you can even assign a shortcut key to the action.
 
-Selecting things
-================
-One of the nicest editing features of IntelliJ is its structural selection. Pressing Ctrl W (Alt up arrow on the Mac) will expand the selection to the surrounding semantic unit. You can shrink it back with Ctrl Shift W (Alt down arrow on the Mac). This is one of those features that seems trivial but soon you can’t live without it.
+Clojure のコードに対して構造的編集はデフォルトで有効になっています。もしそれが好きでないなら、 ``Settings`` -> ``Clojure`` -> ``use structural editings`` から無効にできます。もし素早くオンとオフを切り替えたいなら、スクリーン下のステータスバーにあるウィジェットか、 ``Edit`` -> ``Structural Editing`` -> ``Toggle Structural Editing`` アクションが使えます。もし、これを行うのに手数が多いと思ったなら、これまでと同じようにショートカットキーをアクションにアサイン出来る。
 
-..
-   TODO: gif here
+選択に関して
+============
 
-Creating things
-===============
-The basic goal of structural editing is to make sure that your parenthesis always remain balanced. We’ll talk about parentheses here but all of the features for this work equivalently for forms created with curly brackets, square brackets or strings. When you open a parenthesis it is always created balanced, and when you press the close paren key the cursor will jump to the end of the nearest corresponding closing paren and tidy up any whitespace. In order to maintain everything balanced, inserting quotes inside a string automatically escapes it with a backslash, and opening a comment will shunt forms to the next line if required.
+IntelliJ の素晴らしい機能のひとつに構造的選択があります。 Ctrl + W (Mac なら Alt + 上カーソルキー) を押すことで意味単位で選択範囲を広げていきます。選択範囲を狭めるには Ctrl + Shift + W (Mac なら Alt + 下カーソルキー) を使います。これは幾つかある機能のひとつで取るに足らない機能のように見えますが、すぐにこれなしでは生きていけなくなるでしょう。
 
 ..
    TODO: gif here
 
+作成に関して
+============
 
-When opening a balanced form with text selected, Cursive’s behavior is controlled by Settings→Editor→Smart Keys→Surround selection on typing quote or brace. If this option is selected, opening a balanced form will wrap the selection, otherwise the selection will be deleted and replaced with the empty delimiters. The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.
+基本的な構造的編集の目的は括弧のバランスを常に間違いなくとることです。これから括弧について話しますが、全ての機能はブレース、ブラケット、文字列のフォームにおいて同等の動きをします。あなたが括弧を開くと常に閉じ括弧が作られ、あなたが閉じ括弧のキーを押すとカーソルは一番近い一致する閉じ括弧の終わりにジャンプし、間にあるホワイトスペースを綺麗にします。全てのバランスを取るために、文字列の間にクォートを挿入すると自動的にバックスラッシュを付けてエスケープし、コメントを入れると必要に応じてフォームを次の行へと送ります。
+
+..
+   TODO: gif here
+
+テキストを選択した状態でフォームを開いたときの Cursive の動作は、 ``Settings`` -> ``Editor`` -> ``Smart Keys`` -> ``Surround selection on typing quote or brace`` で決まります。もし、このオプションを選択していたら、選択部分をバランスされたフォームでラップし、そうでなければ削除して空のフォームに置き換えます。
+
+The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.
 
 ..
    TODO: gif here

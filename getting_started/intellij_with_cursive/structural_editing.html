@@ -74,8 +74,8 @@
                 <ul>
 <li><a class="reference internal" href="#">構造的編集 (a.k.a. Paredit)</a><ul>
 <li><a class="reference internal" href="#id1">構造的編集の有効化と無効化</a></li>
-<li><a class="reference internal" href="#selecting-things">Selecting things</a></li>
-<li><a class="reference internal" href="#creating-things">Creating things</a></li>
+<li><a class="reference internal" href="#id2">選択に関して</a></li>
+<li><a class="reference internal" href="#id3">作成に関して</a></li>
 <li><a class="reference internal" href="#deleting-things">Deleting things</a></li>
 <li><a class="reference internal" href="#getting-around">Getting around</a></li>
 <li><a class="reference internal" href="#editing-commands">Editing commands</a></li>
@@ -187,19 +187,17 @@
 <p>構造的編集( Emacs の Paredit モードとして知られている)は他の機能同様に Clojure デベロッパーをそれを好きな人と嫌いな人、好きから嫌いになった人に分けます。 Cursive は構造的編集を降るで提供し、ふたつの簡単でフラストレーションの少ないオンオフするための方法を提供します。構造的編集はタッチタイピングのように習得するまでは苦痛で練習も必要ですが、一度それに慣れてしまうともう二度とない生活に戻れないでしょう。</p>
 <div class="section" id="id1">
 <h2>構造的編集の有効化と無効化<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<dl class="docutils">
-<dt>Clojure のコードに対して構造的編集はデフォルトで有効になっています。もしそれが好きでないなら、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Clojure</span></code> -&gt; <code class="docutils literal"><span class="pre">use</span> <span class="pre">structural</span> <span class="pre">editings</span></code> から無効にできます。</dt>
-<dd>If you’d like to toggle it on and off quickly, you can use the widget in the status bar at the bottom of the screen, or you can use the Edit→Structural Editing→Toggle Structural Editing action. If you find yourself doing that a lot you can even assign a shortcut key to the action.</dd>
-</dl>
+<p>Clojure のコードに対して構造的編集はデフォルトで有効になっています。もしそれが好きでないなら、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Clojure</span></code> -&gt; <code class="docutils literal"><span class="pre">use</span> <span class="pre">structural</span> <span class="pre">editings</span></code> から無効にできます。もし素早くオンとオフを切り替えたいなら、スクリーン下のステータスバーにあるウィジェットか、 <code class="docutils literal"><span class="pre">Edit</span></code> -&gt; <code class="docutils literal"><span class="pre">Structural</span> <span class="pre">Editing</span></code> -&gt; <code class="docutils literal"><span class="pre">Toggle</span> <span class="pre">Structural</span> <span class="pre">Editing</span></code> アクションが使えます。もし、これを行うのに手数が多いと思ったなら、これまでと同じようにショートカットキーをアクションにアサイン出来る。</p>
 </div>
-<div class="section" id="selecting-things">
-<h2>Selecting things<a class="headerlink" href="#selecting-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>One of the nicest editing features of IntelliJ is its structural selection. Pressing Ctrl W (Alt up arrow on the Mac) will expand the selection to the surrounding semantic unit. You can shrink it back with Ctrl Shift W (Alt down arrow on the Mac). This is one of those features that seems trivial but soon you can’t live without it.</p>
+<div class="section" id="id2">
+<h2>選択に関して<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>IntelliJ の素晴らしい機能のひとつに構造的選択があります。 Ctrl + W (Mac なら Alt + 上カーソルキー) を押すことで意味単位で選択範囲を広げていきます。選択範囲を狭めるには Ctrl + Shift + W (Mac なら Alt + 下カーソルキー) を使います。これは幾つかある機能のひとつで取るに足らない機能のように見えますが、すぐにこれなしでは生きていけなくなるでしょう。</p>
 </div>
-<div class="section" id="creating-things">
-<h2>Creating things<a class="headerlink" href="#creating-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The basic goal of structural editing is to make sure that your parenthesis always remain balanced. We’ll talk about parentheses here but all of the features for this work equivalently for forms created with curly brackets, square brackets or strings. When you open a parenthesis it is always created balanced, and when you press the close paren key the cursor will jump to the end of the nearest corresponding closing paren and tidy up any whitespace. In order to maintain everything balanced, inserting quotes inside a string automatically escapes it with a backslash, and opening a comment will shunt forms to the next line if required.</p>
-<p>When opening a balanced form with text selected, Cursive’s behavior is controlled by Settings→Editor→Smart Keys→Surround selection on typing quote or brace. If this option is selected, opening a balanced form will wrap the selection, otherwise the selection will be deleted and replaced with the empty delimiters. The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.</p>
+<div class="section" id="id3">
+<h2>作成に関して<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>基本的な構造的編集の目的は括弧のバランスを常に間違いなくとることです。これから括弧について話しますが、全ての機能はブレース、ブラケット、文字列のフォームにおいて同等の動きをします。あなたが括弧を開くと常に閉じ括弧が作られ、あなたが閉じ括弧のキーを押すとカーソルは一番近い一致する閉じ括弧の終わりにジャンプし、間にあるホワイトスペースを綺麗にします。全てのバランスを取るために、文字列の間にクォートを挿入すると自動的にバックスラッシュを付けてエスケープし、コメントを入れると必要に応じてフォームを次の行へと送ります。</p>
+<p>テキストを選択した状態でフォームを開いたときの Cursive の動作は、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Editor</span></code> -&gt; <code class="docutils literal"><span class="pre">Smart</span> <span class="pre">Keys</span></code> -&gt; <code class="docutils literal"><span class="pre">Surround</span> <span class="pre">selection</span> <span class="pre">on</span> <span class="pre">typing</span> <span class="pre">quote</span> <span class="pre">or</span> <span class="pre">brace</span></code> で決まります。もし、このオプションを選択していたら、選択部分をバランスされたフォームでラップし、そうでなければ削除して空のフォームに置き換えます。</p>
+<p>The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.</p>
 </div>
 <div class="section" id="deleting-things">
 <h2>Deleting things<a class="headerlink" href="#deleting-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
