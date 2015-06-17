@@ -76,9 +76,9 @@
 <li><a class="reference internal" href="#id1">構造的編集の有効化と無効化</a></li>
 <li><a class="reference internal" href="#id2">選択に関して</a></li>
 <li><a class="reference internal" href="#id3">作成に関して</a></li>
-<li><a class="reference internal" href="#deleting-things">Deleting things</a></li>
-<li><a class="reference internal" href="#getting-around">Getting around</a></li>
-<li><a class="reference internal" href="#editing-commands">Editing commands</a></li>
+<li><a class="reference internal" href="#id4">削除に関して</a></li>
+<li><a class="reference internal" href="#id5">歩き方</a></li>
+<li><a class="reference internal" href="#id6">編集コマンド</a></li>
 </ul>
 </li>
 </ul>
@@ -196,19 +196,18 @@
 <div class="section" id="id3">
 <h2>作成に関して<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>基本的な構造的編集の目的は括弧のバランスを常に間違いなくとることです。これから括弧について話しますが、全ての機能はブレース、ブラケット、文字列のフォームにおいて同等の動きをします。あなたが括弧を開くと常に閉じ括弧が作られ、あなたが閉じ括弧のキーを押すとカーソルは一番近い一致する閉じ括弧の終わりにジャンプし、間にあるホワイトスペースを綺麗にします。全てのバランスを取るために、文字列の間にクォートを挿入すると自動的にバックスラッシュを付けてエスケープし、コメントを入れると必要に応じてフォームを次の行へと送ります。</p>
-<p>テキストを選択した状態でフォームを開いたときの Cursive の動作は、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Editor</span></code> -&gt; <code class="docutils literal"><span class="pre">Smart</span> <span class="pre">Keys</span></code> -&gt; <code class="docutils literal"><span class="pre">Surround</span> <span class="pre">selection</span> <span class="pre">on</span> <span class="pre">typing</span> <span class="pre">quote</span> <span class="pre">or</span> <span class="pre">brace</span></code> で決まります。もし、このオプションを選択していたら、選択部分をバランスされたフォームでラップし、そうでなければ削除して空のフォームに置き換えます。</p>
-<p>The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.</p>
+<p>テキストを選択した状態でフォームを開いたときの Cursive の動作は、 <code class="docutils literal"><span class="pre">Settings</span></code> -&gt; <code class="docutils literal"><span class="pre">Editor</span></code> -&gt; <code class="docutils literal"><span class="pre">Smart</span> <span class="pre">Keys</span></code> -&gt; <code class="docutils literal"><span class="pre">Surround</span> <span class="pre">selection</span> <span class="pre">on</span> <span class="pre">typing</span> <span class="pre">quote</span> <span class="pre">or</span> <span class="pre">brace</span></code> で決まります。もし、このオプションを選択していたら、選択部分をバランスされたフォームでラップし、そうでなければ削除して空のフォームに置き換えます。 <code class="docutils literal"><span class="pre">Wrap</span> <span class="pre">with…</span></code> コマンドは次のフォームを括弧かクォートで囲み、 <code class="docutils literal"><span class="pre">Close</span> <span class="pre">…</span> <span class="pre">and</span> <span class="pre">newline</span></code> コマンドは現在の適切な閉じタグへとジャンプして改行とインデントを正しく挿入します。</p>
 </div>
-<div class="section" id="deleting-things">
-<h2>Deleting things<a class="headerlink" href="#deleting-things" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Deletion also works to maintain everything balanced. Backspace will jump over a closing delimiter and delete the contents - only empty delimiter pairs are actually deleted. Delete does the same but forwards instead of backwards. Kill will cut from the cursor to the end of the current list or to the end of the line. If the last element on the line extends past the end of the line, the entire list will be deleted.</p>
+<div class="section" id="id4">
+<h2>削除に関して<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>削除も同様にバランスを維持するように機能します。 Backspace は閉じ括弧を越えて中身を削除します。空の括弧のみ削除します。 Delete の場合も同じですが、後ろからではなく前からです。 Kill はカーソルから現在のリストの最後までか行の終わりまでをカットします。もし、最後のエレメントが行の終わりを超えている場合、リスト全体を削除します。</p>
 </div>
-<div class="section" id="getting-around">
-<h2>Getting around<a class="headerlink" href="#getting-around" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>There are also some structural navigation commands under Navigate→Structural Movement. Move Forward/Backward move over forms or parentheses, and Move Into/Out Of Forward/Backward move into the next list or out of the current one.</p>
+<div class="section" id="id5">
+<h2>歩き方<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>同じように <code class="docutils literal"><span class="pre">Navigate</span></code> -&gt; <code class="docutils literal"><span class="pre">Structural</span> <span class="pre">Movement</span></code> の下に幾つかの構造的ナビゲーションコマンドがあります。  Move Forward/Backward はフォームと括弧を越えて移動し、 Move Into/Out Of Forward/Backward は次の行の中か現在のフォームの外に移動します。</p>
 </div>
-<div class="section" id="editing-commands">
-<h2>Editing commands<a class="headerlink" href="#editing-commands" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id6">
+<h2>編集コマンド<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The amusingly named slurp and barf commands are some of the most commonly used. Slurp will find the form following your current list and pull it inside the list. Barf does the opposite - it finds the last form inside your current list and pushes it out. Raise will take your current list and remove its parent, moving it up the hierarchy.</p>
 <p>Splice inserts the contents of your current list directly into the parent. Split will split the current list or string at the current cursor position, and join will join them back up.</p>
 </div>

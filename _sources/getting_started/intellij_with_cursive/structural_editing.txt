@@ -25,30 +25,30 @@ IntelliJ の素晴らしい機能のひとつに構造的選択があります�
 ..
    TODO: gif here
 
-テキストを選択した状態でフォームを開いたときの Cursive の動作は、 ``Settings`` -> ``Editor`` -> ``Smart Keys`` -> ``Surround selection on typing quote or brace`` で決まります。もし、このオプションを選択していたら、選択部分をバランスされたフォームでラップし、そうでなければ削除して空のフォームに置き換えます。
-
-The Wrap with… commands will also wrap the following form in brackets or quotes. The Close … and newline functions will jump to the current closing delimiter, insert a newline and indent correctly.
+テキストを選択した状態でフォームを開いたときの Cursive の動作は、 ``Settings`` -> ``Editor`` -> ``Smart Keys`` -> ``Surround selection on typing quote or brace`` で決まります。もし、このオプションを選択していたら、選択部分をバランスされたフォームでラップし、そうでなければ削除して空のフォームに置き換えます。 ``Wrap with…`` コマンドは次のフォームを括弧かクォートで囲み、 ``Close … and newline`` コマンドは現在の適切な閉じタグへとジャンプして改行とインデントを正しく挿入します。
 
 ..
    TODO: gif here
 
 
-Deleting things
-===============
-Deletion also works to maintain everything balanced. Backspace will jump over a closing delimiter and delete the contents - only empty delimiter pairs are actually deleted. Delete does the same but forwards instead of backwards. Kill will cut from the cursor to the end of the current list or to the end of the line. If the last element on the line extends past the end of the line, the entire list will be deleted.
+削除に関して
+============
+
+削除も同様にバランスを維持するように機能します。 Backspace は閉じ括弧を越えて中身を削除します。空の括弧のみ削除します。 Delete の場合も同じですが、後ろからではなく前からです。 Kill はカーソルから現在のリストの最後までか行の終わりまでをカットします。もし、最後のエレメントが行の終わりを超えている場合、リスト全体を削除します。
 
 ..
    TODO: gif here
 
-Getting around
-==============
-There are also some structural navigation commands under Navigate→Structural Movement. Move Forward/Backward move over forms or parentheses, and Move Into/Out Of Forward/Backward move into the next list or out of the current one.
+歩き方
+======
+
+同じように ``Navigate`` -> ``Structural Movement`` の下に幾つかの構造的ナビゲーションコマンドがあります。  Move Forward/Backward はフォームと括弧を越えて移動し、 Move Into/Out Of Forward/Backward は次の行の中か現在のフォームの外に移動します。
 
 ..
    TODO: gif here
 
-Editing commands
-================
+編集コマンド
+============
 The amusingly named slurp and barf commands are some of the most commonly used. Slurp will find the form following your current list and pull it inside the list. Barf does the opposite - it finds the last form inside your current list and pushes it out. Raise will take your current list and remove its parent, moving it up the hierarchy.
 
 ..
