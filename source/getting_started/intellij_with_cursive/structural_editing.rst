@@ -49,12 +49,17 @@ IntelliJ の素晴らしい機能のひとつに構造的選択があります�
 
 編集コマンド
 ============
-The amusingly named slurp and barf commands are some of the most commonly used. Slurp will find the form following your current list and pull it inside the list. Barf does the opposite - it finds the last form inside your current list and pushes it out. Raise will take your current list and remove its parent, moving it up the hierarchy.
+
+よく使われるコマンドに slurp [#]_ と barf [#]_ といった面白い名前のついたものが幾つかあります。 Slurp  は現在のリストより下にある [#]_ フォームを探し出し、それをリストの中に引き込みます。 Barf はその逆で、現在のリストから最後のフォームをリストの外側に出します。 Raise は現在のリストを取り出し、その親を削除してヒエラルキーの上へと移動させます。
 
 ..
    TODO: gif here
 
-Splice inserts the contents of your current list directly into the parent. Split will split the current list or string at the current cursor position, and join will join them back up.
+Splice 現在のリストの中身を親のリストの中へと直接挿入します。 Split は現在のリストか現在のカーソル位置を起点に分割し、 Join はそれらを統合します。
 
 ..
    TODO: gif here
+
+.. [#] すする
+.. [#] はきだす
+.. [#] 下にあるという表現が微妙なんですが、カーソルの次にあるフォームという理解が実際の動きと一致する気がします
