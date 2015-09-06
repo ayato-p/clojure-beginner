@@ -7,7 +7,7 @@
 
 IntelliJ を新しく使い始めた人にとって一番意外なのは自分で保存できないように見えることだろう。たしかに、 IntelliJ は一定時間が経過するか(初期値は何もしないで 15 秒)、幾つかのクリティカルな部分(フォーカスが外れたときや、何かを実行したときなど)において自動的に保存を行う。
 
-多くの人がこれを初めて見たときにとても奇妙思うだろうけど、次第に好きになるはずです。もしそうならなければ、 ``Settings`` -> ``General`` から無効に出来ます。もしあなたが変更を元に戻したい場合、 `Local History <https://confluence.jetbrains.com/display/IntelliJIDEA/Local+History>`_ 機能が使えます。
+多くの人がこれを初めて見たときにとても奇妙思うだろうけど、次第に好きになるはずです。もしそうならなければ、 ``Settings`` -> ``Appearance & Behaviour`` -> ``System Settings`` から無効に出来ます。もしあなたが変更を元に戻したい場合、 `Local History <https://confluence.jetbrains.com/display/IntelliJIDEA/Local+History>`_ 機能が使えます。
 
 補完
 ====
