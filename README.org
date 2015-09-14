@@ -2,7 +2,7 @@
 
   HTML 版はこちらから参照できます。
 
-  http://ayato0211.github.io/clojure-beginner/
+  http://ayato-p.github.io/clojure-beginner/
 
 * このドキュメントについて
 
