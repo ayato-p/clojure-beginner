@@ -12,7 +12,7 @@ Leiningen は Clojure のためのデファクトなプロジェクト管理ツ�
 既存のプロジェクトをインポートする
 ==================================
 
-``File`` -> ``Import Project…`` [#]_ を選択してインポートしたいプロジェクトを選択します。 ``project.clj`` かそれを含むディレクトリが選択できます。
+``File`` -> ``New`` -> ``Project from Existing Sources…`` [#]_ を選択してインポートしたいプロジェクトを選択します。 ``project.clj`` かそれを含むディレクトリが選択できます。
 
 .. image:: /image/cursive_with_leiningen/import-choose-project.png
 

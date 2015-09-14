@@ -30,6 +30,7 @@ Cursive をインストール
 * ``https://cursiveclojure.com/plugins-13.1.xml`` for IntelliJ 13.1
 * ``https://cursiveclojure.com/plugins-14.xml`` for IntelliJ 14
 * ``https://cursiveclojure.com/plugins-14.1.xml`` for IntelliJ 14.1
+* ``https://cursiveclojure.com/plugins-15.xml`` for IntelliJ 15
 
 ``Browse Repositories`` に戻ると、リポジトリリストの中に ``cursive-14.1.0.1.xx`` というような新しいプラグインが見えると思います。 install ボタンを押してインストールをしたら ``Browse Repositories`` ウィンドウと ``Settings`` ウィンドウを閉じて IntelliJ を再起動しましょう。
 

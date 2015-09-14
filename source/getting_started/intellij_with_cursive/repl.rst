@@ -1,3 +1,5 @@
+.. |start-debug| image:: /image/cursive_repl/startDebugger.png
+
 ======
  REPL
 ======
@@ -36,54 +38,55 @@ REPL を Leiningen を使って実行する場合、 Cursive は内部的に ``l
 
 .. image:: /image/cursive_repl/local-debug-config.png
 
-Cursive でデバッグすることで非常に困難なことのひとつはローカルクリアリング(locals clearing) [#]_ です。それは Clojure コンパイラがメモリ参照へとコードを挿入するという意味であり、二度と ``nil`` にならないということです。これはデバッグ時に問題になります。
+Clojure でデバッグするうえで非常に困難なことのひとつはローカルクリアリング(locals clearing) [#]_ です。それは Clojure コンパイラがメモリ参照へと ``nil`` を挿入し、それが二度と使われないことを保証するという意味です。これはデバッグ時に問題になります。あなたは ``null`` になるはずのないコードで多数のローカル変数に ``null`` がセットされているのをみることになるでしょう。常に遅延シーケンスをメモリに確保することで常に値と順序の変わらない同じシーケンスを返し、こうすることで遅延シーケンス起因のメモリリークを防ぐことができます。それは新しくやってきた人には混乱をもたらし、全ての人がデバッグ時にフラストレーションを感じることでしょう。
 
-This is a problem when debugging; you will see many of your local variables set to null when the code you are looking at could never have caused them to take that value. This is done to prevent memory leaks from lazy sequences, which are cached in memory to ensure that the same sequence will always return the same values in the same order. It’s very confusing for newcomers, and very frustrating when debugging for pretty much everyone.
+Cursvie は全てのデバッグ REPL でローカルクリアリングを無効にして開始し、全ての REPL はツールウィンドウの |start-debug| ボタンから REPL サーバーのデバッグモードをトグル出来ます。注目するのはこれがコンパイラの機能であるということで、つまりコンパイル時のみに影響があるということであり、それはランタイムフラグではありません。
 
-Cursive starts all debug REPLs with locals clearing disabled, and all REPLs provide a toolwindow button () which will toggle it in the REPL server. Note that this is a feature of the compiler, so it only affects code when it is compiled - it’s not a run-time flag. This means that if you toggle it you must recompile any code you’d like to debug. This generally means reloading it in the REPL after turning the flag on. Also, be very careful disabling locals clearing in any long-running process (e.g. a production server process) since it may cause memory leaks.
+これはそれをトグルした場合にあなたがデバッグするコードを再コンパイルする必要があるということです。一般的にはトグルをオンにしたあとにそれを REPL をリロードするということです。それからロングランニングプロセス(例えばプロダクションサーバープロセス)の中でローカルクリアリングを無効にするのはとても注意が必要です。それはメモリリークの原因となります。
 
+REPL 起動時のタイムアウト
+=========================
 
-REPL startup timeout
-====================
+Cursive は REPL 起動時のタイムアウトを設定出来ます。これは REPL を起動させるまでに Cursive が待つ時間だと考えるのは誤りです [#]_ 。デフォルトでは 60 秒に設定されています。 ``Settings`` -> ``Clojure`` -> ``REPL startup timeout`` から変更できます。
 
-Cursive also supports configuring the REPL startup timeout. This is the time that Cursive will wait for the REPL to start before assuming something has gone wrong. By default it’s set to 60 seconds. You can change this value at Settings→Clojure→REPL startup timeout.
+リモート REPL
+=============
 
-
-Remote REPLs
-============
-
-Alternatively, if you already have an nREPL server running somewhere, you can connect to it using a Remote configuration. There are two options here - either you can configure it to connect to a host and port, or you can configure it to connect to 127.0.0.1 and get the port from the port file written by Leiningen. You can use this option if you want to start a REPL with Leiningen from the command line for some reason (for example, your REPL doesn’t work with the trampoline option used by Cursive).
+もうひとつの方法として、もしあなたが既に走っている nREPL サーバーを持っている場合、それを Remote 設定を使えば nREPL サーバーに接続出来ます。ふたつのオプションがあり、接続するホストとポートを指定するか、 ``127.0.0.1`` と Leiningen に書かれたポートに接続するよう設定できます。もし何らかの理由で(例えば Cursive から trampoline オプションを付けた REPL が起動出来ないとか [#]_ ) REPL を Leiningen を用いてコマンドラインから起動させたいといった場合に、このオプションを使うことが出来ます。
 
 .. image:: /image/cursive_repl/remote-repl-config.png
 
-You can start as many REPLs as you like of whatever type, and they’ll appear in tabs in the REPL tool window.
+あなたは幾つもの REPL を好きなように起動でき、それらは REPL ツールウィンドウの中にタブで表示されます。
 
-Using the REPL
-==============
+REPL を使う
+===========
 
-Now that you have your REPL running, you can type code into the editor window below, the results appear above. The current namespace is shown in the tab title at the top of the tool window. You can execute code by pressing Enter if the cursor is at the end of a valid form, or you can execute at any time by pressing Ctrl Enter (Cmd Enter on the Mac). The editor is fully multi-line, and supports all functionality available in the main Clojure editor. You can move through your command history by using the up/down arrow keys, or jump between multi line items using Ctrl and arrow keys (Cmd arrows on Mac). If you don’t want the editor to move between history items using the normal arrow keys, you can disable this with Settings→Clojure→Up/Down arrow keys move between history items.
+今あなたが REPL を実行していれば、下の方にあるエディターウィンドウにタイプすると、その結果が上の方に表示されます。現在のネームスペースはツールウィンドウのタブタイトルに表示されます。正しいフォームの最後にカーソルがあるときに Enter を押すか、 Ctrl + Enter(Mac なら Cmd + Enter) を押せばいつでもコードを実行することが出来ます。エディターは複数行書けますし、メインの Clojure エディターで使える機能を全てサポートしています。実行したコマンドの履歴はカーソルキーの up/down か、複数行のアイテムであれば Ctrl とカーソルキー (Mac なら Cmd とカーソルキー)を使って移動できます。もしただのカーソルキーを使った場合にヒストリーを移動したくないのであれば、 ``Settings`` -> ``Clojure`` -> ``Up/Down arrow keys move between history items`` から無効に出来ます。
 
 ..
    rpel gif here
 
-Using the buttons above the output window, you can interrupt the current execution, toggle soft wrapping of the output, clear the output, stop the REPL and reconnect (for remote REPLs).
+アウトプットウィンドウ上部にあるボタンを使えば、実行中のコードの中断、アウトプットの折り返し、アウトプットのクリア、 REPL の停止に再接続(リモート REPL に対して)が出来ます。
 
-Interaction with the editor
-===========================
 
-Often you’ll be editing code in the main project windows, and you’ll want to send code from your project to the running REPL. The commands to do this are under Tools→REPL. “Load file in REPL” will send the contents of the current editor window to the REPL, execute its contents and switch to the first namespace in the file, if any. A message will be printed out so you can see what happened.
+エディタとの対話
+================
 
-“Load file in REPL” will calculate all the namespace dependencies of the file you’re loading, and will also load those dependencies in the correct order if any of them are out of date. This is very useful when editing multi-namespace projects as it’s often easy to forget when you’ve updated a file containing a function used by the main code you’re working on. It’s also very useful when working on code that’s require’d by its tests.
+しばしば、あなたはメインプロジェクトウィンドウで編集中のコードを、プロジェクトから実行中の REPL へと送りたくなるでしょう。それは ``Tools`` -> ``REPL`` の下のコマンド群からできます。 ``Load file in REPL`` は現在のエディタウィンドウの内容を REPL へと送り、もしあればそれらのコードを実行し、最初のネームスペースへとスイッチします。何が起きたかはメッセージが画面上へと表示されます。
 
-“Sync files in REPL” will load all out-of-date files from the editor to the REPL in the correct order, using the same transitive dependency calculation as “Load file in REPL”. It will not change the active namespace in the REPL.
+``Load file in REPL`` はファイルのネームスペース依存性を解消してロードし、もし古い依存性があれば正しい順序で依存性を解消します。これは複数のネームスペースを持つプロジェクトで編集しているときに、あなたがメインで作業しているファイルが更新されたファイルを知らないうちに含んでしまっているときなどにとても役に立ちます。同様にテストコードを書いているときなどにも便利です。
 
-This loading of dependent namespaces can have unexpected side effects, especially if one of the dependent namespaces creates data that would be overwritten by reloading it. If this bothers you, you can turn off this dependency functionality with Settings→Clojure→Load out-of-date file dependencies transitively.
+``Sync files in REPL`` は古くなった全てのファイルをエディターから REPL へと正しい順序で、 ``Load file in REPL`` と同じように依存性を解消してロードします。これは REPL 内でアクティブになっているネームスペースを変更しません。
+
+この依存しているネームスペースの読み込みは期待しない副作用をもたらすことがあります。特に、ある依存しているネームスペースがデータを作っている場合には再読み込みすることで上書きしてしまします。もしこれが嫌な場合は ``Settings`` -> ``Clojure`` -> ``Load out-of-date file dependencies transitively`` から依存性解消機能をオフにできます。
 
 .. image:: /image/cursive_repl/repl-load-file.png
 
-You can also switch the REPL namespace to that of the current file using “Switch REPL NS to current file”, and execute individual forms from the editor using the “Run form before cursor” and “Run top form” commands.
+それから ``Switch REPL NS to current file`` で REPL のネームスペースを現在のファイルにスイッチでき、 ``Run form before cursor`` と ``Run top form`` コマンドでエディタから単一のフォームを評価できます。
 
 ..
    repl gif here
 
-.. [#] 訳しててよくわからないのであとで修正するかもしれない。
+.. [#] 訳しててよくわからないのであとで修正するかもしれない。 http://clojure.org/lazy 現段階での私の理解としては、遅延シーケンスにおいてスタックオーバーフローが起こらないように、スタックをクリアにすることを local clearing(or local-variables clearing) と Clojure では言うということ。そして Cursive はそれを無効にすることが出来る(らしい)。
+.. [#] 日本語が難しいですが、タイムアウトまでの時間を設定出来るという解釈で問題ないと思います。
+.. [#] 元のドキュメントでは言及されていませんが、 Boot などを用いる場合もリモート REPL から接続することになります。 https://www.google.co.jp/search?sourceid=chrome-psyapi2&ion=1&espv=2&es_th=1&ie=UTF-8&q=Cursive%20boot&oq=Cursive%20boot&aqs=chrome..69i57j0l2j69i59.1712j0j1
