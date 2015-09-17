@@ -2,9 +2,9 @@
 
 <h3><a href="{{ pathto(master_doc) }}">{{ _('Table Of Contents') }}</a></h3>
 {%- if sphinx_version[:3] >= '1.2' %}
-{{ toctree(maxdepth=3, collapse=False, includehidden=True) }}
+{{ toctree(maxdepth=2, collapse=False, includehidden=True) }}
 {% else %}
-{{ toctree(maxdepth=3, collapse=False) }}
+{{ toctree(maxdepth=2, collapse=False) }}
 {% endif %}
 </div>
 
