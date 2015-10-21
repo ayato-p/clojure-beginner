@@ -15,12 +15,18 @@ Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web �
 
 * `ayato-p/intro-web-clojure <https://github.com/ayato-p/intro-web-clojure>`_
 
+中身について
+============
+
+最初の Part1 から PartXX までは TODO アプリを作ることを目標にして書いていきます。完成した Part より後ではもう少し実践的なより便利なライブラリを使って TODO アプリをよりよく改善していきます。
+
 目次
 ====
 
 .. toctree::
    part1_prepare
    part2_what_is_ring
+   column_rdd_and_more_ring
    part3_what_is_compojure
    column_about_web_frameworks
    part4_template_engine

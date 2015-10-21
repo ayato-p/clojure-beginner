@@ -23,6 +23,7 @@
 * ~ を評価する: REPL などの Clojure 環境上で Clojure のフォームを実行すること、としておきましょう。
 * ターミナル: Ubuntu では「端末」と呼ばれたり、 Mac では「ターミナル」と呼ばれ、 Windows では「コマンドプロンプト」などと呼ばれるものです。
 * REPL: 基本的に Leiningen で起動した REPL のことを指します。
+* Ring アプリケーション: Ring を用いて開発された Web アプリケーションのことを Ring アプリケーションと呼ぶようにします。
 
 書き方について
 ==============
@@ -60,13 +61,15 @@ REPL で実行しないコードは以下のように記述します。
 プロジェクトを用意する
 ======================
 
+それでは早速 TODO アプリを作っていきましょう。アプリケーションの名前は安直ですが **todo-clj** ということにします(もし気に食わなければところどころで出てくる todo-clj という名前を自分の好きな名前に変更してください…)。
+
 まずはターミナルで適当なディレクトリの下に行き、次のコマンドを実行します。
 
 .. sourcecode:: shell
 
-  $ lein new intro-web-clojure
+  $ lein new todo-clj
 
-* `commit: プロジェクトのひな形を作成 <https://github.com/ayato-p/intro-web-clojure/commit/b8e7d87b980a08619e913a0a09b3d5e4e161d3a1>`_
+* `commit: プロジェクトのひな形を作成 <https://github.com/ayato-p/intro-web-clojure/commit/c6021d8f3c736aa7c5a2c44076f419e3c797e225>`_
 
 ここまでで Web 開発に取り組んでいく準備が出来ました。
 
