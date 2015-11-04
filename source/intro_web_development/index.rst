@@ -28,5 +28,6 @@ Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web �
    part2_what_is_ring
    column_rdd_and_more_ring
    part3_what_is_compojure
+   part3_5_middleware_for_dev
    column_about_web_frameworks
    part4_template_engine
