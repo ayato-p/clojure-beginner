@@ -29,9 +29,9 @@ Ring で遊びながら REPL 駆動開発を体験する
 .. sourcecode:: clojure
 
   user> (require '[todo-clj.core :as c])
-  nil
+  ;; => nil
   user> (c/start-server)
-  #object[org.eclipse.jetty.server.Server 0x55b1143a "org.eclipse.jetty.server.Server@55b1143a"]
+  ;; => #object[org.eclipse.jetty.server.Server 0x55b1143a "org.eclipse.jetty.server.Server@55b1143a"]
 
 何の変哲もない ``Hello, world`` が表示されましたと思います。次にファイル上の ``handler`` 関数を書き換えてみます。
 

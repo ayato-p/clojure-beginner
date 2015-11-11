@@ -31,3 +31,4 @@ Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web �
    part3_5_middleware_for_dev
    column_about_web_frameworks
    part4_template_engine
+   part5_connect_to_database

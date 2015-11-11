@@ -180,11 +180,11 @@ Ring ライブラリは全てで 4 つのライブラリ( ring-core, ring-devel,
 .. sourcecode:: clojure
 
   user> (require '[ring.adapter.jetty :as s])
-  nil
+  ;; => nil
   user> (def server (atom nil))
-  #'user/server
+  ;; => #'user/server
   user> (reset! server (s/run-jetty (fn [req] {:body "Hello, world"}) {:port 3000 :join? false}))
-  #object[org.eclipse.jetty.server.Server 0x25a13368 "org.eclipse.jetty.server.Server@25a13368"]
+  ;; => #object[org.eclipse.jetty.server.Server 0x25a13368 "org.eclipse.jetty.server.Server@25a13368"]
 
 ここまで評価したら ``http://localhost:3000/`` をブラウザで見てみましょう。すると ``Hello, world`` と出力されているのが確認出来たと思います。これが Ring アプリケーションのはじめの一歩です。あ、 REPL は落とさないでくださいね。
 
@@ -213,9 +213,9 @@ Ring ライブラリは全てで 4 つのライブラリ( ring-core, ring-devel,
 .. sourcecode:: clojure
 
   user> (.stop @server)
-  nil
+  ;; => nil
   user> (reset! server nil)
-  nil
+  ;; => nil
 
 サーバーのインスタンスから ``stop`` メソッドを実行して、 ``server`` 変数を ``nil`` にしてサーバーのインスタンスを捨てています。
 
@@ -259,9 +259,9 @@ Ring ライブラリは全てで 4 つのライブラリ( ring-core, ring-devel,
 .. sourcecode:: clojure
 
   user> (require '[todo-clj.core :as c])
-  nil
+  ;; => nil
   user> (c/start-server)
-  #object[org.eclipse.jetty.server.Server 0x55b1143a "org.eclipse.jetty.server.Server@55b1143a"]
+  ;; => #object[org.eclipse.jetty.server.Server 0x55b1143a "org.eclipse.jetty.server.Server@55b1143a"]
 
 改めて ``http://localhost:3000/`` を見るとちゃんと出力されていますね。このように Clojure を使ったアプリケーション開発では REPL を上手く使いながら開発をインタラクティブに行っていくので頭の片隅に置いておいてください。
 

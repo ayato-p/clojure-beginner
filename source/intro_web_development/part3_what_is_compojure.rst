@@ -75,9 +75,9 @@ Web アプリケーションに必要なもののひとつにルーティング�
 .. sourcecode:: clojure
 
   user> (in-ns 'todo-clj.core)
-  #object[clojure.lang.Namespace 0x121aaddc "todo-clj.core"]
+  ;; => #object[clojure.lang.Namespace 0x121aaddc "todo-clj.core"]
   todo-clj.core> (home {})
-  {:status 200, :body "<h1>ホーム画面</h1>\n   <a href=\"/todo\">TODO 一覧</a>", :headers {"Content-Type" "text/html; charset=utf-8"}}
+  ;; => {:status 200, :body "<h1>ホーム画面</h1>\n   <a href=\"/todo\">TODO 一覧</a>", :headers {"Content-Type" "text/html; charset=utf-8"}}
 
 ネームスペースを切り替えた後 [#]_ [#]_ に ``(home {})`` を評価することでレスポンスマップを手に入れることが出来ました。 ``home`` 関数へと渡している空のマップはリクエストマップですが、これは ``home`` 関数が今回は内部で他のパラメーターを使わないためこのように空を渡しています。
 
@@ -103,11 +103,11 @@ Web アプリケーションに必要なもののひとつにルーティング�
 .. sourcecode:: clojure
 
   todo-clj.core> (handler {})
-  {:status 404, :body "<h1>404 page not found</1>"}
+  ;; => {:status 404, :body "<h1>404 page not found</1>"}
   todo-clj.core> (handler {:uri "/"})
-  {:status 200, :body "<h1>ホーム画面</h1>\n   <a href=\"/todo\">TODO 一覧</a>", :headers {"Content-Type" "text/html; charset=utf-8"}}
+  ;; => {:status 200, :body "<h1>ホーム画面</h1>\n   <a href=\"/todo\">TODO 一覧</a>", :headers {"Content-Type" "text/html; charset=utf-8"}}
   todo-clj.core> (handler {:uri "/todo"})
-  {:status 200, :body ("<h1>TODO 一覧</h1>" "<ul>" "<li>朝ごはんを作る</li>" "<li>燃えるゴミを出す</li>" "<li>卵を買って帰る</li>" "<li>お風呂を洗う</li>" "</ul>"), :headers {"Content-Type" "text/html; charset=utf-8"}}
+  ;; => {:status 200, :body ("<h1>TODO 一覧</h1>" "<ul>" "<li>朝ごはんを作る</li>" "<li>燃えるゴミを出す</li>" "<li>卵を買って帰る</li>" "<li>お風呂を洗う</li>" "</ul>"), :headers {"Content-Type" "text/html; charset=utf-8"}}
 
 Part2 までで作成しているサーバーを起動して実際に ``http://localhost:3000/todo`` へとアクセスすることでも結果が確認出来ます。こんな感じでここまででルーティング機能を独自で実装してきたわけですが、このままアプリケーションを作り続けていくにはちょっと機能が色々と足りませんし、それらを実装してしまうのは骨が折れます。具体的にはここまでで実装したものだけでは POST メソッドに対応出来ませんし、 ``/user/:id`` というようなマッチングを行うことが出来ません。
 
