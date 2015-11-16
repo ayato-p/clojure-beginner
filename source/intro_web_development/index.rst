@@ -32,3 +32,4 @@ Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web �
    column_about_web_frameworks
    part4_template_engine
    part5_connect_to_database
+   column_libraries_for_web
