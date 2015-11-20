@@ -4,6 +4,10 @@
 
 Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web 開発についてここでは触れたいと思います。
 
+.. raw:: html
+
+  <iframe src="https://ghbtns.com/github-btn.html?user=ayato-p&repo=clojure-beginner&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+
 まえがき
 ========
 
@@ -33,3 +37,4 @@ Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web �
    part4_template_engine
    part5_connect_to_database
    column_libraries_for_web
+   part6_build_up_our_app
