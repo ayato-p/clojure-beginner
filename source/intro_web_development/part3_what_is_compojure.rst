@@ -368,7 +368,9 @@ TODO アプリに必要なものはなんでしょう。まずは TODO を作成
         (GET "/" _ todo-show)
         (GET "/edit" _ todo-edit)
         (POST "/edit" _ todo-edit-post)
-        (POST "/delete" _ todo-delete))))
+        (GET "/delete" _ todo-delete)
+        (POST "/delete" _ todo-delete-post))))
+
 
   (def app
     (routes
@@ -450,6 +452,7 @@ TODO アプリに必要なものはなんでしょう。まずは TODO を作成
   (defn todo-edit [req] "TODO edit")
   (defn todo-edit-post [req] "TODO edit post")
   (defn todo-delete [req] "TODO delete")
+  (defn todo-delete-post [req] "TODO delete post")
 
   (defroutes todo-routes
     (context "/todo" _
@@ -461,7 +464,8 @@ TODO アプリに必要なものはなんでしょう。まずは TODO を作成
         (GET "/" _ todo-show)
         (GET "/edit" _ todo-edit)
         (POST "/edit" _ todo-edit-post)
-        (POST "/delete" _ todo-delete))))
+        (GET "/delete" _ todo-delete)
+        (POST "/delete" _ todo-delete-post))))
 
 TODO 一覧、新規作成、検索、表示、編集、それから削除機能までをカバーしたハンドラーとルーティングを定義しました。ハンドラーは幾つか新しく足していますが、これらは仮実装なので後ほど実装することにしましょう。
 
