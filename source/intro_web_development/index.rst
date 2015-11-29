@@ -39,3 +39,4 @@ Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web �
    part5_connect_to_database
    column_libraries_for_web
    part6_build_up_our_app
+   part7_how_to_deploy_to_heroku

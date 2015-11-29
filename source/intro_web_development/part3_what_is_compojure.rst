@@ -126,8 +126,8 @@ Compojure を導入することで今まで無理やり書いていたルーテ�
 .. sourcecode:: clojure
 
   (defroutes handler
-    (GET "/" [req] home)
-    (GET "/todo" [req] todo-index))
+    (GET "/" req home)
+    (GET "/todo" req todo-index))
 
 比較的 Rails などに近い DSL なのでそちらを知っていれば馴染みやすいでしょう。
 

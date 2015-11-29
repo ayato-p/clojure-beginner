@@ -1075,11 +1075,11 @@ potemkin のマクロのひとつ ``potemkin/import-vars`` を拡張して、特
   ;; => ExceptionInfo throw+: {:type :ring.util.http-response/response, :response {:status 409, :headers {}, :body nil}}  ring.util.http-response/throw! (http_response.clj:10)
 
 ちゃんと期待通りのステータスを持った例外を投げることが出来ました。実際に画面上でも削除済みの TODO に対して更新処理を行おうとすると ``"Conflict"`` と表示されるようになりました。
-これでようやく TODO アプリとしてそれなりに使えるようになりました。次の Part では実際にデプロイをしてみます。
+これでようやく TODO アプリとしてそれなりに使えるようになりました。次の Part では実際に Heroku へデプロイをしてみます。
 
 ここまでで学んだこと
 ====================
 
-* 各種ミドルウェアについて
-* バリデーションの仕方
+* ring-anti-forgery ミドルウェアや ring-defaults ミドルウェアの関係
+* バリデーション処理の書き方
 * エラー処理の書き方
