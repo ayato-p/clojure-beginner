@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Part6: TODO アプリを組み上げる &mdash; Clojure の日本語ガイド</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootswatch-cosmo.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" href="../_static/css/adjust_theme/bootswatch-cosmo.css" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
+    <link rel="up" title="Clojure で Web 開発をはじめてみよう" href="index.html" />
+    <link rel="next" title="Part7: どのようにして Heroku へデプロイするか" href="part7_how_to_deploy_to_heroku.html" />
+    <link rel="prev" title="Column: Web アプリケーション開発でよく使うライブラリ" href="column_libraries_for_web.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Clojure の日本語ガイド</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Part6: TODO アプリを組み上げる</a><ul>
+<li><a class="reference internal" href="#todo">TODO アプリとして足りない機能を作る</a><ul>
+<li><a class="reference internal" href="#id1">TODO の追加画面を作る</a></li>
+<li><a class="reference internal" href="#id2">TODO の詳細画面を作る</a></li>
+<li><a class="reference internal" href="#id4">TODO の編集画面を作る</a></li>
+<li><a class="reference internal" href="#id6">TODO の削除画面を作る</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">仕上げ</a><ul>
+<li><a class="reference internal" href="#id9">各画面をリンクさせる</a></li>
+<li><a class="reference internal" href="#id10">バリデーションを作る</a></li>
+<li><a class="reference internal" href="#csrf">CSRF 対策する</a></li>
+<li><a class="reference internal" href="#id12">エラーをうまく処理する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">ここまでで学んだこと</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="column_libraries_for_web.html" title="Column: Web アプリケーション開発でよく使うライブラリ" accesskey="P">前へ </a></li>
+              <li><a href="part7_how_to_deploy_to_heroku.html" title="Part7: どのようにして Heroku へデプロイするか" accesskey="N">次へ </a></li>
+              <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
+              <li><a href="index.html" accesskey="U">Clojure で Web 開発をはじめてみよう</a></li>
+            
+            <li class="visible-xs"><a href="../_sources/intro_web_development/part6_build_up_our_app.txt" rel="nofollow">ソースコードを表示</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="検索" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation"><div id="toc" class="sidebarRow">
+
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Clojure で Web 開発をはじめてみよう</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">まえがき</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">中身について</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="column_libraries_for_web.html"
+                        title="前の章へ">Column: Web アプリケーション開発でよく使うライブラリ</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="part7_how_to_deploy_to_heroku.html"
+                        title="次の章へ">Part7: どのようにして Heroku へデプロイするか</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro_web_development/part6_build_up_our_app.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>クイック検索</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="検索" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="part6-todo">
+<h1>Part6: TODO アプリを組み上げる<a class="headerlink" href="#part6-todo" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="todo">
+<h2>TODO アプリとして足りない機能を作る<a class="headerlink" href="#todo" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これまでのところでは基本的に「 TODO の表示」部分だけに絞って実装してきましたが、これを TODO アプリと呼ぶのは少々厳しいでしょう。なので、この Part では TODO アプリとして必要そうな機能を追加していきましょう。足りない機能は次のようになると思います。</p>
+<ul class="simple">
+<li>TODO の追加</li>
+<li>TODO の更新</li>
+<li>TODO の削除</li>
+<li>TODO の詳細表示</li>
+</ul>
+<p>このくらいは最低でも欲しいところですよね。他にもユーザー管理などという機能も追加したいところですが、それらは後の Part に譲るとして今回は上述した機能を作りこんでいきたいと思います。</p>
+<div class="section" id="id1">
+<h3>TODO の追加画面を作る<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>今までも TODO の追加は REPL を使えば TODO の追加は出来ました。ですが、 REPL だけからしか追加出来ないというのは少々不便なのでそれようの画面を作りましょう。ここで実装するのはハンドラーとビューの部分になりますが、先にビューを作ります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">hiccup.form</span> <span class="ss">:as</span> <span class="nv">hf</span><span class="p">]</span> <span class="c1">;; hiccup.form を追加</span>
+            <span class="p">[</span><span class="nv">todo-clj.view.layout</span> <span class="ss">:as</span> <span class="nv">layout</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 追加&quot;</span><span class="p">]</span>
+        <span class="p">(</span><span class="nf">hf/form-to</span>
+         <span class="p">[</span><span class="ss">:post</span> <span class="s">&quot;/todo/new&quot;</span><span class="p">]</span>
+         <span class="p">[</span><span class="ss">:input</span> <span class="p">{</span><span class="ss">:name</span> <span class="ss">:title</span> <span class="ss">:placeholder</span> <span class="s">&quot;TODO を入力してください&quot;</span><span class="p">}]</span>
+         <span class="p">[</span><span class="ss">:button.bg-blue</span> <span class="s">&quot;追加する&quot;</span><span class="p">])]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>新しく <code class="docutils literal"><span class="pre">hiccup.form</span></code> ネームスペースを <code class="docutils literal"><span class="pre">todo-clj.view.todo</span></code> に <code class="docutils literal"><span class="pre">require</span></code> しました。今回は <code class="docutils literal"><span class="pre">hiccup.form/form-to</span></code> のみを使用することにします。この関数はフォームを簡単に定義できるようになっていて、第一引数として渡している <code class="docutils literal"><span class="pre">[:post</span> <span class="pre">&quot;/todo/new&quot;]</span></code> のひとつめの要素がメソッド、ふたつめの要素がアクションとなっていて、残りは通常通り Hiccup の記法で書かれたデータを受け取ります。第一引数の手前にマップを指定することでフォームの属性を追加していすることが出来ますが、ここでは必要無いので省略します。</p>
+<p>次にこの画面を表示するためにハンドラー <code class="docutils literal"><span class="pre">todo-clj.handler.todo/todo-new</span></code> を修正しましょう。 Part3 でルーティングの定義をしていたのでそこに肉付けしていく形をとります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-new-view</span> <span class="nv">req</span><span class="p">)</span>
+      <span class="nv">res/response</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>ほとんど <code class="docutils literal"><span class="pre">todo-index</span></code> と同じですね。早速 <code class="docutils literal"><span class="pre">http://localhost:3000/todo/new</span></code> をブラウザで確認してみましょう。 TODO 追加画面が確認できましたね。これで適当な値を入力してボタンを押すと <code class="docutils literal"><span class="pre">&quot;TODO</span> <span class="pre">new</span> <span class="pre">post&quot;</span></code> と書かれた画面に飛んでしまいますが、これはまだ POST の処理を扱うハンドラー <code class="docutils literal"><span class="pre">todo-clj.handler.todo/todo-new-post</span></code> の中身を書いていないからですね。早速書いてみます。</p>
+<p>ひとつ忘れてました。これは POST を扱うハンドラーでここまでで一度も取り扱ってないので、どうやって値が飛んでくるのか分からないですよね。ちょっと確認してみましょう。まずは次のように <code class="docutils literal"><span class="pre">todo-new-post</span></code> を実装してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nb">pr-str </span><span class="nv">req</span><span class="p">)</span>
+      <span class="nv">res/response</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">pr-str</span></code> 関数でリクエストマップを文字列化して、画面に出すようにしました。このまま先ほどと同じように画面から POST 処理を行ってみます。すると以下のような出力を得ることが出来ます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">{</span><span class="ss">:ssl-client-cert</span> <span class="nv">nil</span>, <span class="ss">:protocol</span> <span class="s">&quot;HTTP/1.1&quot;</span>, <span class="ss">:remote-addr</span> <span class="s">&quot;127.0.0.1&quot;</span>, <span class="ss">:params</span> <span class="p">{}</span>, <span class="ss">:route-params</span> <span class="p">{}</span>, <span class="ss">:headers</span> <span class="p">{</span><span class="s">&quot;accept&quot;</span> <span class="s">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8&quot;</span>, <span class="s">&quot;user-agent&quot;</span> <span class="s">&quot;Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:41.0) Gecko/20100101 Firefox/41.0&quot;</span>, <span class="s">&quot;referer&quot;</span> <span class="s">&quot;http://localhost:3000/todo/new&quot;</span>, <span class="s">&quot;connection&quot;</span> <span class="s">&quot;keep-alive&quot;</span>, <span class="s">&quot;host&quot;</span> <span class="s">&quot;localhost:3000&quot;</span>, <span class="s">&quot;accept-language&quot;</span> <span class="s">&quot;en-US,en;q=0.5&quot;</span>, <span class="s">&quot;accept-encoding&quot;</span> <span class="s">&quot;gzip, deflate&quot;</span>, <span class="s">&quot;content-length&quot;</span> <span class="s">&quot;10&quot;</span>, <span class="s">&quot;content-type&quot;</span> <span class="s">&quot;application/x-www-form-urlencoded&quot;</span><span class="p">}</span>, <span class="ss">:server-port</span> <span class="mi">3000</span>, <span class="ss">:content-length</span> <span class="mi">10</span>, <span class="ss">:compojure/route</span> <span class="p">[</span><span class="ss">:post</span> <span class="s">&quot;/new&quot;</span><span class="p">]</span>, <span class="ss">:content-type</span> <span class="s">&quot;application/x-www-form-urlencoded&quot;</span>, <span class="ss">:path-info</span> <span class="s">&quot;/new&quot;</span>, <span class="ss">:character-encoding</span> <span class="nv">nil</span>, <span class="ss">:context</span> <span class="s">&quot;/todo&quot;</span>, <span class="ss">:uri</span> <span class="s">&quot;/todo/new&quot;</span>, <span class="ss">:server-name</span> <span class="s">&quot;localhost&quot;</span>, <span class="ss">:query-string</span> <span class="nv">nil</span>, <span class="ss">:body</span> <span class="o">#</span><span class="nv">object</span><span class="p">[</span><span class="nv">org.eclipse.jetty.server.HttpInputOverHTTP</span> <span class="mi">0</span><span class="nv">x56833ace</span> <span class="s">&quot;HttpInputOverHTTP@56833ace&quot;</span><span class="p">]</span>, <span class="ss">:scheme</span> <span class="ss">:http</span>, <span class="ss">:request-method</span> <span class="ss">:post</span><span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">test</span></code> という TODO を追加したのですが、どうやらパッと見で人が読める文字列にはなっていなさそうです。ここで Ring のリクエストマップのおさらいですが、リクエストマップの中には <code class="docutils literal"><span class="pre">:body</span></code> キーがあってこれはリクエストボディがある場合に <code class="docutils literal"><span class="pre">InputStream</span></code> が送られてくるようになっています。今回のマップの中にもどうやら <code class="docutils literal"><span class="pre">:body</span></code> キーがあるのでこれを読み込んで文字列にしてみましょう。 <code class="docutils literal"><span class="pre">todo-new-post</span></code> を次のように編集します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nb">pr-str </span><span class="p">(</span><span class="nb">slurp </span><span class="p">(</span><span class="ss">:body</span> <span class="nv">req</span><span class="p">)</span> <span class="ss">:encoding</span> <span class="s">&quot;utf-8&quot;</span><span class="p">))</span>
+      <span class="nv">res/response</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>こう修正した後に再度実行すると次のような出力を得ることが出来ました。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="s">&quot;title=test&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">test</span></code> と入力したのでこれで良さそうですね。これをパースしたりするのは少々大変なので Ring のユーティリティを使ってみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">body</span> <span class="p">(</span><span class="nb">slurp </span><span class="p">(</span><span class="ss">:body</span> <span class="nv">req</span><span class="p">)</span> <span class="ss">:encoding</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="nv">params</span> <span class="p">(</span><span class="nf">ring.util.codec/form-decode</span> <span class="nv">body</span> <span class="s">&quot;utf-8&quot;</span><span class="p">)]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nb">pr-str </span><span class="p">(</span><span class="nb">get </span><span class="nv">params</span> <span class="s">&quot;title&quot;</span><span class="p">))</span>
+        <span class="nv">res/response</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>これを実行すると以下のような出力が得られることが出来たと思います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="s">&quot;test&quot;</span>
+</pre></div>
+</div>
+<p>このように目的の値を取得出来たのはいいですが、これを毎回書かないといけないのは少々手間なので既に用意されているミドルウェアを使ってこの問題を解決しましょう。 <code class="docutils literal"><span class="pre">todo-clj.core</span></code> ネームスペースを修正して <code class="docutils literal"><span class="pre">ring.middleware.params</span></code> ネームスペースを追加します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.keyword-params</span> <span class="ss">:as</span> <span class="nv">keyword-params</span><span class="p">]</span> <span class="c1">;; 追加</span>
+            <span class="p">[</span><span class="nv">ring.middleware.params</span> <span class="ss">:as</span> <span class="nv">params</span><span class="p">]</span> <span class="c1">;; 追加</span>
+            <span class="p">[</span><span class="nv">ring.middleware.resource</span> <span class="ss">:as</span> <span class="nv">resource</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.main</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">main-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.todo</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">todo-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.middleware</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">wrap-dev</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">routes</span>
+       <span class="nv">todo-routes</span>
+       <span class="nv">main-routes</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-dev</span> <span class="p">(</span><span class="ss">:dev</span> <span class="nv">env</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">resource/wrap-resource</span> <span class="s">&quot;public&quot;</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">keyword-params/wrap-keyword-params</span> <span class="nv">true</span><span class="p">)</span> <span class="c1">;; 追加</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">params/wrap-params</span> <span class="nv">true</span><span class="p">)))</span> <span class="c1">;; 追加</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">ring.middleware.params/wrap-params</span></code> はさっきまでのコードと同様にリクエストマップからフォームのデータをパースしてリクエストマップの <code class="docutils literal"><span class="pre">:params</span></code> にマップしてくれるものです。フォームのデータ以外にも URI のクエリ文字列からもデータを取得してマップしてくれるので今後の開発においても期待できる機能です。</p>
+<p>それから気付いているとおもいますが <code class="docutils literal"><span class="pre">ring.middleware.params</span></code> 以外にも追加しているミドルウェアがあります。リクエストマップの <code class="docutils literal"><span class="pre">:params</span></code> のキーにマップされているマップデータはキーが文字列なのでそれをキーワードに変換するためのミドルウェアですね。このミドルウェアはリクエストマップの <code class="docutils literal"><span class="pre">:params</span></code> キーに対してのみ働くため、 <code class="docutils literal"><span class="pre">ring.middleware.params/wrap-params</span></code> より前に実行してしまっては意味がないため適用する順番には気をつける必要があります。</p>
+<p>ここまで出来たら <code class="docutils literal"><span class="pre">todo-new-post</span></code> を以下のように修正して改めて確認してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span> <span class="c1">;; 分配束縛で ``:params`` を取り出してしまうと操作が楽です</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nb">pr-str </span><span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">))</span>
+      <span class="nv">res/response</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">&quot;test&quot;</span></code> (もしくはあなたが入力した値)と画面に出たなら成功です。これを元にデータベースに TODO を追加する処理を足しましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">when </span><span class="p">(</span><span class="nf">todo/save-todo</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">))</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-complete-view</span> <span class="nv">req</span><span class="p">)</span>
+        <span class="nv">res/response</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">todo-clj.db.todo/save-todo</span></code> を実行して正常に実行できた場合には完了画面を出力するようにしました。完了画面については以下のような定義にしました。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-complete-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO を追加しました!!&quot;</span><span class="p">]]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/a7be051ef75783a2547714bebb431dbbbcc73846">commit: TODO の追加画面作成 + 少しだけビューいじりました</a></li>
+</ul>
+<p>ここまでで追加画面が出来ました。しかし、気付いているかもしれませんが、これは不完全です。 CSRF 対策や入力のバリデーションができていませんし、もし DB への保存が失敗した場合なども考慮されていません。これらについては他の画面の実装が終わったところで触れていきたいと思います。</p>
+</div>
+<div class="section" id="id2">
+<h3>TODO の詳細画面を作る<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>TODO を新規作成出来るようになったわけですが、出来れば TODO 詳細画面を表示したい気がしますね。なので新規作成した後は追加した TODO の詳細画面を表示するようにしましょう。</p>
+<p>まずは TODO を 1 件だけ取得する関数を作ります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">find-first-todo</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db/db-spec</span> <span class="p">[</span><span class="s">&quot;select * from todo where id = ?&quot;</span> <span class="nv">id</span><span class="p">])))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">clojure.java.jdbc/query</span></code> 関数は必ずシーケンスを返すのでこのように 1 件だけしか結果を返さないクエリでも <code class="docutils literal"><span class="pre">first</span></code> 関数などを使って先頭要素を取り出してあげる必要があります。実際にこの関数は以下のように動作します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">find-first-todo</span> <span class="mi">1</span><span class="p">)</span>
+<span class="c1">;; =&gt; {:id 1, :title &quot;朝ごはんを作る&quot;}</span>
+<span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">find-first-todo</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1">;; =&gt; {:id 2, :title &quot;燃えるゴミを出す&quot;}</span>
+<span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">find-first-todo</span> <span class="mi">999</span><span class="p">)</span>
+<span class="c1">;; =&gt; nil</span>
+</pre></div>
+</div>
+<p>存在しない ID を指定した場合(検索結果が 0 件)、 <code class="docutils literal"><span class="pre">nil</span></code> を返却します。</p>
+<p>さて、データベースから TODO を取得する処理は出来たので今度は表示をなんとかしましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nf">todo/find-first-todo</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-show-view</span> <span class="nv">req</span> <span class="nv">todo</span><span class="p">)</span>
+        <span class="nv">res/response</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">params</span></code> から <code class="docutils literal"><span class="pre">:todo-id</span></code> キーの値を取得していますが、これは Compojure のルーティング定義部分で指定していたルートパラメーターですね。 Compojure のルートをリクエストマップが通るときに、自動的にルートパラメーターが <code class="docutils literal"><span class="pre">:params</span></code> にマップされているマップデータへと追加されます。そして、これは文字列の値なので数値へと変換する必要があります。</p>
+<p>指定されたルートパラメーターを取得して TODO を検索するわけですが、 URI を手動で入力されたりする場合は該当する TODO が存在しない可能性があるので <code class="docutils literal"><span class="pre">if-let</span></code> を使って分岐しますが、エラー処理については後述するのでここではその部分について言及を避けます。</p>
+<p>ビュー部分に関しては TODO のタイトルを表示するだけにしたいので次のようにします。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">todo</span><span class="p">)]]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>ここまで実装出来たら <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1</span></code> と入力して、 TODO の 1 件目が表示されているのが確認出来たら最後に TODO 作成後にこの画面にリダイレクトするように変更しましょう。まずはリダイレクト用のユーティリティ関数を <code class="docutils literal"><span class="pre">todo-clj.util.response</span></code> ネームスペースに追加します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/util/response.clj</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">redirect</span> <span class="o">#</span><span class="ss">&#39;res/redirect</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">alter-meta!</span> <span class="o">#</span><span class="ss">&#39;redirect</span> <span class="o">#</span><span class="p">(</span><span class="nb">merge </span><span class="nv">%</span> <span class="p">(</span><span class="nb">meta </span><span class="o">#</span><span class="ss">&#39;res/redirect</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">response</span></code> 関数と同じように <code class="docutils literal"><span class="pre">redirect</span></code> 関数を持ってきます。 <code class="docutils literal"><span class="pre">todo-clj.handler.todo/todo-new-post</span></code> を修正して次のようにします。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/save-todo</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/redirect</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="p">(</span><span class="ss">:id</span> <span class="nv">todo</span><span class="p">)))</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>これで TODO を追加したら自動的に詳細画面へとリダイレクトされるようになりました。ただ、いきなり詳細画面が出されても嬉しくないのでちょっとしたアラートが TODO を追加した直後の詳細画面でのみ表示されるようにしましょう。 Rails や他のフレームワークでいう flash 機能を使いたいので、例によってこれをミドルウェアで実現します。まずはいつも通り <code class="docutils literal"><span class="pre">todo-clj.core</span></code> ネームスペースを修正して、ミドルウェアを追加します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.flash</span> <span class="ss">:as</span> <span class="nv">flash</span><span class="p">]</span> <span class="c1">;; 追加</span>
+            <span class="p">[</span><span class="nv">ring.middleware.keyword-params</span> <span class="ss">:as</span> <span class="nv">keyword-params</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.params</span> <span class="ss">:as</span> <span class="nv">params</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.resource</span> <span class="ss">:as</span> <span class="nv">resource</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.session</span> <span class="ss">:as</span> <span class="nv">session</span><span class="p">]</span> <span class="c1">;; 追加</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.main</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">main-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.todo</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">todo-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.middleware</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">wrap-dev</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">routes</span>
+       <span class="nv">todo-routes</span>
+       <span class="nv">main-routes</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-dev</span> <span class="p">(</span><span class="ss">:dev</span> <span class="nv">env</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">resource/wrap-resource</span> <span class="s">&quot;public&quot;</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">keyword-params/wrap-keyword-params</span> <span class="nv">true</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">params/wrap-params</span> <span class="nv">true</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">flash/wrap-flash</span> <span class="nv">true</span><span class="p">)</span> <span class="c1">;; 追加</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">session/wrap-session</span> <span class="nv">true</span><span class="p">)))</span> <span class="c1">;; 追加</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">ring.middleware.flash</span></code> と <code class="docutils literal"><span class="pre">ring.middleware.session</span></code> を足しました。これらはレスポンスマップに対して修正を加えるミドルウェアですが、それぞれ flash ミドルウェアはレスポンスマップに <code class="docutils literal"><span class="pre">:flash</span></code> というキーがある場合に、次のリクエストマップに対して <code class="docutils literal"><span class="pre">:flash</span></code> キーでコンテンツを追加します。 session ミドルウェアは flash ミドルウェアと同様に <code class="docutils literal"><span class="pre">:session</span></code> というキーで同じ動作をします。また <code class="docutils literal"><span class="pre">ring.middleware.flash</span></code> は <code class="docutils literal"><span class="pre">ring.middleware.session</span></code> に依存しているので、適用する順番には気をつける必要があります。</p>
+<p>次に <code class="docutils literal"><span class="pre">todo-new-post</span></code> 関数を少し修正します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/save-todo</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/redirect</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="p">(</span><span class="ss">:id</span> <span class="nv">todo</span><span class="p">)))</span>
+        <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に追加しました。&quot;</span><span class="p">})</span> <span class="c1">;; 追加</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>レスポンスマップ( <code class="docutils literal"><span class="pre">redirect</span></code> 関数はレスポンスマップを返却する)の <code class="docutils literal"><span class="pre">:flash</span></code> キーにマップデータを追加します。このようにして追加された flash データはビューで次のように利用します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">(</span><span class="nb">when-let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span> <span class="p">(</span><span class="ss">:flash</span> <span class="nv">req</span><span class="p">)]</span> <span class="c1">;; リクエストマップに ``:flash`` があればそれをアラートとして表示される</span>
+          <span class="p">[</span><span class="ss">:div.alert.alert-success</span> <span class="p">[</span><span class="ss">:strong</span> <span class="nv">msg</span><span class="p">]])</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">todo</span><span class="p">)]]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/16c832d21b8753d95ad3bb605a337aadfb338695">commit: TODO 詳細画面の作成とミドルウェアを幾つか追加</a></li>
+</ul>
+<p>早速、 <code class="docutils literal"><span class="pre">http://localhost:3000/todo/new</span></code> から新しい TODO を追加してみて、アラートが正常に表示されることを確認します。出来たら次に進みましょう。あ、 <code class="docutils literal"><span class="pre">todo-complete-view</span></code> 関数は使わなくなったので削除してしまっても問題ありません。</p>
+</div>
+<div class="section" id="id4">
+<h3>TODO の編集画面を作る<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>追加して、詳細画面を表示出来るようになったら今度は既にある TODO を更新出来るようにしたいですよね(今のところ TODO のタイトルしか作成出来ないのでそうでもない?)。早速書いていきます。</p>
+<p>ブラウザで <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1/edit</span></code> にアクセスすると素っ気ない文字列が出てくる状態だと思うので、さっとハンドラーを修正してビューも作成してしまいましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nf">todo/find-first-todo</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-edit-view</span> <span class="nv">req</span> <span class="nv">todo</span><span class="p">)</span>
+        <span class="nv">res/response</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">get-in</span> <span class="nv">req</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:todo-id</span><span class="p">])]</span>
+    <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+          <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 編集&quot;</span><span class="p">]</span>
+          <span class="p">(</span><span class="nf">hf/form-to</span>
+           <span class="p">[</span><span class="ss">:post</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span> <span class="s">&quot;/edit&quot;</span><span class="p">)]</span>
+           <span class="p">[</span><span class="ss">:input</span> <span class="p">{</span><span class="ss">:name</span> <span class="ss">:title</span> <span class="ss">:value</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">todo</span><span class="p">)</span>
+                    <span class="ss">:placeholder</span> <span class="s">&quot;TODO を入力してください&quot;</span><span class="p">}]</span>
+           <span class="p">[</span><span class="ss">:button.bg-blue</span> <span class="s">&quot;更新する&quot;</span><span class="p">])]</span>
+         <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>こんな感じで編集画面を作りました。ほとんど、 <code class="docutils literal"><span class="pre">todo-new</span></code> や <code class="docutils literal"><span class="pre">todo-show</span></code> で書いたようなコードなので改めて説明する必要はあまりないと思います。これで <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1/edit</span></code> にアクセスすると追加画面と似たような(というかほぼ同じ)画面が見えるようになっていますが、ここに何か入力して「更新する」ボタンお押してもまた素っ気ない文字列が出てくるだけです。次は POST 処理を書いてあげる必要がありますね。先にデータベースへ更新をかける関数を書きます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">update-todo</span> <span class="p">[</span><span class="nv">id</span> <span class="nv">title</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">jdbc/update!</span> <span class="nv">db/db-spec</span> <span class="ss">:todo</span> <span class="p">{</span><span class="ss">:title</span> <span class="nv">title</span><span class="p">}</span> <span class="p">[</span><span class="s">&quot;id = ?&quot;</span> <span class="nv">id</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>実際に更新出来るか REPL でこれを試してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">update-todo</span> <span class="mi">1</span> <span class="s">&quot;夜ご飯を食べる&quot;</span><span class="p">)</span>
+<span class="c1">;; =&gt; (1)</span>
+<span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">update-todo</span> <span class="mi">9999</span> <span class="s">&quot;ラザニアを作る&quot;</span><span class="p">)</span>
+<span class="c1">;; =&gt; (0)</span>
+</pre></div>
+</div>
+<p>前の Part で説明したように <code class="docutils literal"><span class="pre">clojure.java.jdbc/update!</span></code> 関数は更新件数を返すので、更新件数が 0 だったら更新する対象がなかったみなすことが出来そうです。これを使って実際の POST 処理を書くと次のようになります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">))]</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/update-todo</span> <span class="nv">todo-id</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">))))</span>
+      <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/redirect</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span><span class="p">))</span>
+          <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に更新しました&quot;</span><span class="p">})</span>
+          <span class="nv">res/html</span><span class="p">))))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/95f9fa5e193784cc30bc44ea2674e8b78611c247">commit: TODO の更新画面を作成した</a></li>
+</ul>
+<p><code class="docutils literal"><span class="pre">pos?</span></code> で更新件数が 1 件以上であることを確かめています。もし更新件数が 1 件以上であれば(期待値としては 1 件しかないはずですが)正常に更新処理を出来たということなので追加処理のとき同様リダイレクトして詳細画面を表示させましょう。ここまで書いたら <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1/edit</span></code> から更新して詳細画面が出ることを確認しましょう。</p>
+</div>
+<div class="section" id="id6">
+<h3>TODO の削除画面を作る<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>さて、追加、表示、編集ときたので最後の削除画面を作りましょう。これも難しくないので編集画面と同様さっくりやってしまいましょう。まずは <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1/delete</span></code> でアクセスされたら削除するのか確認するような画面を作りましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-delete</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nf">todo/find-first-todo</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-delete-view</span> <span class="nv">req</span> <span class="nv">todo</span><span class="p">)</span>
+        <span class="nv">res/response</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-delete-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">get-in</span> <span class="nv">req</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:todo-id</span><span class="p">])]</span>
+    <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+          <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 削除&quot;</span><span class="p">]</span>
+          <span class="p">(</span><span class="nf">hf/form-to</span>
+           <span class="p">[</span><span class="ss">:post</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span> <span class="s">&quot;/delete&quot;</span><span class="p">)]</span>
+           <span class="p">[</span><span class="ss">:p</span> <span class="s">&quot;次の TODO を本当に削除しますか?&quot;</span><span class="p">]</span>
+           <span class="p">[</span><span class="ss">:p</span> <span class="s">&quot;*&quot;</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">todo</span><span class="p">)]</span>
+           <span class="p">[</span><span class="ss">:button.bg-red</span> <span class="s">&quot;削除する&quot;</span><span class="p">])]</span>
+         <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>ここまでも大凡同じですね。次はデータベースから TODO を削除する処理を書きます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">delete-todo</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">jdbc/delete!</span> <span class="nv">db/db-spec</span> <span class="ss">:todo</span> <span class="p">[</span><span class="s">&quot;id = ?&quot;</span> <span class="nv">id</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>これを REPL で試すとこうなります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">delete-todo</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1">;; =&gt; (1)</span>
+<span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">delete-todo</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1">;; =&gt; (0)</span>
+</pre></div>
+</div>
+<p>これも更新関数と同様に更新件数を返します。なので、削除対象が 0 件の場合は 0 が返ってきます。最後に POST を処理する関数を書いたら完成です。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-delete-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">))]</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/delete-todo</span> <span class="nv">todo-id</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/redirect</span> <span class="s">&quot;/todo&quot;</span><span class="p">)</span>
+          <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に削除しました&quot;</span><span class="p">})</span>
+          <span class="nv">res/html</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>削除したあとのリダイレクト先に TODO の一覧画面にします。一覧画面上にアラートを出したいので、一覧画面の方にも修正を加えます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo-list</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">(</span><span class="nb">when-let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span> <span class="p">(</span><span class="ss">:flash</span> <span class="nv">req</span><span class="p">)]</span>
+          <span class="p">[</span><span class="ss">:div.alert.alert-success</span> <span class="p">[</span><span class="ss">:strong</span> <span class="nv">msg</span><span class="p">]])</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 一覧&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="ss">:ul</span>
+         <span class="p">(</span><span class="nb">for </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">title</span><span class="p">]}</span> <span class="nv">todo-list</span><span class="p">]</span>
+           <span class="p">[</span><span class="ss">:li</span> <span class="nv">title</span><span class="p">])]]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/4686b0d8ac88a8ebda7669ae6c8384ae58aaf89b">commit: TODO の削除画面を作成した</a></li>
+</ul>
+<p>書けたら実際に <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1/delete</span></code> から削除してみましょう。削除が成功していればここまでは大丈夫でしょう。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>仕上げ<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>簡単に幾つかの画面を作ってきましたが、気付いていると思いますが各画面を行き来するためのリンクが欠けていたり、エラーハンドリングが出来ていなかったりとちょっと杜撰です。ということでアプリを仕上げていきましょう。</p>
+<div class="section" id="id9">
+<h3>各画面をリンクさせる<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>まずは今まで作った画面をリンクさせましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo-list</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">(</span><span class="nb">when-let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span> <span class="p">(</span><span class="ss">:flash</span> <span class="nv">req</span><span class="p">)]</span>
+          <span class="p">[</span><span class="ss">:div.alert.alert-success</span> <span class="p">[</span><span class="ss">:strong</span> <span class="nv">msg</span><span class="p">]])</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 一覧&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="ss">:ul</span>
+         <span class="p">(</span><span class="nb">for </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">id</span> <span class="nv">title</span><span class="p">]}</span> <span class="nv">todo-list</span><span class="p">]</span>
+           <span class="p">[</span><span class="ss">:li</span> <span class="p">[</span><span class="ss">:a</span> <span class="p">{</span><span class="ss">:href</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">id</span><span class="p">)}</span> <span class="nv">title</span><span class="p">]])]]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>TODO 一覧はそれぞれの TODO に詳細画面へといけるリンクを付けました。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="ss">:id</span> <span class="nv">todo</span><span class="p">)]</span>
+    <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+          <span class="p">(</span><span class="nb">when-let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span> <span class="p">(</span><span class="ss">:flash</span> <span class="nv">req</span><span class="p">)]</span>
+            <span class="p">[</span><span class="ss">:div.alert.alert-success</span> <span class="p">[</span><span class="ss">:strong</span> <span class="nv">msg</span><span class="p">]])</span>
+          <span class="p">[</span><span class="ss">:h2</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">todo</span><span class="p">)]</span>
+          <span class="p">[</span><span class="ss">:a.wide-link</span> <span class="p">{</span><span class="ss">:href</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span> <span class="s">&quot;/edit&quot;</span><span class="p">)}</span> <span class="s">&quot;修正する&quot;</span><span class="p">]</span>
+          <span class="p">[</span><span class="ss">:a.wide-link</span> <span class="p">{</span><span class="ss">:href</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span> <span class="s">&quot;/delete&quot;</span><span class="p">)}</span> <span class="s">&quot;削除する&quot;</span><span class="p">]]</span>
+         <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p>詳細画面には編集と削除画面のそれぞれにいけるリンクを付けました。これでとりあえず URI 直接入力しないと各画面にいけないという問題は解消できました。それと CSS に少し書き足しています。</p>
+<div class="highlight-css"><div class="highlight"><pre><span class="o">;;</span> <span class="nt">resources</span><span class="o">/</span><span class="nt">public</span><span class="o">/</span><span class="nt">css</span><span class="o">/</span><span class="nt">style</span><span class="nc">.css</span>
+<span class="nt">a</span><span class="nc">.wide-link</span> <span class="p">{</span>
+    <span class="k">margin</span><span class="o">:</span> <span class="m">0</span> <span class="m">5px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/e9d3aedbacb0563719d82d3bf7c4eec0535ba44c">commit: 画面間のリンクを作成</a></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>バリデーションを作る<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>今までの状態では何も入力しないでも TODO を追加したり更新することができていました。出来ればちゃんとしたデータを入力してもらいたいので、入力がない場合入力画面へと再度誘導したいと思います。</p>
+<p>これを実現するためにまずはバリデーションを簡単に行えるライブラリを導入しましょう。今回は bouncer というバリデーション用ライブラリを使うことにします。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">compojure</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">hiccup</span> <span class="s">&quot;1.0.5&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">environ</span> <span class="s">&quot;1.0.1&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.clojure/java.jdbc</span> <span class="s">&quot;0.4.2&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.postgresql/postgresql</span> <span class="s">&quot;9.4-1205-jdbc42&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">bouncer</span> <span class="s">&quot;0.3.3&quot;</span><span class="p">]]</span> <span class="c1">;; new</span>
+</pre></div>
+</div>
+<p>いつものように依存関係に追加したら REPL を再起動して軽く試してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">bouncer.core</span> <span class="ss">:as</span> <span class="nv">b</span><span class="p">]</span>
+               <span class="o">&#39;</span><span class="p">[</span><span class="nv">bouncer.validators</span> <span class="ss">:as</span> <span class="nv">v</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">b/validate</span> <span class="p">{</span><span class="ss">:title</span> <span class="s">&quot;&quot;</span><span class="p">}</span>
+                  <span class="ss">:title</span> <span class="nv">v/required</span><span class="p">)</span>
+<span class="c1">;; =&gt; [{:title (&quot;title must be present&quot;)} {:title &quot;&quot;, :bouncer.core/errors {:title (&quot;title must be present&quot;)}}]</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">b/validate</span> <span class="p">{</span><span class="ss">:title</span> <span class="s">&quot;朝ごはんを作る&quot;</span><span class="p">}</span>
+                  <span class="ss">:title</span> <span class="nv">v/required</span><span class="p">)</span>
+<span class="c1">;; =&gt; [nil {:title &quot;朝ごはんを作る&quot;}]</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">todo-varidator</span> <span class="p">{</span><span class="ss">:title</span> <span class="nv">v/required</span><span class="p">})</span>
+<span class="c1">;; =&gt; #&#39;user/todo-varidator</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">b/validate</span> <span class="p">{</span><span class="ss">:title</span> <span class="s">&quot;&quot;</span><span class="p">}</span> <span class="nv">todo-varidator</span><span class="p">)</span>
+<span class="c1">;; =&gt; [{:title (&quot;title must be present&quot;)} {:title &quot;&quot;, :bouncer.core/errors {:title (&quot;title must be present&quot;)}}]</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">b/valid?</span> <span class="p">{</span><span class="ss">:title</span> <span class="s">&quot;朝ごはんを作る&quot;</span><span class="p">}</span> <span class="nv">todo-varidator</span><span class="p">)</span>
+<span class="c1">;; =&gt; true</span>
+</pre></div>
+</div>
+<p>主に使うことになるのは <code class="docutils literal"><span class="pre">bouncer.core/validate</span></code> と <code class="docutils literal"><span class="pre">bouncer.core/valid?</span></code> だと思います。 <code class="docutils literal"><span class="pre">bouncer.validators</span></code> ネームスペースは幾つかの組み込みバリデーターを提供してくれます。使い方はなんとなくわかったと思うので早速これを私たちの TODO アプリに組み込んでみます。</p>
+<p>まずは次のようなコードを考えてみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">validator</span> <span class="p">{</span><span class="ss">:foo</span> <span class="nv">required</span><span class="p">})</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">new-handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">do-something</span> <span class="nv">req</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">new-post-handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">with-fallback</span> <span class="o">#</span><span class="p">(</span><span class="nf">new-handler</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">req</span> <span class="ss">:errors</span> <span class="nv">%</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">validate</span> <span class="p">(</span><span class="ss">:params</span> <span class="nv">req</span><span class="p">)</span> <span class="nv">validator</span><span class="p">)]</span>
+      <span class="p">(</span><span class="nf">do-something</span> <span class="nv">params</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">new-post-handler</span></code> で <code class="docutils literal"><span class="pre">validate</span></code> 関数を呼び出して、バリデーションエラーが発生したら予め登録しておいた匿名関数 <code class="docutils literal"><span class="pre">#(new-handler</span> <span class="pre">(assoc</span> <span class="pre">:errors</span> <span class="pre">%))</span></code> を呼び出し、再度 <code class="docutils literal"><span class="pre">new-handler</span></code> を実行する…こういう形でコードを書けたらいちいちバリデーションエラーのために <code class="docutils literal"><span class="pre">if</span></code> で条件分岐するとか冗長な処理を色んなところに書かなくて良くなりそうです。</p>
+<p>早速上記のような処理が書くためにふたつのヘルパーを新しいネームスペースに定義してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/util/validation.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.util.validation</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">bouncer.core</span> <span class="ss">:as</span> <span class="nv">b</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">validate</span> <span class="p">[</span><span class="o">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[[</span><span class="nv">errors</span> <span class="nv">org+errors</span><span class="p">]</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">b/validate</span> <span class="nv">args</span><span class="p">)]</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">nil? </span><span class="nv">errors</span><span class="p">)</span>
+      <span class="nv">org+errors</span>
+      <span class="p">(</span><span class="nf">throw</span> <span class="p">(</span><span class="nf">ex-info</span> <span class="s">&quot;Validation error&quot;</span> <span class="nv">errors</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="kd">defmacro </span><span class="nv">with-fallback</span> <span class="p">[</span><span class="nv">fallback</span> <span class="o">&amp;</span> <span class="nv">body</span><span class="p">]</span>
+  <span class="o">`</span><span class="p">(</span><span class="nf">try</span>
+     <span class="o">~@</span><span class="nv">body</span>
+     <span class="p">(</span><span class="nf">catch</span> <span class="nv">clojure.lang.ExceptionInfo</span> <span class="nv">e#</span>
+       <span class="p">(</span><span class="o">~</span><span class="nv">fallback</span> <span class="p">(</span><span class="nf">ex-data</span> <span class="nv">e#</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">todo-clj.util.validation</span></code> ネームスペースを作ってそこに <code class="docutils literal"><span class="pre">validate</span></code> 関数と <code class="docutils literal"><span class="pre">with-fallback</span></code> マクロを定義しました。 <code class="docutils literal"><span class="pre">validate</span></code> 関数は <code class="docutils literal"><span class="pre">bouncer.core/validate</span></code> 関数をラップしたものですが、エラーがある場合にはバリデーションエラーの情報を含めた実行時例外を投げるようにしていて、エラーがない場合には <code class="docutils literal"><span class="pre">validate</span></code> 関数に渡されたマップ情報をそのまま返却するようにしています。 <code class="docutils literal"><span class="pre">with-fallback</span></code> は先に定義した <code class="docutils literal"><span class="pre">validate</span></code> 関数と対になるもので、第一引数として実行時例外が起こった場合に呼び出す関数を受け取り、あとは例外を起こしうるコードを渡すだけです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">todo-clj.util.validation&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">a-validator</span> <span class="p">{</span><span class="ss">:foo</span> <span class="nv">bouncer.validators/required</span><span class="p">})</span>
+<span class="c1">;; =&gt; #&#39;todo-clj.util.validation/a-validator</span>
+<span class="nv">todo-clj.util.validation&gt;</span> <span class="p">(</span><span class="nf">with-fallback</span> <span class="nb">println </span><span class="p">(</span><span class="nf">validate</span> <span class="p">{</span><span class="ss">:bar</span> <span class="ss">:baz</span><span class="p">}</span> <span class="nv">a-validator</span><span class="p">))</span>
+<span class="c1">;; {:foo (foo must be present)}</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">todo-clj.util.validation&gt;</span> <span class="p">(</span><span class="nf">with-fallback</span> <span class="nb">println </span><span class="p">(</span><span class="nf">validate</span> <span class="p">{</span><span class="ss">:foo</span> <span class="ss">:any</span><span class="p">}</span> <span class="nv">a-validator</span><span class="p">))</span>
+<span class="c1">;; =&gt; {:foo :any}</span>
+</pre></div>
+</div>
+<p>こんな感じで使えるのでこれを踏まえて、ハンドラーにこれらを適用してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.handler.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">bouncer.validators</span> <span class="ss">:as</span> <span class="nv">v</span><span class="p">]</span> <span class="c1">;; 追加</span>
+            <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">context</span> <span class="nv">GET</span> <span class="nv">POST</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.db.todo</span> <span class="ss">:as</span> <span class="nv">todo</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.util.validation</span> <span class="ss">:as</span> <span class="nv">uv</span><span class="p">]</span> <span class="c1">;; 追加</span>
+            <span class="p">[</span><span class="nv">todo-clj.view.todo</span> <span class="ss">:as</span> <span class="nv">view</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">todo-validator</span> <span class="p">{</span><span class="ss">:title</span> <span class="p">[[</span><span class="nv">v/required</span> <span class="ss">:message</span> <span class="s">&quot;TODO を入力してください&quot;</span><span class="p">]]})</span> <span class="c1">;; 必須入力という制限を設ける + 標準メッセージだと英語なので日本語に</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nf">uv/with-fallback</span> <span class="o">#</span><span class="p">(</span><span class="nf">todo-new</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">req</span> <span class="ss">:errors</span> <span class="nv">%</span><span class="p">))</span> <span class="c1">;; エラーなら ``todo-new`` を呼び出す</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">uv/validate</span> <span class="nv">params</span> <span class="nv">todo-validator</span><span class="p">)]</span>
+      <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/save-todo</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">)))]</span>
+        <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/redirect</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="p">(</span><span class="ss">:id</span> <span class="nv">todo</span><span class="p">)))</span>
+            <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に追加しました。&quot;</span><span class="p">})</span>
+            <span class="nv">res/html</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nf">uv/with-fallback</span> <span class="o">#</span><span class="p">(</span><span class="nf">todo-edit</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">req</span> <span class="ss">:errors</span> <span class="nv">%</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">uv/validate</span> <span class="nv">params</span> <span class="nv">todo-validator</span><span class="p">)</span>
+          <span class="nv">todo-id</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">))]</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/update-todo</span> <span class="nv">todo-id</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">))))</span>
+        <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/redirect</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span><span class="p">))</span>
+            <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に更新しました&quot;</span><span class="p">})</span>
+            <span class="nv">res/html</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p>ハンドラーに適用するとこのようになりました。そして <cite>fallback</cite> として設定した匿名関数の引数にはリクエストマップに <code class="docutils literal"><span class="pre">:errors</span></code> キーを追加してバリデーションエラーの結果を挿入します。追加された <code class="docutils literal"><span class="pre">:errors</span></code> キーの値をビュー側で呼び出して、エラーメッセージを表示させます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">error-messages</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">when-let </span><span class="p">[</span><span class="nv">errors</span> <span class="p">(</span><span class="ss">:errors</span> <span class="nv">req</span><span class="p">)]</span>
+    <span class="p">[</span><span class="ss">:ul</span>
+     <span class="p">(</span><span class="nb">for </span><span class="p">[[</span><span class="nv">k</span> <span class="nv">v</span><span class="p">]</span> <span class="nv">errors</span>
+           <span class="nv">msg</span> <span class="nv">v</span><span class="p">]</span>
+       <span class="p">[</span><span class="ss">:li.error-message</span> <span class="nv">msg</span><span class="p">])]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 追加&quot;</span><span class="p">]</span>
+        <span class="p">(</span><span class="nf">hf/form-to</span>
+         <span class="p">[</span><span class="ss">:post</span> <span class="s">&quot;/todo/new&quot;</span><span class="p">]</span>
+         <span class="p">(</span><span class="nf">error-messages</span> <span class="nv">req</span><span class="p">)</span> <span class="c1">;; 追加</span>
+         <span class="p">[</span><span class="ss">:input</span> <span class="p">{</span><span class="ss">:name</span> <span class="ss">:title</span> <span class="ss">:placeholder</span> <span class="s">&quot;TODO を入力してください&quot;</span><span class="p">}]</span>
+         <span class="p">[</span><span class="ss">:button.bg-blue</span> <span class="s">&quot;追加する&quot;</span><span class="p">])]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">get-in</span> <span class="nv">req</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:todo-id</span><span class="p">])]</span>
+    <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+          <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 編集&quot;</span><span class="p">]</span>
+          <span class="p">(</span><span class="nf">hf/form-to</span>
+           <span class="p">[</span><span class="ss">:post</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span> <span class="s">&quot;/edit&quot;</span><span class="p">)]</span>
+           <span class="p">(</span><span class="nf">error-messages</span> <span class="nv">req</span><span class="p">)</span> <span class="c1">;; 追加</span>
+           <span class="p">[</span><span class="ss">:input</span> <span class="p">{</span><span class="ss">:name</span> <span class="ss">:title</span> <span class="ss">:value</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">todo</span><span class="p">)</span>
+                    <span class="ss">:placeholder</span> <span class="s">&quot;TODO を入力してください&quot;</span><span class="p">}]</span>
+           <span class="p">[</span><span class="ss">:button.bg-blue</span> <span class="s">&quot;更新する&quot;</span><span class="p">])]</span>
+         <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">))))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/87548021f3a926da4dd23f049aa7f9c9e386e902">commit: バリデーション機能の実装</a></li>
+</ul>
+<p><code class="docutils literal"><span class="pre">:errors</span></code> がリクエストマップにある場合、それを展開してエラーメッセージのリストを表示するようにしました。ここまで出来たら追加か編集画面で何も入力せずにボタンを押してみましょう。また入力画面になってエラーメッセージが表示されたら成功です。</p>
+</div>
+<div class="section" id="csrf">
+<h3>CSRF 対策する<a class="headerlink" href="#csrf" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>バリデーション機能を実装したところで次は CSRF 対策もしましょう。 CSRF 対策とはなにかという話はしませんが、 CSRF 対策を怠るとどうなるか詳しく知らない人は「ぼくはまちちゃん騒動」など調べると良いと思います。</p>
+<p>さて、この問題も <code class="docutils literal"><span class="pre">ring-anti-forgery</span></code> という Ring ミドルウェアを追加するだけで解決出来てしまうんですが、ここでちょっと <code class="docutils literal"><span class="pre">todo-clj.core</span></code> ネームスペースの <code class="docutils literal"><span class="pre">app</span></code> を確認してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">routes</span>
+       <span class="nv">todo-routes</span>
+       <span class="nv">main-routes</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-dev</span> <span class="p">(</span><span class="ss">:dev</span> <span class="nv">env</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">resource/wrap-resource</span> <span class="s">&quot;public&quot;</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">keyword-params/wrap-keyword-params</span> <span class="nv">true</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">params/wrap-params</span> <span class="nv">true</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">flash/wrap-flash</span> <span class="nv">true</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">session/wrap-session</span> <span class="nv">true</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>ミドルウェアがかなり増えてきてちょっと複雑になってきた気がするのでこれをまずはスマートにしましょう。独自で <code class="docutils literal"><span class="pre">todo-clj.middleware/wrap-dev</span></code> のような関数を作ってしまっても良いのですが、実は広く一般に使われているライブラリでこれらを統合しているものがあるのでそれを使いたいと思います。ライブラリの名前は <cite>Ring-Defaults</cite> です。依存関係へと追加します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">compojure</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">hiccup</span> <span class="s">&quot;1.0.5&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">environ</span> <span class="s">&quot;1.0.1&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.clojure/java.jdbc</span> <span class="s">&quot;0.4.2&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.postgresql/postgresql</span> <span class="s">&quot;9.4-1205-jdbc42&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">bouncer</span> <span class="s">&quot;0.3.3&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring/ring-defaults</span> <span class="s">&quot;0.1.5&quot;</span><span class="p">]]</span> <span class="c1">;; &lt;- New</span>
+</pre></div>
+</div>
+<p>REPL を再起動して早速導入しましょう、と言いたいところですがどんなライブラリがこれで使えるようになるのか理解していないと「とりあえずこれ追加すれば OK 」という風になってしまうので少しばかり遠回りして解説しましょう。</p>
+<p>私たちがこれから使おうとしているミドルウェアは <code class="docutils literal"><span class="pre">ring.middleware.defaults/wrap-defaults</span></code> というもので、その全貌は以下のようになっています。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; in ring.middleware.defaults ns</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-defaults</span>
+  <span class="s">&quot;Wraps a handler in default Ring middleware, as specified by the supplied</span>
+<span class="s">  configuration map.</span>
+<span class="s">  See: api-defaults</span>
+<span class="s">       site-defaults</span>
+<span class="s">       secure-api-defaults</span>
+<span class="s">       secure-site-defaults&quot;</span>
+  <span class="p">[</span><span class="nv">handler</span> <span class="nv">config</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="nv">handler</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-anti-forgery</span>     <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:security</span> <span class="ss">:anti-forgery</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-flash</span>            <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:session</span> <span class="ss">:flash</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-session</span>          <span class="p">(</span><span class="ss">:session</span> <span class="nv">config</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-keyword-params</span>   <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:keywordize</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-nested-params</span>    <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:nested</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-multipart-params</span> <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:multipart</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-params</span>           <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:params</span> <span class="ss">:urlencoded</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-cookies</span>          <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:cookies</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-absolute-redirects</span> <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:responses</span> <span class="ss">:absolute-redirects</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-resource</span>         <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:static</span> <span class="ss">:resources</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-file</span>             <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:static</span> <span class="ss">:files</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-content-type</span>     <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:responses</span> <span class="ss">:content-types</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-default-charset</span>  <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:responses</span> <span class="ss">:default-charset</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-not-modified</span>     <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:responses</span> <span class="ss">:not-modified-responses</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-x-headers</span>        <span class="p">(</span><span class="ss">:security</span> <span class="nv">config</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-hsts</span>             <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:security</span> <span class="ss">:hsts</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-ssl-redirect</span>     <span class="p">(</span><span class="nf">get-in</span> <span class="nv">config</span> <span class="p">[</span><span class="ss">:security</span> <span class="ss">:ssl-redirect</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-forwarded-scheme</span>      <span class="p">(</span><span class="nb">boolean </span><span class="p">(</span><span class="ss">:proxy</span> <span class="nv">config</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-forwarded-remote-addr</span> <span class="p">(</span><span class="nb">boolean </span><span class="p">(</span><span class="ss">:proxy</span> <span class="nv">config</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/ring-clojure/ring-defaults/blob/e86b1c033d52d460cd622064c29a943b5569dffe/src/ring/middleware/defaults.clj#L81">ring-defaults</a> より引用しましたが、今まで書いてきたコードと似たようなコードがあることに気付いたでしょうか。 <cite>flash</cite>, <cite>session</cite>, <cite>params</cite> などなど今まで必要に迫られて追加してきたものですが、今回欲しい <cite>anti-forgery</cite> ミドルウェアが入っているのも確認出来ます。さて、このミドルウェアですが第一引数にハンドラーを受け取るのは他と同様ですが、第二引数に設定をマップデータとして受け取るようです。ではその設定はいちいち自分で書かないといけないのかというとそうではなく、これも同じネームスペースにあるのでそれを使います。 <code class="docutils literal"><span class="pre">secure-api-defaults</span></code>, <code class="docutils literal"><span class="pre">api-defaults</span></code>, <code class="docutils literal"><span class="pre">secure-site-defaults</span></code>, <code class="docutils literal"><span class="pre">site-defaults</span></code> とありますが、今回は <code class="docutils literal"><span class="pre">side-defaults</span></code> を使うことにしましょう。実際に使う場合は次のようになると思います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">ns </span><span class="nv">example.core</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">ring.middleware.defaults</span> <span class="ss">:as</span> <span class="nv">defaults</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">do-something</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nf">defaults/wrap-defaults</span> <span class="nv">handler</span> <span class="nv">defaults/site-defaults</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>またこの初期設定( <code class="docutils literal"><span class="pre">site-defaults</span></code> など)がこのまま使いたくない、気に入らないという場合はそれぞれただのマップデータなので書き換え可能です。例えばこんな風に。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">my-defaults</span>
+  <span class="p">(</span><span class="nf">assoc-in</span> <span class="nv">defaults/site-defaults</span> <span class="p">[</span><span class="ss">:security</span> <span class="ss">:anti-forgery</span><span class="p">]</span> <span class="nv">false</span><span class="p">))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nf">defaults/wrap-defaults</span> <span class="nv">handler</span> <span class="nv">my-defaults</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>このように自分で何が必要かを選んで適用することが出来るのでテストのときは適用するミドルウェアを変更したいなどという要望に対応することが出来ます。実際にこの <code class="docutils literal"><span class="pre">wrap-defaults</span></code> ミドルウェアを私たちの TODO アプリへと適用します。</p>
+<p><code class="docutils literal"><span class="pre">todo-clj.middleware</span></code> ネームスペースへ次のような <code class="docutils literal"><span class="pre">middleware-set</span></code> 関数を足します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/middleware.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.middleware</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.defaults</span> <span class="ss">:as</span> <span class="nv">defaults</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="o">^</span><span class="ss">:private</span> <span class="nv">wrap</span> <span class="o">#</span><span class="ss">&#39;defaults/wrap</span><span class="p">)</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">middleware-set</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="nv">handler</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-dev</span> <span class="p">(</span><span class="ss">:dev</span> <span class="nv">env</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">defaults/wrap-defaults</span> <span class="nv">defaults/site-defaults</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>元々、 <code class="docutils literal"><span class="pre">todo-clj.core</span></code> で <code class="docutils literal"><span class="pre">require</span></code> していた environ もこちらに持ってきています。 <code class="docutils literal"><span class="pre">wrap</span></code> 関数は <code class="docutils literal"><span class="pre">todo-clj.core</span></code> で実装していたのを <code class="docutils literal"><span class="pre">ring.middleware.defaults</span></code> のものを使うようにしました。今まで <code class="docutils literal"><span class="pre">todo-clj.core/app</span></code> に対して色々なミドルウェアを <code class="docutils literal"><span class="pre">middleware-set</span></code> 関数で一旦受けてそれをあとで <code class="docutils literal"><span class="pre">todo-clj.core/app</span></code> に適用するということですね。それでは <code class="docutils literal"><span class="pre">todo-clj.core</span></code> も修正しましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.main</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">main-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.todo</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">todo-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.middleware</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">middleware-set</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nf">middleware-set</span>
+   <span class="p">(</span><span class="nf">routes</span>
+    <span class="nv">todo-routes</span>
+    <span class="nv">main-routes</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>色々と <code class="docutils literal"><span class="pre">require</span></code> していたものがなくなったので <code class="docutils literal"><span class="pre">ns</span></code> マクロがスッキリしました。また沢山のミドルウェアをスレッディングマクロで適用していた <code class="docutils literal"><span class="pre">app</span></code> もスッキリとしています。ここまで書き換えたらサーバーを再起動します。ミドルウェアを追加したりした場合は <cite>reload</cite> ミドルウェアでは解決出来ないことがあるのでサーバーを再起動する必要があります。</p>
+<p>試しに TODO を追加してみましょう。</p>
+<p>…ちゃんと &#8220;Invalid anti-forgery token&#8221; というメッセージを見ることが出来たでしょうか? <cite>anti-forgery</cite> ミドルウェアを追加したのでビューに <cite>anti-forgery</cite> ミドルウェアが提供するトークンを埋め込む必要があります。早速やってみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">hiccup.form</span> <span class="ss">:as</span> <span class="nv">hf</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.util.anti-forgery</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">anti-forgery-field</span><span class="p">]]</span> <span class="c1">;; `anti-forgery` ミドルウェアと一緒に提供されるユーティリティ</span>
+            <span class="p">[</span><span class="nv">todo-clj.view.layout</span> <span class="ss">:as</span> <span class="nv">layout</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;TODO 追加&quot;</span><span class="p">]</span>
+        <span class="p">(</span><span class="nf">hf/form-to</span>
+         <span class="p">[</span><span class="ss">:post</span> <span class="s">&quot;/todo/new&quot;</span><span class="p">]</span>
+         <span class="p">(</span><span class="nf">anti-forgery-field</span><span class="p">)</span> <span class="c1">;; 他の POST するフォームにも同じように追加</span>
+         <span class="p">(</span><span class="nf">error-messages</span> <span class="nv">req</span><span class="p">)</span>
+         <span class="p">[</span><span class="ss">:input</span> <span class="p">{</span><span class="ss">:name</span> <span class="ss">:title</span> <span class="ss">:placeholder</span> <span class="s">&quot;TODO を入力してください&quot;</span><span class="p">}]</span>
+         <span class="p">[</span><span class="ss">:button.bg-blue</span> <span class="s">&quot;追加する&quot;</span><span class="p">])]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/23a10949232b2acceaca3171094333d01a68c9fd">commit: Ring-Defaults ミドルウェアを追加</a></li>
+</ul>
+<p><cite>Ring-Anti-Forgery</cite> は <code class="docutils literal"><span class="pre">ring.util.anti-forgery/anti-forgery-field</span></code> という関数を提供しているので、基本的にこれを使えば問題なく POST 処理が出来るようになります。また、どうしても生のトークンが欲しい場合は <code class="docutils literal"><span class="pre">ring.middleware.anti-forgery/*anti-forgery-token*</span></code> を参照することで手に入れることが出来ます。</p>
+<p>改めて TODO を追加しようとすると今度は成功するようになっていると思います。これで CSRF 対策が出来ました。とはいっても簡単にこれを確かめることが出来ないので効果が分かり難いですが、例えば Ajax で TODO を追加しようとすると弾かれます(もし、時間があって気になる方はミドルウェア適用前後で効果を確認してみましょう)。</p>
+</div>
+<div class="section" id="id12">
+<h3>エラーをうまく処理する<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>これまでのプログラムではエラーに対する処理が欠けていました。例えば、更新処理のリクエストを投げたときに更新対象が削除されていたらどうするのかとか、編集しようと思って編集画面を開こうとしたときに更新対象が削除されていたらどうするのかとか、そういうケースに対して現在は何も対策をしていません。</p>
+<p>試しに <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1/edit</span></code> を開いたまま、別のタブで <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1</span></code> を削除してみます。削除出来たら編集画面を開いているタブから適当な値を入力して更新ボタンを押してみます。すると <code class="docutils literal"><span class="pre">&quot;Not</span> <span class="pre">found&quot;</span></code> が表示されたと思います。本当は <code class="docutils literal"><span class="pre">&quot;Not</span> <span class="pre">found&quot;</span></code> ではなくて、 <code class="docutils literal"><span class="pre">&quot;Conflict&quot;</span></code> とか表示させたいような気がします。適切な HTTP ステータスコードの選び方はここで説明しませんが、ここでは適切なエラー処理の仕方を説明したいと思います。</p>
+<p>まずは新しくライブラリをみっつ追加します。 ring-http-response と slingshot 、それから potemkin です。実際に使いたいのは ring-http-response だけなんですが、これを追加するときに細かいことを色々としたいので他のふたつも一緒に追加しています。簡単に説明するなら ring-http-response は <code class="docutils literal"><span class="pre">ring.util.response</span></code> ネームスペースを置き換える便利な HTTP レスポンスに関するライブラリで、 slingshot は Clojure の <code class="docutils literal"><span class="pre">try</span></code> と <code class="docutils literal"><span class="pre">throw</span></code> のそれぞれと互換がある <code class="docutils literal"><span class="pre">try+</span></code>, <code class="docutils literal"><span class="pre">throw+</span></code> というマクロを提供するライブラリ、 potemkin は特化した機能はありませんが幾つかの便利な関数/マクロを提供してくれるライブラリです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">compojure</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">hiccup</span> <span class="s">&quot;1.0.5&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">environ</span> <span class="s">&quot;1.0.1&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.clojure/java.jdbc</span> <span class="s">&quot;0.4.2&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.postgresql/postgresql</span> <span class="s">&quot;9.4-1205-jdbc42&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">bouncer</span> <span class="s">&quot;0.3.3&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring/ring-defaults</span> <span class="s">&quot;0.1.5&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">metosin/ring-http-response</span> <span class="s">&quot;0.6.5&quot;</span><span class="p">]</span> <span class="c1">;; new</span>
+               <span class="p">[</span><span class="nv">slingshot</span> <span class="s">&quot;0.12.2&quot;</span><span class="p">]</span> <span class="c1">;; new</span>
+               <span class="p">[</span><span class="nv">potemkin</span> <span class="s">&quot;0.4.1&quot;</span><span class="p">]]</span> <span class="c1">;; new</span>
+</pre></div>
+</div>
+<p>プロジェクトの依存関係へ追加したら REPL を再起動して、私たちの <code class="docutils literal"><span class="pre">todo-clj.util.response</span></code> を強力にしたいと思います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/util/response.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.util.response</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">potemkin</span> <span class="ss">:as</span> <span class="nv">p</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.util.http-response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defmacro </span><span class="nv">import-ns</span> <span class="p">[</span><span class="nv">ns-sym</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">do</span>
+    <span class="o">`</span><span class="p">(</span><span class="nf">p/import-vars</span>
+      <span class="p">[</span><span class="o">~</span><span class="nv">ns-sym</span>
+       <span class="o">~@</span><span class="p">(</span><span class="nb">map first </span><span class="p">(</span><span class="nb">ns-publics </span><span class="nv">ns-sym</span><span class="p">))])))</span>
+
+<span class="p">(</span><span class="nf">import-ns</span> <span class="nv">ring.util.http-response</span><span class="p">)</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">html</span> <span class="p">[</span><span class="nv">res</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">res/content-type</span> <span class="nv">res</span> <span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>potemkin のマクロのひとつ <code class="docutils literal"><span class="pre">potemkin/import-vars</span></code> を拡張して、特定のネームスペースにある全ての公開された <code class="docutils literal"><span class="pre">Var</span></code> を <code class="docutils literal"><span class="pre">*ns*</span></code> に追加します。そして <code class="docutils literal"><span class="pre">import-ns</span></code> マクロを使って <code class="docutils literal"><span class="pre">ring.util.http-response</span></code> から全ての <code class="docutils literal"><span class="pre">Var</span></code> を <code class="docutils literal"><span class="pre">todo-clj.util.response</span></code> へと追加しています。 <code class="docutils literal"><span class="pre">potemkin/import-vars</span></code> は以前 <code class="docutils literal"><span class="pre">todo-clj.util.response</span></code> で <code class="docutils literal"><span class="pre">response</span></code> 関数を定義したようなことをマクロで機械的にやってくれています。ちなみに今まで定義していた <code class="docutils literal"><span class="pre">response</span></code> 関数や <code class="docutils literal"><span class="pre">redirect</span></code> 関数は機能が重複するものが <code class="docutils literal"><span class="pre">ring.util.http-response</span></code> から提供されるので削除しました。</p>
+<p><code class="docutils literal"><span class="pre">ring.util.http-response</span></code> と <code class="docutils literal"><span class="pre">ring.util.response</span></code> は似ているので基本的には同じように使えるのですが、 <code class="docutils literal"><span class="pre">response</span></code> は <code class="docutils literal"><span class="pre">ok</span></code> に <code class="docutils literal"><span class="pre">redirect</span></code> は <code class="docutils literal"><span class="pre">found</span></code> という名前なのでそれにあわせてハンドラーの方も修正します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-new-view</span> <span class="nv">req</span><span class="p">)</span>
+      <span class="nv">res/ok</span> <span class="c1">;; response -&gt; ok</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nf">uv/with-fallback</span> <span class="o">#</span><span class="p">(</span><span class="nf">todo-new</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">req</span> <span class="ss">:errors</span> <span class="nv">%</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">uv/validate</span> <span class="nv">params</span> <span class="nv">todo-validator</span><span class="p">)]</span>
+      <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/save-todo</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">)))]</span>
+        <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/found</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="p">(</span><span class="ss">:id</span> <span class="nv">todo</span><span class="p">)))</span> <span class="c1">;; redirect -&gt; found</span>
+            <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に追加しました。&quot;</span><span class="p">})</span>
+            <span class="nv">res/html</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p>これで一旦、 <code class="docutils literal"><span class="pre">todo-clj.util.response</span></code> に対する修正は終わりました。次はエラー処理を追加していきます。どう実装するかは好みの問題ですが、ここでは簡単さを取って各ハンドラーは 404 や 500 という状態のときになったらその情報を持たせた例外を投げることにして、レスポンスに対するミドルウェアでその例外をキャッチをしそれぞれの画面を表示するという風にしましょう。 <code class="docutils literal"><span class="pre">ring.util.http-response</span></code> ネームスペースはエラー用の関数を幾つか提供してくれるのでそれを使いましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nf">todo/find-first-todo</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-show-view</span> <span class="nv">req</span> <span class="nv">todo</span><span class="p">)</span>
+        <span class="nv">res/ok</span>
+        <span class="nv">res/html</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">res/not-found!</span><span class="p">)))</span> <span class="c1">;; ``todo-clj.util.response`` は ``ring.util.http-response`` の関数を全てインポートしているのでこのように使える</span>
+</pre></div>
+</div>
+<p>このように今まで実装していなかったところに対して例外を投げる関数を置いてみました。 <code class="docutils literal"><span class="pre">ring.util.http-response</span></code> ネームスペースの関数でエクスクラメーションマークが付いているものは例外を投げ、エクスクラメーションマークがない同名の関数は例外を投げずにエラーのレスポンスマップを返却します。 <code class="docutils literal"><span class="pre">not-found!</span></code> に対応する <code class="docutils literal"><span class="pre">not-found</span></code> という関数があるので REPL で確認してみると良いでしょう。今回は例外を投げる方法で実装していきますが、例外を使わずにエラー用のページを用意してそれを表示するというのでも良いと思います。</p>
+<p>さて、もしかしたら気付いている方もいると思いますが、 <code class="docutils literal"><span class="pre">not-found!</span></code> を <code class="docutils literal"><span class="pre">todo-show</span></code> 関数の中で実行しないでも実はちゃんと <code class="docutils literal"><span class="pre">&quot;Not</span> <span class="pre">found&quot;</span></code> と表示されるようになってました。何故今まで何も実装していないのにこうなっていたのでしょう。理由は Compojure にあります。 Compojure はマッチするルーティングを探して定義順にマッチするものを探していくのですが、マッチしたハンドラーが <code class="docutils literal"><span class="pre">nil</span></code> を返却してくる場合は再度そこからルーティングを探し直します。</p>
+<p>分かりやすいように次のようなルーティングを考えます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">app</span>
+  <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/a&quot;</span> <span class="nv">req</span> <span class="nv">a-index</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">GET</span> <span class="p">[</span><span class="s">&quot;/a/:id&quot;</span> <span class="ss">:id</span> <span class="o">#</span><span class="s">&quot;\d+&quot;</span><span class="p">]</span> <span class="nv">req</span> <span class="nv">a-show</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/a/:command&quot;</span> <span class="nv">req</span> <span class="nv">req</span> <span class="nv">a-command</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">route/not-found</span> <span class="s">&quot;&lt;h1&gt;Not found&lt;/h1&gt;&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>これに対して <code class="docutils literal"><span class="pre">/a/99</span></code> というパスからアクセスがきた場合、まずはマッチするルーティングが <code class="docutils literal"><span class="pre">a-show</span></code> になるのでそれを実行します。しかし、何かしらの問題があってこのハンドラー関数が <code class="docutils literal"><span class="pre">nil</span></code> を返してきた場合、 Compojure は更に下って <code class="docutils literal"><span class="pre">a-command</span></code> ハンドラーを実行します。もし、 <code class="docutils literal"><span class="pre">a-command</span></code> が <code class="docutils literal"><span class="pre">nil</span></code> を返却した場合は最後に <code class="docutils literal"><span class="pre">route/not-found</span></code> が実行されて画面には <code class="docutils literal"><span class="pre">&quot;Not</span> <span class="pre">found&quot;</span></code> と表示されるわけですね。</p>
+<p>じゃあ、 <code class="docutils literal"><span class="pre">todo-show</span></code> の中で <code class="docutils literal"><span class="pre">not-found!</span></code> 実行しなくてもいいんじゃない?と思うかもしれませんが、それは違います。理由はふたつあって (1) Compojure の実装に依存してしまっている、 (2) 先の例にあったようにもしその後にマッチしてしまうルーティングが存在するならそちらが実行されてしまうので、ここでちゃんとエラーを処理しておく必要があります。</p>
+<p>さて、 Compojure の話になってしまいましたが、 <code class="docutils literal"><span class="pre">not-found!</span></code> を <code class="docutils literal"><span class="pre">todo-show</span></code> の中においただけでは例外を投げっぱなしになっているのでこれを受けてやるミドルウェアを実装していきます。今、 <code class="docutils literal"><span class="pre">not-found!</span></code> 関数がどんな例外を投げているのかは REPL で確かめてみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">])</span> <span class="c1">;; 重ねて説明しておくと ``ring.util.http-response`` の関数が全てインポートされている</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">res/not-found!</span><span class="p">)</span>
+<span class="c1">;; =&gt; ExceptionInfo throw+: {:type :ring.util.http-response/response, :response {:status 404, :headers {}, :body nil}}  ring.util.http-response/throw! (http_response.clj:10)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">ExceptionInfo</span></code> を投げているので Clojure のマップデータも一緒に投げています。そして、 <code class="docutils literal"><span class="pre">ring.util.http-response</span></code> にある例外を投げる関数(エクスクラメーションマーク付き)は slingshot の <code class="docutils literal"><span class="pre">throw+</span></code> を使っているので、同じく slingshot が提供する <code class="docutils literal"><span class="pre">try+</span></code> を使うことで簡単にそのデータを取得したりハンドルする例外を定めることが出来ます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">slingshot.slingshot</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">try+</span> <span class="nv">throw+</span><span class="p">]])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">try+</span> <span class="p">(</span><span class="nf">throw+</span> <span class="p">{</span><span class="ss">:type</span> <span class="ss">:bar</span> <span class="ss">:msg</span> <span class="s">&quot;this is bar&quot;</span><span class="p">})</span>
+            <span class="p">(</span><span class="nf">catch</span> <span class="p">[</span><span class="ss">:type</span> <span class="ss">:foo</span><span class="p">]</span> <span class="p">{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span>
+              <span class="p">(</span><span class="nb">println </span><span class="s">&quot;Exception type is foo: &quot;</span> <span class="nv">msg</span><span class="p">))</span>
+            <span class="p">(</span><span class="nf">catch</span> <span class="p">[</span><span class="ss">:type</span> <span class="ss">:bar</span><span class="p">]</span> <span class="p">{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span>
+              <span class="p">(</span><span class="nb">println </span><span class="s">&quot;Exception type is bar: &quot;</span> <span class="nv">msg</span><span class="p">)))</span>
+<span class="c1">;; Exception type is bar:  this is bar</span>
+<span class="c1">;; =&gt; nil</span>
+</pre></div>
+</div>
+<p>こんな感じで <code class="docutils literal"><span class="pre">ExceptionInfo</span></code> の例外に付随するマップ情報でマッチした場合に、それを処理するということが簡単に出来ます。ここまで分かったところで前置きが長くなりましたがミドルウェアを実装します。あらたに <code class="docutils literal"><span class="pre">todo-clj.middleware.http-response</span></code> ネームスペースを作りましょう。実装は以下のようになります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/middleware/http_response.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.middleware.http-response</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">hiccup.core</span> <span class="ss">:as</span> <span class="nv">h</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.util.http-status</span> <span class="ss">:as</span> <span class="nv">status</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">slingshot.slingshot</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">try+</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn- </span><span class="nv">error-view</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">response</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">status</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nb">name </span><span class="nv">description</span><span class="p">]}</span> <span class="p">(</span><span class="nf">status/status</span> <span class="nv">status</span><span class="p">)]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="o">`</span><span class="p">([</span><span class="ss">:h1</span> <span class="o">~</span><span class="nv">name</span><span class="p">]</span>
+          <span class="p">[</span><span class="ss">:h2</span> <span class="o">~</span><span class="nv">description</span><span class="p">])</span>
+        <span class="nv">h/html</span>
+        <span class="nv">res/ok</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-http-response</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+    <span class="p">(</span><span class="nf">try+</span>
+     <span class="p">(</span><span class="nf">handler</span> <span class="nv">req</span><span class="p">)</span>
+     <span class="p">(</span><span class="nf">catch</span> <span class="p">[</span><span class="ss">:type</span> <span class="ss">:ring.util.http-response/response</span><span class="p">]</span> <span class="p">{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">response</span><span class="p">]}</span>
+       <span class="p">(</span><span class="nf">error-view</span> <span class="nv">response</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">wrap-http-response</span></code> 関数は簡単ですね。ハンドラーの実行を <code class="docutils literal"><span class="pre">try+</span></code> マクロで囲んで、 <code class="docutils literal"><span class="pre">ExceptionInfo</span></code> のマップデータにある <code class="docutils literal"><span class="pre">:type</span></code> が <code class="docutils literal"><span class="pre">:ring.util.http-response/response</span></code> のときのみ例外を処理します。 <code class="docutils literal"><span class="pre">error-view</span></code> 関数はエラーの名前の説明を表示するだけです。ミドルウェアを作ったら適用しましょう。 <code class="docutils literal"><span class="pre">todo-clj.middleware/middleware-set</span></code> の中に入れてみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/middleware.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.middleware</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.defaults</span> <span class="ss">:as</span> <span class="nv">defaults</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.middleware.http-response</span> <span class="ss">:as</span> <span class="nv">http-response</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">middleware-set</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="nv">handler</span>
+      <span class="nv">http-response/wrap-http-response</span> <span class="c1">;; ここに追加</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-dev</span> <span class="p">(</span><span class="ss">:dev</span> <span class="nv">env</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">defaults/wrap-defaults</span> <span class="nv">defaults/site-defaults</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>レスポンスに対するミドルウェアなので <code class="docutils literal"><span class="pre">wrap-dev</span></code> より内側にある必要があります( <code class="docutils literal"><span class="pre">prone.middleware/wrap-exceptions</span></code> が全ての例外を掴んじゃうのでそれより先に例外を掴む必要がある)。ここまで出来たら一旦サーバーを再起動してみて、 <code class="docutils literal"><span class="pre">http://localhost:3000/todo/1</span></code> とか削除した TODO にアクセスしてみましょう。綺麗に <code class="docutils literal"><span class="pre">&quot;Not</span> <span class="pre">Found&quot;</span></code> とその下に説明が表示されたら成功です。あとは他のハンドラーにも適当なエラー処理を追加してあげれば良さそうです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/main.clj</span>
+<span class="p">(</span><span class="nf">defroutes</span> <span class="nv">main-routes</span>
+  <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">_</span> <span class="nv">home</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">route/not-found</span> <span class="nv">res/not-found!</span><span class="p">))</span> <span class="c1">;; ここも修正</span>
+</pre></div>
+</div>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-new-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nf">uv/with-fallback</span> <span class="o">#</span><span class="p">(</span><span class="nf">todo-new</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">req</span> <span class="ss">:errors</span> <span class="nv">%</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">uv/validate</span> <span class="nv">params</span> <span class="nv">todo-validator</span><span class="p">)]</span>
+      <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/save-todo</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">)))]</span>
+        <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/found</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="p">(</span><span class="ss">:id</span> <span class="nv">todo</span><span class="p">)))</span>
+            <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に追加しました。&quot;</span><span class="p">})</span>
+            <span class="nv">res/html</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">res/internal-server-error!</span><span class="p">)))))</span> <span class="c1">;; 追加</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nf">todo/find-first-todo</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-edit-view</span> <span class="nv">req</span> <span class="nv">todo</span><span class="p">)</span>
+        <span class="nv">res/ok</span>
+        <span class="nv">res/html</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">res/not-found!</span><span class="p">)))</span> <span class="c1">;; 追加</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-edit-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nf">uv/with-fallback</span> <span class="o">#</span><span class="p">(</span><span class="nf">todo-edit</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">req</span> <span class="ss">:errors</span> <span class="nv">%</span><span class="p">))</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">uv/validate</span> <span class="nv">params</span> <span class="nv">todo-validator</span><span class="p">)</span>
+          <span class="nv">todo-id</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">))]</span>
+      <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/update-todo</span> <span class="nv">todo-id</span> <span class="p">(</span><span class="ss">:title</span> <span class="nv">params</span><span class="p">))))</span>
+        <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/found</span> <span class="p">(</span><span class="nb">str </span><span class="s">&quot;/todo/&quot;</span> <span class="nv">todo-id</span><span class="p">))</span>
+            <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に更新しました&quot;</span><span class="p">})</span>
+            <span class="nv">res/html</span><span class="p">)</span>
+        <span class="p">(</span><span class="nf">res/conflict!</span><span class="p">)))))</span> <span class="c1">;; 追加</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-delete</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">todo</span> <span class="p">(</span><span class="nf">todo/find-first-todo</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">)))]</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-delete-view</span> <span class="nv">req</span> <span class="nv">todo</span><span class="p">)</span>
+        <span class="nv">res/ok</span>
+        <span class="nv">res/html</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">res/not-found!</span><span class="p">)))</span> <span class="c1">;; 追加</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-delete-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">))]</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/delete-todo</span> <span class="nv">todo-id</span><span class="p">)))</span>
+      <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">res/found</span> <span class="s">&quot;/todo&quot;</span><span class="p">)</span>
+          <span class="p">(</span><span class="nb">assoc </span><span class="ss">:flash</span> <span class="p">{</span><span class="ss">:msg</span> <span class="s">&quot;TODO を正常に削除しました&quot;</span><span class="p">})</span>
+          <span class="nv">res/html</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">res/conflict!</span><span class="p">))))</span> <span class="c1">;; 追加</span>
+</pre></div>
+</div>
+<p>さて、これで正しくエラー処理が出来たような気がするので、試しに REPL 上で以下のように試してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.handler.todo</span> <span class="ss">:as</span> <span class="nv">ht</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">ht/todo-edit-post</span> <span class="p">{</span><span class="ss">:params</span> <span class="p">{</span><span class="ss">:todo-id</span> <span class="s">&quot;1&quot;</span> <span class="ss">:title</span> <span class="s">&quot;食器を片付ける&quot;</span><span class="p">}})</span>
+<span class="c1">;; =&gt; ExceptionInfo throw+: {:type :ring.util.http-response/response, :response {:status 404, :headers {}, :body nil}}  ring.util.http-response/throw! (http_response.clj:10)</span>
+</pre></div>
+</div>
+<p>既に削除されている TODO に対して更新処理をかけようとしました。ですが、どうやら投げられている例外が期待しているものと違うようです( 404 ではなくて 409 のはず)。どういうことでしょう。例外を読んでみるとなんとなく原因が分かります。</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">http_response</span><span class="o">.</span><span class="na">clj</span><span class="o">:</span>  <span class="mi">283</span>  <span class="n">ring</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">http</span><span class="o">-</span><span class="n">response</span><span class="o">/</span><span class="n">not</span><span class="o">-</span><span class="n">found</span><span class="o">!</span>
+<span class="n">http_response</span><span class="o">.</span><span class="na">clj</span><span class="o">:</span>  <span class="mi">281</span>  <span class="n">ring</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">http</span><span class="o">-</span><span class="n">response</span><span class="o">/</span><span class="n">not</span><span class="o">-</span><span class="n">found</span><span class="o">!</span>
+         <span class="n">todo</span><span class="o">.</span><span class="na">clj</span><span class="o">:</span>   <span class="mi">45</span>  <span class="n">todo</span><span class="o">-</span><span class="n">clj</span><span class="o">.</span><span class="na">handler</span><span class="o">.</span><span class="na">todo</span><span class="o">/</span><span class="n">todo</span><span class="o">-</span><span class="n">edit</span>
+         <span class="n">todo</span><span class="o">.</span><span class="na">clj</span><span class="o">:</span>   <span class="mi">48</span>  <span class="n">todo</span><span class="o">-</span><span class="n">clj</span><span class="o">.</span><span class="na">handler</span><span class="o">.</span><span class="na">todo</span><span class="o">/</span><span class="n">todo</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">post</span><span class="o">/</span><span class="n">fn</span>
+         <span class="n">todo</span><span class="o">.</span><span class="na">clj</span><span class="o">:</span>   <span class="mi">48</span>  <span class="n">todo</span><span class="o">-</span><span class="n">clj</span><span class="o">.</span><span class="na">handler</span><span class="o">.</span><span class="na">todo</span><span class="o">/</span><span class="n">todo</span><span class="o">-</span><span class="n">edit</span><span class="o">-</span><span class="n">post</span>
+             <span class="n">REPL</span><span class="o">:</span>   <span class="mi">60</span>  <span class="n">user</span><span class="o">/</span><span class="n">eval29218</span>
+</pre></div>
+</div>
+<p>どうやら <code class="docutils literal"><span class="pre">not-found!</span></code> を <code class="docutils literal"><span class="pre">todo-edit</span></code> が実行しているようです。 <code class="docutils literal"><span class="pre">todo-edit-post</span></code> から呼び出されているようですが、これはつまり <code class="docutils literal"><span class="pre">todo-clj.util.validation/with-fallback</span></code> が機能しているということです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/util/validation.clj</span>
+<span class="p">(</span><span class="kd">defmacro </span><span class="nv">with-fallback</span> <span class="p">[</span><span class="nv">fallback</span> <span class="o">&amp;</span> <span class="nv">body</span><span class="p">]</span>
+  <span class="o">`</span><span class="p">(</span><span class="nf">try</span>
+     <span class="o">~@</span><span class="nv">body</span>
+     <span class="p">(</span><span class="nf">catch</span> <span class="nv">clojure.lang.ExceptionInfo</span> <span class="nv">e#</span>
+       <span class="p">(</span><span class="o">~</span><span class="nv">fallback</span> <span class="p">(</span><span class="nf">ex-data</span> <span class="nv">e#</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p>ありました。 <code class="docutils literal"><span class="pre">ExceptionInfo</span></code> を全てキャッチするので、 <code class="docutils literal"><span class="pre">slingshot.slingshot/throw+</span></code> で投げる例外は全てココで捕まっていたようです。なので、ここも修正して slingshot を使うことにしましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/util/validation.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.util.validation</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">bouncer.core</span> <span class="ss">:as</span> <span class="nv">b</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">slingshot.slingshot</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">try+</span> <span class="nv">throw+</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">validate</span> <span class="p">[</span><span class="o">&amp;</span> <span class="nv">args</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[[</span><span class="nv">errors</span> <span class="nv">org+errors</span><span class="p">]</span> <span class="p">(</span><span class="nb">apply </span><span class="nv">b/validate</span> <span class="nv">args</span><span class="p">)]</span>
+    <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">nil? </span><span class="nv">errors</span><span class="p">)</span>
+      <span class="nv">org+errors</span>
+      <span class="p">(</span><span class="nf">throw+</span> <span class="p">{</span><span class="ss">:type</span> <span class="ss">::validation-error</span> <span class="ss">:errors</span> <span class="nv">errors</span><span class="p">}))))</span> <span class="c1">;; ``throw+`` を使って ``:type`` を指定しておく</span>
+
+<span class="p">(</span><span class="kd">defmacro </span><span class="nv">with-fallback</span> <span class="p">[</span><span class="nv">fallback</span> <span class="o">&amp;</span> <span class="nv">body</span><span class="p">]</span>
+  <span class="o">`</span><span class="p">(</span><span class="nf">try+</span>
+    <span class="o">~@</span><span class="nv">body</span>
+    <span class="p">(</span><span class="nf">catch</span> <span class="p">[</span><span class="ss">:type</span> <span class="ss">::validation-error</span><span class="p">]</span> <span class="p">{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">errors#</span><span class="p">]}</span> <span class="c1">;; ``type`` が ``::validation-error`` のときだけ例外を処理するように変更</span>
+      <span class="p">(</span><span class="o">~</span><span class="nv">fallback</span> <span class="nv">errors#</span><span class="p">))))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/1218bf455b76613088431ac43c6155afb9db7be7">commit: エラー処理の追加( slingshot なども追加)</a></li>
+</ul>
+<p>これで良いでしょう。再度 REPL 上で確認してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">ht/todo-edit-post</span> <span class="p">{</span><span class="ss">:params</span> <span class="p">{</span><span class="ss">:todo-id</span> <span class="s">&quot;1&quot;</span> <span class="ss">:title</span> <span class="s">&quot;食器を片付ける&quot;</span><span class="p">}})</span>
+<span class="c1">;; =&gt; ExceptionInfo throw+: {:type :ring.util.http-response/response, :response {:status 409, :headers {}, :body nil}}  ring.util.http-response/throw! (http_response.clj:10)</span>
+</pre></div>
+</div>
+<p>ちゃんと期待通りのステータスを持った例外を投げることが出来ました。実際に画面上でも削除済みの TODO に対して更新処理を行おうとすると <code class="docutils literal"><span class="pre">&quot;Conflict&quot;</span></code> と表示されるようになりました。
+これでようやく TODO アプリとしてそれなりに使えるようになりました。次の Part では実際に Heroku へデプロイをしてみます。</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>ここまでで学んだこと<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>ring-anti-forgery ミドルウェアや ring-defaults ミドルウェアの関係</li>
+<li>バリデーション処理の書き方</li>
+<li>エラー処理の書き方</li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">Clojure の日本語ガイド</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="column_libraries_for_web.html" title="Column: Web アプリケーション開発でよく使うライブラリ" >前へ</a></li>
+        <li><a href="part7_how_to_deploy_to_heroku.html" title="Part7: どのようにして Heroku へデプロイするか" >次へ</a></li>
+        <li><a href="../genindex.html" title="総合索引" >索引</a></li>
+        <li><a href="index.html" >Clojure で Web 開発をはじめてみよう</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2015, ayato_p.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

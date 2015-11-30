@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Part2: Ring について知る &mdash; Clojure の日本語ガイド</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootswatch-cosmo.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" href="../_static/css/adjust_theme/bootswatch-cosmo.css" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
+    <link rel="up" title="Clojure で Web 開発をはじめてみよう" href="index.html" />
+    <link rel="next" title="Column: REPL 駆動開発を取り入れて Ring でもう少し遊んでみる" href="column_rdd_and_more_ring.html" />
+    <link rel="prev" title="Part1: 準備編" href="part1_prepare.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Clojure の日本語ガイド</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Part2: Ring について知る</a><ul>
+<li><a class="reference internal" href="#ring">Ring ってなんですか?</a></li>
+<li><a class="reference internal" href="#ring-4">Ring の 4 つのコンポーネント</a><ul>
+<li><a class="reference internal" href="#id2">リクエストをハンドリングする</a></li>
+<li><a class="reference internal" href="#id3">リクエストマップとレスポンスマップ</a><ul>
+<li><a class="reference internal" href="#id4">リクエストマップ</a></li>
+<li><a class="reference internal" href="#id5">レスポンスマップ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">機能をミドルウェアを使って足す</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#hello-world">サーバーを起動して &#8220;Hello, world&#8221; してみる</a></li>
+<li><a class="reference internal" href="#id9">ここまでで学んだこと</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="part1_prepare.html" title="Part1: 準備編" accesskey="P">前へ </a></li>
+              <li><a href="column_rdd_and_more_ring.html" title="Column: REPL 駆動開発を取り入れて Ring でもう少し遊んでみる" accesskey="N">次へ </a></li>
+              <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
+              <li><a href="index.html" accesskey="U">Clojure で Web 開発をはじめてみよう</a></li>
+            
+            <li class="visible-xs"><a href="../_sources/intro_web_development/part2_what_is_ring.txt" rel="nofollow">ソースコードを表示</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="検索" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation"><div id="toc" class="sidebarRow">
+
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Clojure で Web 開発をはじめてみよう</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">まえがき</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">中身について</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="part1_prepare.html"
+                        title="前の章へ">Part1: 準備編</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="column_rdd_and_more_ring.html"
+                        title="次の章へ">Column: REPL 駆動開発を取り入れて Ring でもう少し遊んでみる</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro_web_development/part2_what_is_ring.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>クイック検索</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="検索" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="part2-ring">
+<h1>Part2: Ring について知る<a class="headerlink" href="#part2-ring" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="ring">
+<h2>Ring ってなんですか?<a class="headerlink" href="#ring" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Web アプリケーションを作成したい場合、必ず必要となるのが Web サーバーです。その Web サーバーと Web アプリケーションやフレームワーク間の標準的なインターフェイスを定めたものが <a class="reference external" href="https://github.com/ring-clojure/ring">Ring</a> です。 Ruby でいう Rack 、 Python でいう WSGI とはよく言われますが、 Clojure におけるそれらが Ring ということですね。</p>
+<p>もしかするとあなたは Rack や WSGI というものをそれほど意識せずに Web アプリケーションを開発してきたかもしれませんが、 Clojure で Web アプリケーションを開発するのであれば遅かれ早かれこれを理解しておいたほうがいいです。何故なら、 Clojure では Rails のように Rack を隠してしまうフレームワークがないので、度々 Ring を意識する必要が出てくるからです。 Ring を理解せずに Web アプリケーションを開発しようとすると独自のミドルウェアを書くことが出来ませんし、 Web アプリケーションのデバッグが難しくなるでしょう。とはいっても Ring の考え方はとても簡単なので理解してしまえば、自分でミドルウェアなどを書いて簡単に拡張していくことが出来ます。</p>
+<p>この Part では Ring についての基本的な説明と実際に Ring を実装したサーバーを起動/停止するところまでを説明します。</p>
+</div>
+<div class="section" id="ring-4">
+<h2>Ring の 4 つのコンポーネント<a class="headerlink" href="#ring-4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Ring アプリケーションを作成する際に、意識しなければいけないものは以下の 4 つのコンポーネントです。</p>
+<ul class="simple">
+<li>ハンドラー</li>
+<li>ミドルウェア</li>
+<li>リクエストマップ</li>
+<li>レスポンスマップ</li>
+</ul>
+<p>Ring の仕様上ではこれともうひとつアダプタが存在しますが、基本的にユーザーが意識するものではないのでここでは省略します。簡単にこれらについて見て行きましょう。</p>
+<div class="section" id="id2">
+<h3>リクエストをハンドリングする<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Ring はクライアントからのリクエストとサーバーからのレスポンスを表現するのに Clojure のマップ(関数ではなくてデータ構造)を使います。ハンドラーはリクエストマップを受け取りレスポンスマップを返す関数です。例えば一番シンプルなハンドラーは次のようになります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:status</span> <span class="mi">200</span>
+   <span class="ss">:headers</span> <span class="p">{</span><span class="s">&quot;Content-Type&quot;</span> <span class="s">&quot;text/plain&quot;</span><span class="p">}</span>
+   <span class="ss">:body</span> <span class="p">(</span><span class="ss">:remote-addr</span> <span class="nv">req</span><span class="p">)})</span>
+</pre></div>
+</div>
+<p>このように Ring のハンドラーは単純な関数として実装出来るためテストが書きやすいというのも特筆すべきところでしょう。</p>
+</div>
+<div class="section" id="id3">
+<h3>リクエストマップとレスポンスマップ<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>先に記述した通りリクエストマップとレスポンスマップは単純な Clojure のマップです。</p>
+<div class="section" id="id4">
+<h4>リクエストマップ<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>Clojure のマップとして表現された HTTP リクエストです。リクエストマップは幾つかのスタンダードなキーが常に存在しますが、これら以外にもユーザーがミドルウェアを介して自由にキーを足すことが出来ます。</p>
+<p>スタンダードなキーは以下の通りです。</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">:server-port</span></code>
+リクエストをハンドルしたポート番号</li>
+<li><code class="docutils literal"><span class="pre">:server-name</span></code>
+解決されたサーバー名もしくは IP アドレス</li>
+<li><code class="docutils literal"><span class="pre">:remote-addr</span></code>
+クライアントか最後にリクエストを投げたプロキシの IP アドレス</li>
+<li><code class="docutils literal"><span class="pre">:uri</span></code>
+リクエスト URI (ドメイン名以下のフルパス)</li>
+<li><code class="docutils literal"><span class="pre">:query-string</span></code>
+もしあればクエリ文字列</li>
+<li><code class="docutils literal"><span class="pre">:scheme</span></code>
+トランスポートプロトコル <code class="docutils literal"><span class="pre">:http</span></code> または <code class="docutils literal"><span class="pre">:https</span></code></li>
+<li><code class="docutils literal"><span class="pre">:request-method</span></code>
+HTTP リクエストメソッド <code class="docutils literal"><span class="pre">:get</span></code>, <code class="docutils literal"><span class="pre">:head</span></code>, <code class="docutils literal"><span class="pre">:options</span></code>, <code class="docutils literal"><span class="pre">:put</span></code>, <code class="docutils literal"><span class="pre">:post</span></code>, <code class="docutils literal"><span class="pre">:delete</span></code> のいずれか</li>
+<li><code class="docutils literal"><span class="pre">:headers</span></code>
+ヘッダーの文字列を小文字化したキーを持つマップ</li>
+<li><code class="docutils literal"><span class="pre">:body</span></code>
+もしあればリクエストボディのための InputStream</li>
+</ul>
+<p>以下のキーは既に廃止予定となっているため使わない方がいいでしょう(まだ存在しますが)。</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">:content-type</span></code></li>
+<li><code class="docutils literal"><span class="pre">:content-length</span></code></li>
+<li><code class="docutils literal"><span class="pre">:character-encoding</span></code></li>
+</ul>
+<p>もし、既に Clojure で Web アプリケーションを開発したことがあればおそらくこれ以外のキーを見たことがあるでしょう(例えば <code class="docutils literal"><span class="pre">:params</span></code> や <code class="docutils literal"><span class="pre">:session</span></code> など)。
+それらはミドルウェアによって差し込まれたものですが、同様にそのようなミドルウェアを自分で作成して適用することも出来ます。ミドルウェアの作り方は後述します。</p>
+</div>
+<div class="section" id="id5">
+<h4>レスポンスマップ<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>ハンドラーが作成するレスポンスマップで、以下の 3 つのキーを持ちます。</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">:status</span></code>
+HTTP ステータス</li>
+<li><code class="docutils literal"><span class="pre">:headers</span></code>
+クライアントへと返す HTTP ヘッダー</li>
+<li><code class="docutils literal"><span class="pre">:body</span></code>
+レスポンスボディ</li>
+</ul>
+<p>ステータスは HTTP RFC で定義されているものと同じで 200 や 404 などというものです。</p>
+<p>ヘッダーは HTTP ヘッダーと同じ名前を使ったマップです。それぞれのバリューについて文字列か文字列のシーケンスを使うことが出来ますが、文字列の場合はそのまま HTTP レスポンスとして送信し、文字列のシーケンスの場合はそれぞれの値を送信します。</p>
+<p>ボディは文字列、シーケンス、ファイル、ストリームのいずれかの型を使うことができます。</p>
+<p>またレスポンスマップとしては上記の 3 つのキーだけで充分ですが、リクエストマップと同様にミドルウェアにてキーを追加したりレスポンスボディに変更を加えたりすることが出来ます(少々複雑にはなりますが)。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>機能をミドルウェアを使って足す<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ミドルウェアはハンドラーのための高階関数として定義されます。ミドルウェア関数は第一引数としてハンドラーを受け取り、新しいハンドラー関数を返さなければなりません。</p>
+<p>シンプルな例は次のようになります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-exclamation-mark</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">request</span><span class="p">]</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">response</span> <span class="p">(</span><span class="nf">handler</span> <span class="nv">request</span><span class="p">)]</span>
+      <span class="p">(</span><span class="nf">update</span> <span class="nv">response</span> <span class="ss">:body</span> <span class="o">#</span><span class="p">(</span><span class="nb">str </span><span class="nv">%</span> <span class="s">&quot;!!&quot;</span><span class="p">)))))</span>
+</pre></div>
+</div>
+<p>このミドルウェア関数はハンドラーが作る全てのレスポンスのボディに対してビックリマークを最後に足すものです(実用性は皆無ですが)。</p>
+<p>パッと見ると複雑そうに見えますが、冷静に見るととてもシンプルです。またこの例では古いハンドラーを評価して得たレスポンスマップに対して変更を加えていますが、リクエストマップに対して変更を加えるようなミドルウェアは次のように定義できます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-parse-query-string</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">request</span><span class="p">]</span>
+    <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">parse-query-string</span> <span class="p">(</span><span class="ss">:query-string</span> <span class="nv">request</span><span class="p">))</span>
+          <span class="nv">updated-request</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">request</span> <span class="ss">:params</span> <span class="nv">params</span><span class="p">)]</span>
+      <span class="p">(</span><span class="nf">handler</span> <span class="nv">updated-request</span><span class="p">))))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">parse-query-string</span></code> という関数はここでは存在するものとして扱いますが、名前の通り <code class="docutils literal"><span class="pre">query-string</span></code> をパースしてマップに変換するものだと思ってください。
+ハンドラーを受け取ったミドルウェアは新しいハンドラーを返しますが、その新しいハンドラーの中でリクエストマップを編集し更新したリクエストマップを古いハンドラーに渡すということをしています。</p>
+<p>このようなミドルウェアは次のようにハンドラーへと適用します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nf">wrap-parse-query-string</span> <span class="p">(</span><span class="nf">wrap-exclamation-mark</span> <span class="nv">handler</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>これは新しいハンドラー <code class="docutils literal"><span class="pre">app</span></code> を <code class="docutils literal"><span class="pre">handler</span></code> に <code class="docutils literal"><span class="pre">wrap-exclamation-mark</span></code> を適用したものとして定義しています。</p>
+<p>またスレッディングマクロ( <code class="docutils literal"><span class="pre">-&gt;</span></code> )を用いることで読みやすく出来ます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="nv">handler</span>
+      <span class="nv">wrap-exclamation-mark</span>
+      <span class="nv">wrap-parse-query-string</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Ring では標準のミドルウェアを幾つか提供しているので一般的なものであれば自分で定義する必要はありません。また標準以外にも沢山のライブラリがあるので自分の用途にあったものを探し適用することも可能です。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last">実開発において Ring のミドルウェアを沢山使うことになるのですが、その際に順番を気にしないといけないケースがあるので気をつけてください。
+例えば wrap-a ミドルウェアでリクエストマップに追加するはずの値を wrap-b で参照するような場合 <code class="docutils literal"><span class="pre">(-&gt;</span> <span class="pre">handler</span> <span class="pre">wrap-b</span> <span class="pre">wrap-a)</span></code> のように順番を気にして書く必要があったりします。</p>
+</div>
+</div>
+</div>
+<div class="section" id="hello-world">
+<h2>サーバーを起動して &#8220;Hello, world&#8221; してみる<a class="headerlink" href="#hello-world" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>長々と Ring の基本的なことについて説明したところで実際に Ring を使ってみることにします。</p>
+<p>準備編で作成したプロジェクトの依存性に Ring を追加します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/27762a4da2ee27016ee90304650818bd63d2dd67">commit: Ring をプロジェクトの依存性へと追加</a></li>
+</ul>
+<p>Ring ライブラリは全てで 4 つのライブラリ( ring-core, ring-devel, ring-jetty-adapter, ring-servlet )から出来ています。 Ring を上記のように追加すると 4 つのライブラリを全て使うことができるようなります。
+それぞれのライブラリは以下のような役割を持っています。</p>
+<ul class="simple">
+<li>ring-core: 有用なミドルウェア関数が定義されていて、セッションやパラメーター、 Cookie などをハンドリングするものなどです</li>
+<li>ring-devel: 開発やデバッグなどで便利なミドルウェアなどが定義されています</li>
+<li>ring-jetty-adapter: Ring アダプタを Jetty へと適用したものが定義されています(最初はこれを使うことにします)</li>
+<li>ring-servlet: Ring ハンドラーを Servlet へと変換するユーティリティですが基本的に気にする必要はないです</li>
+</ul>
+<p>主に使うことになるのは ring-core, ring-devel ですが、今回は Ring アダプターのリファレンス実装でもある ring-jetty-adapter も使います。</p>
+<p>次に REPL を起動して次のようなコードを REPL 上で評価してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">s</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">server</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">))</span>
+<span class="c1">;; =&gt; #&#39;user/server</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">s/run-jetty</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">req</span><span class="p">]</span> <span class="p">{</span><span class="ss">:body</span> <span class="s">&quot;Hello, world&quot;</span><span class="p">})</span> <span class="p">{</span><span class="ss">:port</span> <span class="mi">3000</span> <span class="ss">:join?</span> <span class="nv">false</span><span class="p">}))</span>
+<span class="c1">;; =&gt; #object[org.eclipse.jetty.server.Server 0x25a13368 &quot;org.eclipse.jetty.server.Server@25a13368&quot;]</span>
+</pre></div>
+</div>
+<p>ここまで評価したら <code class="docutils literal"><span class="pre">http://localhost:3000/</span></code> をブラウザで見てみましょう。すると <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> と出力されているのが確認出来たと思います。これが Ring アプリケーションのはじめの一歩です。あ、 REPL は落とさないでくださいね。</p>
+<p>さて、少しずつ説明していきましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">s</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>これは先ほど書いた Jetty と Ring アプリケーションの世界を繋ぐ Ring アダプタのリファレンス実装なんですが、それを <code class="docutils literal"><span class="pre">s</span></code> という別名をつけて <code class="docutils literal"><span class="pre">require</span></code> しているだけです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">server</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>サーバーを起動したあとに返ってくるサーバーのインスタンスを捨ててしまうと REPL を止めるまでサーバーを止めることができなくなるのでその受け皿です。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">s/run-jetty</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">req</span><span class="p">]</span> <span class="p">{</span><span class="ss">:body</span> <span class="s">&quot;Hello, world&quot;</span><span class="p">})</span> <span class="p">{</span><span class="ss">:port</span> <span class="mi">3000</span> <span class="ss">:join?</span> <span class="nv">false</span><span class="p">}))</span>
+</pre></div>
+</div>
+<p>ちょっと長いですね。 <code class="docutils literal"><span class="pre">reset!</span></code> で <code class="docutils literal"><span class="pre">s/run-jetty</span></code> が返すインスタンスを <code class="docutils literal"><span class="pre">server</span></code> へとセットしています。 <code class="docutils literal"><span class="pre">s/run-jetty</span></code> はふたつの引数を受け取るのですが、ひとつめがリクエストマップを受け取りレスポンスマップを返す Ring ハンドラー、次がサーバーのオプションです。 <code class="docutils literal"><span class="pre">(fn</span> <span class="pre">[req]</span> <span class="pre">{:body</span> <span class="pre">&quot;Hello,</span> <span class="pre">world&quot;})</span></code> は簡単ですが Ring ハンドラーです(本当は <code class="docutils literal"><span class="pre">:status</span></code> , <code class="docutils literal"><span class="pre">:headers</span></code> もあったほうがいいのですが、 <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> するだけなら少々足りなくても問題ありません)。 <code class="docutils literal"><span class="pre">{:port</span> <span class="pre">3000</span> <span class="pre">:join?</span> <span class="pre">false}</span></code> はオプションで <code class="docutils literal"><span class="pre">:port</span></code> はポートなので良いと思いますが、 <code class="docutils literal"><span class="pre">:join?</span></code> は <code class="docutils literal"><span class="pre">true</span></code> (デフォルト値です)だとスレッドをサーバーが止まるまでブロックしてしまう、つまり REPL が返ってこなくなってしまうので <code class="docutils literal"><span class="pre">false</span></code> を指定しています。</p>
+<p>さて、起動したサーバーはちゃんと止めましょう、ということで次のコードを REPL 上で評価します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">.stop</span> <span class="o">@</span><span class="nv">server</span><span class="p">)</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="nv">nil</span><span class="p">)</span>
+<span class="c1">;; =&gt; nil</span>
+</pre></div>
+</div>
+<p>サーバーのインスタンスから <code class="docutils literal"><span class="pre">stop</span></code> メソッドを実行して、 <code class="docutils literal"><span class="pre">server</span></code> 変数を <code class="docutils literal"><span class="pre">nil</span></code> にしてサーバーのインスタンスを捨てています。</p>
+<p>今 REPL 上でやったことをちょっと手を入れてファイル(src/todo_clj/core.clj)に書いていきましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defonce </span><span class="nv">server</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:status</span> <span class="mi">200</span>
+   <span class="ss">:headers</span> <span class="p">{</span><span class="s">&quot;Content-Type&quot;</span> <span class="s">&quot;text/plain&quot;</span><span class="p">}</span>
+   <span class="ss">:body</span> <span class="s">&quot;Hello, world&quot;</span><span class="p">})</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">start-server</span> <span class="p">[]</span>
+  <span class="p">(</span><span class="nb">when-not </span><span class="o">@</span><span class="nv">server</span>
+    <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">server/run-jetty</span> <span class="nv">handler</span> <span class="p">{</span><span class="ss">:port</span> <span class="mi">3000</span> <span class="ss">:join?</span> <span class="nv">false</span><span class="p">}))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">stop-server</span> <span class="p">[]</span>
+  <span class="p">(</span><span class="nb">when </span><span class="o">@</span><span class="nv">server</span>
+    <span class="p">(</span><span class="nf">.stop</span> <span class="o">@</span><span class="nv">server</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="nv">nil</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">restart-server</span> <span class="p">[]</span>
+  <span class="p">(</span><span class="nb">when </span><span class="o">@</span><span class="nv">server</span>
+    <span class="p">(</span><span class="nf">stop-server</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">start-server</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/561c6ba9eb5677c793938765f3511465321708aa">commit: Ring を使った Hello, world</a></li>
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/49a37cc901efa7e75b3b72c12ef7ed87842bb5fc">commit: サーバーの停止/再起動関数の実装</a></li>
+</ul>
+<p>こんな感じになりました。さっきは <code class="docutils literal"><span class="pre">run-jetty</span></code> に匿名関数として渡していた Ring ハンドラーを <code class="docutils literal"><span class="pre">handler</span></code> として定義して、返り値のレスポンスマップを綺麗にしました。あとはそれぞれサーバーを起動/停止/再起動する関数を定義しました。
+それと <code class="docutils literal"><span class="pre">server</span></code> 変数が <code class="docutils literal"><span class="pre">defonce</span></code> で定義されているのはファイルをリロードした際に再定義されるのを防ぐためです(再定義されてしまうと起動中のサーバーインスタンスを止めることが出来なくなるので)。</p>
+<p>ファイルにここまで書いたら REPL 上にファイルをロードしましょう <a class="footnote-reference" href="#id8" id="id7">[1]</a> 。そして REPL 上で次のフォームを評価します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">c</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">c/start-server</span><span class="p">)</span>
+<span class="c1">;; =&gt; #object[org.eclipse.jetty.server.Server 0x55b1143a &quot;org.eclipse.jetty.server.Server@55b1143a&quot;]</span>
+</pre></div>
+</div>
+<p>改めて <code class="docutils literal"><span class="pre">http://localhost:3000/</span></code> を見るとちゃんと出力されていますね。このように Clojure を使ったアプリケーション開発では REPL を上手く使いながら開発をインタラクティブに行っていくので頭の片隅に置いておいてください。</p>
+<p>さて、ここまででこの Part で説明すべきことは説明し終えました。次の Part ではルーティングについて学んでいきます。</p>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[1]</a></td><td>Emacs と Cider を使っていなら <code class="docutils literal"><span class="pre">C-c</span> <span class="pre">C-l</span></code> or <code class="docutils literal"><span class="pre">M-x</span> <span class="pre">cider-load-file</span></code> をファイルバッファ上で実行します。 IntelliJ IDEA で Cursive を使っているなら <code class="docutils literal"><span class="pre">Load</span> <span class="pre">file</span> <span class="pre">in</span> <span class="pre">REPL</span></code> を実行します。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h2>ここまでで学んだこと<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Ring には 4 つのコンポーネントがあること</li>
+<li>Ring アプリケーションでの <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> の書き方 (サーバーの起動と停止方法)</li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">Clojure の日本語ガイド</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="part1_prepare.html" title="Part1: 準備編" >前へ</a></li>
+        <li><a href="column_rdd_and_more_ring.html" title="Column: REPL 駆動開発を取り入れて Ring でもう少し遊んでみる" >次へ</a></li>
+        <li><a href="../genindex.html" title="総合索引" >索引</a></li>
+        <li><a href="index.html" >Clojure で Web 開発をはじめてみよう</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2015, ayato_p.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

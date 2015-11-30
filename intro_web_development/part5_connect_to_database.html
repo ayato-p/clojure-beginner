@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Part5: データベースへ接続する &mdash; Clojure の日本語ガイド</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootswatch-cosmo.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" href="../_static/css/adjust_theme/bootswatch-cosmo.css" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
+    <link rel="up" title="Clojure で Web 開発をはじめてみよう" href="index.html" />
+    <link rel="next" title="Column: Web アプリケーション開発でよく使うライブラリ" href="column_libraries_for_web.html" />
+    <link rel="prev" title="Part4: テンプレートエンジンを使う" href="part4_template_engine.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Clojure の日本語ガイド</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Part5: データベースへ接続する</a><ul>
+<li><a class="reference internal" href="#id1">データベースとこんにちわ</a></li>
+<li><a class="reference internal" href="#todo">TODO をデータベースで管理する</a></li>
+<li><a class="reference internal" href="#id2">ハンドラーから呼び出して画面に TODO を表示する</a></li>
+<li><a class="reference internal" href="#id4">ここまでで学んだこと</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="part4_template_engine.html" title="Part4: テンプレートエンジンを使う" accesskey="P">前へ </a></li>
+              <li><a href="column_libraries_for_web.html" title="Column: Web アプリケーション開発でよく使うライブラリ" accesskey="N">次へ </a></li>
+              <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
+              <li><a href="index.html" accesskey="U">Clojure で Web 開発をはじめてみよう</a></li>
+            
+            <li class="visible-xs"><a href="../_sources/intro_web_development/part5_connect_to_database.txt" rel="nofollow">ソースコードを表示</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="検索" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation"><div id="toc" class="sidebarRow">
+
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Clojure で Web 開発をはじめてみよう</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">まえがき</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">中身について</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="part4_template_engine.html"
+                        title="前の章へ">Part4: テンプレートエンジンを使う</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="column_libraries_for_web.html"
+                        title="次の章へ">Column: Web アプリケーション開発でよく使うライブラリ</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro_web_development/part5_connect_to_database.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>クイック検索</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="検索" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="part5">
+<h1>Part5: データベースへ接続する<a class="headerlink" href="#part5" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id1">
+<h2>データベースとこんにちわ<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Web アプリケーションを開発するときに、これがないと開発出来ないと言っても過言ではないデータベースですが、この Part では Clojure でどのようにしてデータベースへと接続してそれを扱うのかについて説明していきます。
+Clojure には Java の JDBC をラップして Clojure から使いやすくした低レベルのライブラリがあるのでまずはそれを使っていきます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">compojure</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">hiccup</span> <span class="s">&quot;1.0.5&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">environ</span> <span class="s">&quot;1.0.1&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.clojure/java.jdbc</span> <span class="s">&quot;0.4.2&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">org.postgresql/postgresql</span> <span class="s">&quot;9.4-1205-jdbc42&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/9137db1ae66238cc3cea7b455a4ac94bc9bbc84d">commit: jdbc を依存関係へと追加</a></li>
+</ul>
+<p><code class="docutils literal"><span class="pre">clojure.java.jdbc</span></code> と今回は PostgreSQL を使うのでそのためのドライバを追加しています。 PostgreSQL で <code class="docutils literal"><span class="pre">todo_clj_dev</span></code> という名前のデータベースを作成したら、実際に clojure.java.jdbc の主な機能を見て行きましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">clojure.java.jdbc</span> <span class="ss">:as</span> <span class="nv">jdbc</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">db-spec</span> <span class="p">{</span><span class="ss">:dbtype</span> <span class="s">&quot;postgresql&quot;</span> <span class="ss">:dbname</span> <span class="s">&quot;todo_clj_dev&quot;</span> <span class="ss">:host</span> <span class="s">&quot;localhost&quot;</span> <span class="ss">:port</span> <span class="mi">5432</span> <span class="ss">:user</span> <span class="s">&quot;username&quot;</span> <span class="ss">:password</span> <span class="s">&quot;password&quot;</span><span class="p">})</span>
+<span class="c1">;; =&gt; #&#39;user/db-spec</span>
+</pre></div>
+</div>
+<p>まずは <code class="docutils literal"><span class="pre">clojure.java.jdbc</span></code> を <code class="docutils literal"><span class="pre">require</span></code> しないことには始まりませんのでいつものように <code class="docutils literal"><span class="pre">require</span></code> しておきます。次に <code class="docutils literal"><span class="pre">db-spec</span></code> ですが、これはコネクションを作成するのに必要な情報をマップ形式で渡します。
+このマップは通常他のライブラリでも <cite>dbspec</cite> と呼ばれ、多くの場合次のフォーマットに従います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">db-spec</span> <span class="p">{</span><span class="ss">:subprotocol</span> <span class="s">&quot;postgresql&quot;</span>
+              <span class="ss">:subname</span> <span class="s">&quot;//localhost:5432/dbname&quot;</span>
+              <span class="ss">:user</span> <span class="s">&quot;username&quot;</span>          <span class="c1">;; オプション</span>
+              <span class="ss">:password</span> <span class="s">&quot;password&quot;</span><span class="p">})</span>    <span class="c1">;; オプション</span>
+</pre></div>
+</div>
+<p>次の例のようにより読みやすいフォーマットで記述することも出来ます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">db-spec</span> <span class="p">{</span><span class="ss">:dbtype</span> <span class="s">&quot;postgresql&quot;</span>
+              <span class="ss">:dbname</span> <span class="s">&quot;dbname&quot;</span>
+              <span class="ss">:host</span> <span class="s">&quot;localhost&quot;</span>      <span class="c1">;; オプション</span>
+              <span class="ss">:port</span> <span class="mi">5432</span>             <span class="c1">;; オプション</span>
+              <span class="ss">:user</span> <span class="s">&quot;username&quot;</span>       <span class="c1">;; オプション</span>
+              <span class="ss">:password</span> <span class="s">&quot;password&quot;</span><span class="p">})</span> <span class="c1">;; オプション</span>
+</pre></div>
+</div>
+<p>または文字列で URI フォーマットを使い記述することも出来ます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">db-spec</span> <span class="s">&quot;postgresql://username:password@localhost:5432/dbname&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>他にも幾つかのフォーマットが使えますが、詳しくは <code class="docutils literal"><span class="pre">clojure.java.jdbc/get-connection</span></code> を参照してください。ほとんどの場合上記の 3 つを覚えておけば困ることはないと思います。</p>
+<p>次はテーブルの作成についてです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/db-do-commands</span> <span class="nv">db-spec</span> <span class="p">(</span><span class="nf">jdbc/create-table-ddl</span> <span class="ss">:member</span> <span class="p">[</span><span class="ss">:id</span> <span class="ss">:serial</span><span class="p">]</span> <span class="p">[</span><span class="ss">:name</span> <span class="s">&quot;varchar(20)&quot;</span> <span class="s">&quot;not null&quot;</span><span class="p">]</span> <span class="p">[</span><span class="ss">:age</span> <span class="ss">:int</span><span class="p">]</span> <span class="p">[</span><span class="ss">:address</span> <span class="ss">:varchar</span><span class="p">]))</span>
+<span class="c1">;; =&gt; (0)</span>
+</pre></div>
+</div>
+<p>これはふたつのフォームが重なっているので、まずは <code class="docutils literal"><span class="pre">clojure.java.jdbc/create-table-ddl</span></code> から確認していきます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/create-table-ddl</span> <span class="ss">:member</span> <span class="p">[</span><span class="ss">:id</span> <span class="ss">:serial</span><span class="p">]</span> <span class="p">[</span><span class="ss">:name</span> <span class="s">&quot;varchar(20)&quot;</span> <span class="s">&quot;not null&quot;</span><span class="p">]</span> <span class="p">[</span><span class="ss">:age</span> <span class="ss">:int</span><span class="p">]</span> <span class="p">[</span><span class="ss">:address</span> <span class="ss">:varchar</span><span class="p">])</span>
+<span class="c1">;; =&gt; &quot;CREATE TABLE member (id serial, name varchar(20) not null, age int, address varchar)&quot;</span>
+</pre></div>
+</div>
+<p>このようにこの関数は幾つかの引数を取り、文字列(テーブルを作成する DDL )を吐き出します。第一引数にテーブルの名前を文字列またはキーワードで指定し、第二引数以降はカラムについてのベクター形式で書いていきます(カラムの後にオプションでテーブルについてのオプションを付けることが出来ますが今回は簡単のために無視します)。カラムの表現としては <code class="docutils literal"><span class="pre">[column-name</span> <span class="pre">type</span> <span class="pre">&amp;</span> <span class="pre">options]</span></code> というように表現することができ、それぞれキーワードもしくは文字列での指定が可能ですが、 <code class="docutils literal"><span class="pre">[:name</span> <span class="pre">&quot;varchar(20)&quot;</span> <span class="pre">&quot;not</span> <span class="pre">null&quot;]</span></code> の例にあるように桁数を指定したいような場合、型の指定はキーワードではなく文字列で記述する必要があります。気をつけないといけないのはこの関数自体は指定された値を元に文字列を生成するだけなので、あり得ない値を指定したとしても正常に文字列を返してしまうことです。エラーに気付き難いので気をつけましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/create-table-ddl</span> <span class="ss">:foo</span> <span class="p">[</span><span class="ss">:id</span> <span class="ss">:invalid-type</span><span class="p">])</span>
+<span class="c1">;; =&gt; &quot;CREATE TABLE foo (id invalid-type)&quot;</span>
+</pre></div>
+</div>
+<p>次に <code class="docutils literal"><span class="pre">clojure.java.jdbc/db-do-commands</span></code> についてです。主に更新を伴う SQL を複数実行したい場合に使用します。これは第一引数に <code class="docutils literal"><span class="pre">db-spec</span></code> を指定し、第二引数にはトランザクションを有効にするかを決める真偽値を受け取り、第三引数以降に文字列で実行したい SQL コマンドを指定します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/db-do-commands</span> <span class="nv">db-spec</span> <span class="p">(</span><span class="nf">jdbc/create-table-ddl</span> <span class="ss">:member</span> <span class="p">[</span><span class="ss">:id</span> <span class="ss">:serial</span><span class="p">]</span> <span class="p">[</span><span class="ss">:name</span> <span class="s">&quot;varchar(20)&quot;</span> <span class="s">&quot;not null&quot;</span><span class="p">]</span> <span class="p">[</span><span class="ss">:age</span> <span class="ss">:int</span><span class="p">]</span> <span class="p">[</span><span class="ss">:address</span> <span class="ss">:varchar</span><span class="p">]))</span>
+<span class="c1">;; =&gt; (0)</span>
+
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/db-do-commands</span> <span class="nv">db-spec</span> <span class="s">&quot;create table foo(id serial)&quot;</span> <span class="s">&quot;create table bar(id serial)&quot;</span><span class="p">)</span> <span class="c1">;; 直接文字列で SQL を渡すことも勿論出来ます。複数の SQL も同時に実行出来ます。</span>
+<span class="c1">;; =&gt; (0 0)</span>
+</pre></div>
+</div>
+<p>「第二引数にはトランザクションを有効にするかを決める真偽値を受け取り」と書きましたが、この例ではすぐに DDL の文字列を渡しているように見えますね。実は第二引数は指定しないということも選択出来ます。第二引数として真偽値を渡さない場合トランザクションは自動的に有効になります。</p>
+<p>ここまででテーブルの作成が出来たので次はデータを追加についてです。 <code class="docutils literal"><span class="pre">clojure.java.jdbc/insert!</span></code> を使います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/insert!</span> <span class="nv">db-spec</span> <span class="ss">:member</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;ayato_p&quot;</span><span class="p">})</span>
+<span class="c1">;; =&gt; ({:id 1, :name &quot;ayato_p&quot;, :age nil, :address nil})</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/insert!</span> <span class="nv">db-spec</span> <span class="ss">:member</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;foo&quot;</span><span class="p">})</span>
+<span class="c1">;; =&gt; ({:id 2, :name &quot;foo&quot;, :age nil, :address nil})</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/insert!</span> <span class="nv">db-spec</span> <span class="ss">:member</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;alice&quot;</span> <span class="ss">:address</span> <span class="s">&quot;wonderland&quot;</span><span class="p">}</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;cheshire&quot;</span><span class="p">}</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;mad hatter&quot;</span><span class="p">})</span> <span class="c1">;; 複数データを一度に追加することも可能</span>
+<span class="c1">;; =&gt; ({:id 3, :name &quot;alice&quot;, :age nil, :address &quot;wonderland&quot;} {:id 4, :name &quot;cheshire&quot;, :age nil, :address nil} {:id 5, :name &quot;mad hatter&quot;, :age nil, :address nil})</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/insert!</span> <span class="nv">db-spec</span> <span class="ss">:member</span> <span class="p">{</span><span class="ss">:name</span> <span class="nv">nil</span><span class="p">})</span>
+<span class="c1">;; =&gt; PSQLException ERROR: null value in column &quot;name&quot; violates not-null constraint</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">insert!</span></code> 関数は先程までと同様に <code class="docutils literal"><span class="pre">db-spec</span></code> を第一引数に受け取り、第二引数にテーブル名をキーワードもしくは文字列で受け取り、第三引数以降は少々複雑になるのですが今回は簡単のためマップデータのみを渡しています。例のようにカラム名をキーにしたマップを渡すことでそのデータを追加することができ、また複数のマップデータを渡すことにより、複数行を一度に追加することも出来るようになっています。不正なデータを渡した場合は実行時のエラーとなりエラーが返されます。</p>
+<p>また複数データを同時に追加したい場合は次のように記述することも可能です。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/insert!</span> <span class="nv">db-spec</span> <span class="ss">:member</span> <span class="p">[</span><span class="ss">:name</span> <span class="ss">:address</span><span class="p">]</span> <span class="p">[</span><span class="s">&quot;alice&quot;</span> <span class="s">&quot;wonderland&quot;</span><span class="p">]</span> <span class="p">[</span><span class="s">&quot;cheshire&quot;</span> <span class="nv">nil</span><span class="p">]</span> <span class="p">[</span><span class="s">&quot;mad hatter&quot;</span> <span class="nv">nil</span><span class="p">])</span>
+<span class="c1">;; =&gt; (1 1 1)</span>
+</pre></div>
+</div>
+<p>第三引数として追加したいデータのカラムを列挙したベクターを渡し、第四引数以降に列挙したカラムの順番と対応するように値のみを入れたベクターを渡せます。こうすることで毎回カラム名を書く手間はなくなりましたが、その代わり <code class="docutils literal"><span class="pre">null</span></code> にしておきたいカラムに対しては明示的に <code class="docutils literal"><span class="pre">nil</span></code> を渡す必要があるようになりました。そして、返り値も追加した結果ではなく、更新件数が返ってくるようになっている点も注意が必要です。</p>
+<p>テーブル作成、データの追加ときたので次は更新についてです。更新は <code class="docutils literal"><span class="pre">clojure.java.jdbc/update!</span></code> 関数を使いますが、追加に比べるとちょっと複雑です(最後の引数のところだけ)。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/update!</span> <span class="nv">db-spec</span> <span class="ss">:member</span> <span class="p">{</span><span class="ss">:age</span> <span class="mi">24</span><span class="p">}</span> <span class="p">[</span><span class="s">&quot;id = ?&quot;</span> <span class="mi">1</span><span class="p">])</span>
+<span class="c1">;; =&gt; (1)</span>
+</pre></div>
+</div>
+<p>第一引数はこれまでと同様 <code class="docutils literal"><span class="pre">db-spec</span></code> 、第二引数にはテーブル名、第三引数にアップデートするデータのマップ、第四引数には SQL の where 句を Prepared Statement の書き方で書きます。 clojure.java.jdbc での Prepared Statement の書き方ですが、ベクタの先頭を文字列にしてクエリパラメーターを使って置換したい部分を <code class="docutils literal"><span class="pre">?</span></code> と表現し、ベクタの残りは置換文字 (<code class="docutils literal"><span class="pre">?</span></code>) を置き換えるクエリパラメータを書きます。この書き方はデータを取得する場合などにも使いますし、他のライブラリでもこの書き方と互換性をもたせていることが多いです。ちなみにこの書式は <cite>sqlvec</cite> フォーマットと呼ばれることが多いため、このドキュメントでもそれに倣います。</p>
+<p>この例では member テーブルの id が 1 になっているカラムの age を 24 にするという風に読めますね。そして、 <code class="docutils literal"><span class="pre">udpate!</span></code> 関数は更新件数を返すのでここでは 1 が返ってきています。第三引数のマップは勿論複数のカラムを指定できるので例えば、 <code class="docutils literal"><span class="pre">{:age</span> <span class="pre">25</span> <span class="pre">:address</span> <span class="pre">&quot;Tokyo&quot;}</span></code> などと書くことも可能です。</p>
+<p>次はデータの取得ですが、これは <code class="docutils literal"><span class="pre">clojure.java.jdbc/query</span></code> 関数を使います。他の <code class="docutils literal"><span class="pre">insert!</span></code> や <code class="docutils literal"><span class="pre">update!</span></code> にはエクスクラメーションマークが付いていましたが、 <code class="docutils literal"><span class="pre">query</span></code> は破壊的な操作ではないので付いていません。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db-spec</span> <span class="s">&quot;select * from member&quot;</span><span class="p">)</span>
+<span class="c1">;; =&gt; ({:id 2, :name &quot;foo&quot;, :age nil, :address nil} {:id 3, :name &quot;alice&quot;, :age nil, :address &quot;wonderland&quot;} {:id 4, :name &quot;cheshire&quot;, :age nil, :address nil} {:id 5, :name &quot;mad hatter&quot;, :age nil, :address nil} {:id 7, :name &quot;alice&quot;, :age nil, :address &quot;wonderland&quot;} {:id 8, :name &quot;cheshire&quot;, :age nil, :address nil} {:id 9, :name &quot;mad hatter&quot;, :age nil, :address nil} {:id 1, :name &quot;ayato_p&quot;, :age 24, :address nil})</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db-spec</span> <span class="p">[</span><span class="s">&quot;select * from member where id = ?&quot;</span> <span class="mi">1</span><span class="p">])</span>
+<span class="c1">;; =&gt; ({:id 1, :name &quot;ayato_p&quot;, :age 24, :address nil})</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db-spec</span> <span class="p">[</span><span class="s">&quot;select * from member where id = ?&quot;</span> <span class="mi">2</span><span class="p">])</span>
+<span class="c1">;; =&gt; ({:id 2, :name &quot;foo&quot;, :age nil, :address nil})</span>
+</pre></div>
+</div>
+<p>第一引数に <code class="docutils literal"><span class="pre">db-spec</span></code> 、第二引数に文字列または sqlvec フォーマットのベクタを指定します。 clojure.java.jdbc は自動的に取得したデータの各行をマップデータへと変換し、カラムの型に対応する Clojure の型へと自動的に変換されます。低レベルな API とはいえ、これだけでも充分使うことが出来そうですね。</p>
+<p>最後にテーブルの削除を行ってみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/db-do-commands</span> <span class="nv">db-spec</span> <span class="p">(</span><span class="nf">jdbc/drop-table-ddl</span> <span class="ss">:member</span><span class="p">))</span>
+<span class="c1">;; =&gt; (0)</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db-spec</span> <span class="s">&quot;select * from member&quot;</span><span class="p">)</span>
+<span class="c1">;; =&gt; PSQLException ERROR: relation &quot;member&quot; does not exist</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">create-table-ddl</span></code> の対になる関数 <code class="docutils literal"><span class="pre">drop-table-ddl</span></code> を使ってテーブルを削除する SQL を生成します。あまり説明する必要がないとは思いますが、 <code class="docutils literal"><span class="pre">drop-table-ddl</span></code> は第一引数にテーブル名を受け取ります。
+テーブルを削除した後にデータを取得しようとすると例外が投げられるのでちゃんとテーブルが削除されているのが確認できますね。</p>
+<p>ここまでで clojure.java.jdbc についての簡単な使い方が大凡理解出来たと思います。他にもトランザクション制御など本格的なアプリケーションを作るときに必要になる機能はありますが、ここでは一旦忘れて次に進みましょう。</p>
+</div>
+<div class="section" id="todo">
+<h2>TODO をデータベースで管理する<a class="headerlink" href="#todo" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ちょっと前置きが長くなりましたが、ここからは今までファイルにベタ書きされていた TDOO リストをデータベースへ投入します。まずはテーブルを用意しないといけないので、簡単に作ります。</p>
+<p><code class="docutils literal"><span class="pre">todo-clj.db</span></code> ネームスペースを作って <code class="docutils literal"><span class="pre">db-spec</span></code> と <code class="docutils literal"><span class="pre">migrate</span></code> 関数を用意しましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.db</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">clojure.java.jdbc</span> <span class="ss">:as</span> <span class="nv">jdbc</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">db-spec</span>
+  <span class="p">{</span><span class="ss">:dbtype</span> <span class="s">&quot;postgresql&quot;</span> <span class="ss">:dbname</span> <span class="s">&quot;todo_clj_dev&quot;</span> <span class="ss">:host</span> <span class="s">&quot;localhost&quot;</span> <span class="ss">:port</span> <span class="mi">5432</span> <span class="ss">:user</span> <span class="s">&quot;username&quot;</span> <span class="ss">:password</span> <span class="s">&quot;password&quot;</span><span class="p">})</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">migrate</span> <span class="p">[]</span>
+  <span class="p">(</span><span class="nf">jdbc/db-do-commands</span>
+   <span class="nv">db-spec</span>
+   <span class="p">(</span><span class="nf">jdbc/create-table-ddl</span> <span class="ss">:todo</span> <span class="p">[</span><span class="ss">:id</span> <span class="ss">:serial</span><span class="p">]</span> <span class="p">[</span><span class="ss">:title</span> <span class="ss">:varchar</span><span class="p">])))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/f978e6c43ee4c8a5476d87a640be06648477080b">commit: ネームスペース todo-clj.db を新規作成</a></li>
+</ul>
+<p>ここまで用意出来たら、 REPL で次のように実行しましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">in-ns </span><span class="ss">&#39;todo-clj.db</span><span class="p">)</span>
+<span class="c1">;; =&gt; #object[clojure.lang.Namespace 0x63a58525 &quot;todo-clj.db&quot;]</span>
+<span class="nv">todo-clj.db&gt;</span> <span class="p">(</span><span class="nf">migrate</span><span class="p">)</span>
+<span class="c1">;; =&gt; (0)</span>
+</pre></div>
+</div>
+<p>かなり雑な <code class="docutils literal"><span class="pre">migrate</span></code> 関数なのでロールバックや再マイグレートが出来ませんが、当面はこれで充分でしょう。これで TODO テーブルが作成出来たので次はデータを追加したり取得する関数を作成しましょう。</p>
+<p>これも新たに <code class="docutils literal"><span class="pre">todo-clj.db.todo</span></code> ネームスペースを作成します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.db.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">clojure.java.jdbc</span> <span class="ss">:as</span> <span class="nv">jdbc</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.db</span> <span class="ss">:as</span> <span class="nv">db</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">save-todo</span> <span class="p">[</span><span class="nv">title</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">jdbc/insert!</span> <span class="nv">db/db-spec</span> <span class="ss">:todo</span> <span class="p">{</span><span class="ss">:title</span> <span class="nv">title</span><span class="p">}))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">find-todo-all</span> <span class="p">[]</span>
+  <span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db/db-spec</span> <span class="s">&quot;select * from todo&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/f106b4a33a87ad3d586ed32df96adc48c5a7e881">commit: TODO をデータベースで管理するためのネームスペースを追加</a></li>
+</ul>
+<p>簡単に TODO 追加と全件取得用関数を用意しました。実際に REPL を使って試してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">in-ns </span><span class="ss">&#39;todo-clj.db.todo</span><span class="p">)</span>
+<span class="c1">;; =&gt; #object[clojure.lang.Namespace 0xb6423de &quot;todo-clj.db.todo&quot;]</span>
+<span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">save-todo</span> <span class="s">&quot;朝ごはんを作る&quot;</span><span class="p">)</span>
+<span class="c1">;; =&gt; ({:id 1, :title &quot;朝ごはんを作る&quot;})</span>
+<span class="nv">todo-clj.db.todo&gt;</span> <span class="p">(</span><span class="nf">find-todo-all</span><span class="p">)</span>
+<span class="c1">;; =&gt; ({:id 1, :title &quot;朝ごはんを作る&quot;})</span>
+</pre></div>
+</div>
+<p>TODO を追加して、それを取得することも出来ました。更新や削除は後から必要になったときに足すとして、とりあえずこれで TODO をデータベースで管理することが出来そうです。</p>
+</div>
+<div class="section" id="id2">
+<h2>ハンドラーから呼び出して画面に TODO を表示する<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>次はハンドラーから実際にこれらの関数を呼び出して画面から TODO を追加したり、表示出来るようにします。</p>
+<p><code class="docutils literal"><span class="pre">todo-clj.handler.todo</span></code> ネームスペースを次のように編集します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.handler.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">context</span> <span class="nv">GET</span> <span class="nv">POST</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.db.todo</span> <span class="ss">:as</span> <span class="nv">todo</span><span class="p">]</span> <span class="c1">;; 作ったネームスペースを追加</span>
+            <span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.view.todo</span> <span class="ss">:as</span> <span class="nv">view</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-list</span> <span class="p">(</span><span class="nf">todo/find-todo-all</span><span class="p">)]</span> <span class="c1">;; ベタ書きしてた `todo-list` をデータベースから取得するように変更</span>
+    <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-index-view</span> <span class="nv">req</span> <span class="nv">todo-list</span><span class="p">)</span>
+        <span class="nv">res/response</span>
+        <span class="nv">res/html</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/e65fa22ad512ae28de8ab05d678caec44e60c52f">commit: TODO をデータベースから取得して画面に出力出来るよう変更</a></li>
+</ul>
+<p>今までこのネームスペースにベタ書きしていた <code class="docutils literal"><span class="pre">todo-list</span></code> を削除して、 <code class="docutils literal"><span class="pre">todo-index</span></code> 関数のなかで全ての TODO を取得するようにしました。データの形式は前から変わっていないのでこれだけの変更でデータベースの中身を画面へと出力することが出来るようになっています。実際にブラウザで <code class="docutils literal"><span class="pre">http://localhost:3000/todo</span></code> へとアクセスして確認してみると先ほど REPL から追加した TODO が表示されるようになっていると思います。 TODO を増やしたい場合は REPL から <code class="docutils literal"><span class="pre">todo-clj.db.todo/save-todo</span></code> を使えば増やすことが出来ます。</p>
+<p>ここまでの Part でなんとなく Web アプリケーションぽいものが作れるようになりました。次の Part ではこれまでの内容を活かして TODO アプリを完成させていこうと思います。</p>
+</div>
+<div class="section" id="id4">
+<h2>ここまでで学んだこと<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>clojure.java.jdbc の使い方</li>
+<li>データベースから取得したデータを画面へ反映させる方法</li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">Clojure の日本語ガイド</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="part4_template_engine.html" title="Part4: テンプレートエンジンを使う" >前へ</a></li>
+        <li><a href="column_libraries_for_web.html" title="Column: Web アプリケーション開発でよく使うライブラリ" >次へ</a></li>
+        <li><a href="../genindex.html" title="総合索引" >索引</a></li>
+        <li><a href="index.html" >Clojure で Web 開発をはじめてみよう</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2015, ayato_p.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

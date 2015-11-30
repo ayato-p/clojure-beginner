@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Clojure で Web 開発をはじめてみよう &mdash; Clojure の日本語ガイド</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootswatch-cosmo.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" href="../_static/css/adjust_theme/bootswatch-cosmo.css" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
+    <link rel="next" title="Part1: 準備編" href="part1_prepare.html" />
+    <link rel="prev" title="構造的編集 (a.k.a. Paredit)" href="../getting_started/intellij_with_cursive/structural_editing.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Clojure の日本語ガイド</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Clojure で Web 開発をはじめてみよう</a><ul>
+<li><a class="reference internal" href="#id1">まえがき</a></li>
+<li><a class="reference internal" href="#id2">中身について</a></li>
+<li><a class="reference internal" href="#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="../getting_started/intellij_with_cursive/structural_editing.html" title="構造的編集 (a.k.a. Paredit)" accesskey="P">前へ </a></li>
+              <li><a href="part1_prepare.html" title="Part1: 準備編" accesskey="N">次へ </a></li>
+              <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
+            
+            <li class="visible-xs"><a href="../_sources/intro_web_development/index.txt" rel="nofollow">ソースコードを表示</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="検索" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation"><div id="toc" class="sidebarRow">
+
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Clojure で Web 開発をはじめてみよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">まえがき</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">中身について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="../getting_started/intellij_with_cursive/structural_editing.html"
+                        title="前の章へ">構造的編集 (a.k.a. Paredit)</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="part1_prepare.html"
+                        title="次の章へ">Part1: 準備編</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro_web_development/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>クイック検索</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="検索" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="clojure-web">
+<h1>Clojure で Web 開発をはじめてみよう<a class="headerlink" href="#clojure-web" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>Clojure の活用例は多岐に渡りますが、そのうちのひとつ Web 開発についてここでは触れたいと思います。</p>
+<iframe src="https://ghbtns.com/github-btn.html?user=ayato-p&repo=clojure-beginner&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe><div class="section" id="id1">
+<h2>まえがき<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>このドキュメントでは出来るだけ「 Ring/Compojure を使えば開発出来るんだよ!!」という軽いノリではなく、 Ring とは何か Compojure とは何なのかという話や、実開発におけるノウハウなどを丁寧に書いていこうと思います。また、私自身未熟なところもあり理解が甘かったりするところも多少はあるかと思いますが、出来るだけ丁寧に調べて書いていくのでよろしくお願いします。誤りに気付いた方は issue を立てて頂けると助かります。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/clojure-beginner/issues">issues</a></li>
+</ul>
+<p>また、この中で書いていくコードは基本的に全て以下のリポジトリにコミットしていくので分からなければそちらも確認ください。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure">ayato-p/intro-web-clojure</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>中身について<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>最初の Part1 から PartXX までは TODO アプリを作ることを目標にして書いていきます。完成した Part より後ではもう少し実践的なより便利なライブラリを使って TODO アプリをよりよく改善していきます。</p>
+</div>
+<div class="section" id="id3">
+<h2>目次<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="part1_prepare.html">Part1: 準備編</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part1_prepare.html#id1">環境を用意する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1_prepare.html#id2">言葉の整理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1_prepare.html#id3">書き方について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1_prepare.html#id4">プロジェクトを用意する</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part2_what_is_ring.html">Part2: Ring について知る</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part2_what_is_ring.html#ring">Ring ってなんですか?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part2_what_is_ring.html#ring-4">Ring の 4 つのコンポーネント</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="part2_what_is_ring.html#id2">リクエストをハンドリングする</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part2_what_is_ring.html#id3">リクエストマップとレスポンスマップ</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="part2_what_is_ring.html#id4">リクエストマップ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="part2_what_is_ring.html#id5">レスポンスマップ</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="part2_what_is_ring.html#id6">機能をミドルウェアを使って足す</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="part2_what_is_ring.html#hello-world">サーバーを起動して &#8220;Hello, world&#8221; してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part2_what_is_ring.html#id9">ここまでで学んだこと</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="column_rdd_and_more_ring.html">Column: REPL 駆動開発を取り入れて Ring でもう少し遊んでみる</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="column_rdd_and_more_ring.html#repl">REPL 駆動開発</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_rdd_and_more_ring.html#ring-repl">Ring で遊びながら REPL 駆動開発を体験する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_rdd_and_more_ring.html#id5">全ては REPL の上にある</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_rdd_and_more_ring.html#id6">おまけ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="column_rdd_and_more_ring.html#emacs-cider-mode">Emacs と Cider-mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="column_rdd_and_more_ring.html#intellij-idea-cursive">IntelliJ IDEA と Cursive</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part3_what_is_compojure.html">Part3: Compojure とはなんなのか</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part3_what_is_compojure.html#id1">まずは簡単なルーティング機能を実装する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part3_what_is_compojure.html#compojure">Compojure ってなんでしょう</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part3_what_is_compojure.html#id12">Compojure を導入する</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="part3_what_is_compojure.html#id13">まずは Compojure に依存性を追加する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part3_what_is_compojure.html#id14">Compojure でルーティングを書き換える</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part3_what_is_compojure.html#id16">Compojure についてもう少し詳しく知る</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="part3_what_is_compojure.html#id17">ルーティング定義を行いアプリケーションの骨格をつくる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part3_what_is_compojure.html#id19">ここまでで学んだこと</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part3_5_middleware_for_dev.html">Part3.5: 開発用のミドルウェアを追加する</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part3_5_middleware_for_dev.html#id1">リロード、スタックトレース</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part3_5_middleware_for_dev.html#id2">ここまでで学んだこと</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="column_add_deps_to_running_repl.html">Column: 起動している REPL に新しい依存関係を追加する</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="column_add_deps_to_running_repl.html#alembic-repl">alembic を使って起動している REPL に依存関係を追加する</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part4_template_engine.html">Part4: テンプレートエンジンを使う</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part4_template_engine.html#clojure">Clojure におけるテンプレートエンジン</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part4_template_engine.html#hiccup">Hiccup を導入する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part4_template_engine.html#html-hiccup">文字列で書いていた HTML を Hiccup で書きなおしてみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part4_template_engine.html#web">さらに Web アプリケーションらしくなるように装飾していく</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part4_template_engine.html#id2">ここまでで学んだこと</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part5_connect_to_database.html">Part5: データベースへ接続する</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part5_connect_to_database.html#id1">データベースとこんにちわ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part5_connect_to_database.html#todo">TODO をデータベースで管理する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part5_connect_to_database.html#id2">ハンドラーから呼び出して画面に TODO を表示する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part5_connect_to_database.html#id4">ここまでで学んだこと</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="column_libraries_for_web.html">Column: Web アプリケーション開発でよく使うライブラリ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id1">よく使うライブラリ紹介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id2">アプリケーションサーバー</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id3">ルーティング</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id4">テンプレートエンジン</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id5">データベース</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id6">その他</a></li>
+<li class="toctree-l2"><a class="reference internal" href="column_libraries_for_web.html#id7">まとめ</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part6_build_up_our_app.html">Part6: TODO アプリを組み上げる</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part6_build_up_our_app.html#todo">TODO アプリとして足りない機能を作る</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id1">TODO の追加画面を作る</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id2">TODO の詳細画面を作る</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id4">TODO の編集画面を作る</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id6">TODO の削除画面を作る</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="part6_build_up_our_app.html#id8">仕上げ</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id9">各画面をリンクさせる</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id10">バリデーションを作る</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#csrf">CSRF 対策する</a></li>
+<li class="toctree-l3"><a class="reference internal" href="part6_build_up_our_app.html#id12">エラーをうまく処理する</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="part6_build_up_our_app.html#id13">ここまでで学んだこと</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="part7_how_to_deploy_to_heroku.html">Part7: どのようにして Heroku へデプロイするか</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="part7_how_to_deploy_to_heroku.html#clojure">一般的な Clojure アプリケーションのデプロイの方法について</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part7_how_to_deploy_to_heroku.html#jar">実行可能 Jar を作成するための準備</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part7_how_to_deploy_to_heroku.html#id5">プロダクション環境用の設定を行う</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part7_how_to_deploy_to_heroku.html#heroku">Heroku へデプロイする</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part7_how_to_deploy_to_heroku.html#id6">ここまでで学んだこと</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">Clojure の日本語ガイド</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="../getting_started/intellij_with_cursive/structural_editing.html" title="構造的編集 (a.k.a. Paredit)" >前へ</a></li>
+        <li><a href="part1_prepare.html" title="Part1: 準備編" >次へ</a></li>
+        <li><a href="../genindex.html" title="総合索引" >索引</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2015, ayato_p.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

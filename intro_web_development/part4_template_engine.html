@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Part4: テンプレートエンジンを使う &mdash; Clojure の日本語ガイド</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootswatch-cosmo.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" href="../_static/css/adjust_theme/bootswatch-cosmo.css" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
+    <link rel="up" title="Clojure で Web 開発をはじめてみよう" href="index.html" />
+    <link rel="next" title="Part5: データベースへ接続する" href="part5_connect_to_database.html" />
+    <link rel="prev" title="Column: 起動している REPL に新しい依存関係を追加する" href="column_add_deps_to_running_repl.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Clojure の日本語ガイド</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Part4: テンプレートエンジンを使う</a><ul>
+<li><a class="reference internal" href="#clojure">Clojure におけるテンプレートエンジン</a></li>
+<li><a class="reference internal" href="#hiccup">Hiccup を導入する</a></li>
+<li><a class="reference internal" href="#html-hiccup">文字列で書いていた HTML を Hiccup で書きなおしてみる</a></li>
+<li><a class="reference internal" href="#web">さらに Web アプリケーションらしくなるように装飾していく</a></li>
+<li><a class="reference internal" href="#id2">ここまでで学んだこと</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="column_add_deps_to_running_repl.html" title="Column: 起動している REPL に新しい依存関係を追加する" accesskey="P">前へ </a></li>
+              <li><a href="part5_connect_to_database.html" title="Part5: データベースへ接続する" accesskey="N">次へ </a></li>
+              <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
+              <li><a href="index.html" accesskey="U">Clojure で Web 開発をはじめてみよう</a></li>
+            
+            <li class="visible-xs"><a href="../_sources/intro_web_development/part4_template_engine.txt" rel="nofollow">ソースコードを表示</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="検索" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation"><div id="toc" class="sidebarRow">
+
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Clojure で Web 開発をはじめてみよう</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">まえがき</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">中身について</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="column_add_deps_to_running_repl.html"
+                        title="前の章へ">Column: 起動している REPL に新しい依存関係を追加する</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="part5_connect_to_database.html"
+                        title="次の章へ">Part5: データベースへ接続する</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro_web_development/part4_template_engine.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>クイック検索</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="検索" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="part4">
+<h1>Part4: テンプレートエンジンを使う<a class="headerlink" href="#part4" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="clojure">
+<h2>Clojure におけるテンプレートエンジン<a class="headerlink" href="#clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>今までのコードでは HTML を文字列で直接書いてきました。「まさか Clojure では文字列で直接 HTML を書くの?」と心配された方もいるかもしれませんが、そんなことはないので安心してください。他の言語でもあるようにテンプレートエンジンがちゃんとあるので、これからはそれを使っていきます。さて、テンプレートエンジンと一口に言っても色々なものが存在します。とは言えよく名前のあがるものはそんなに多くはないです。 Enlive, Selmer, Hiccup これら 3 つの存在は覚えておいていいかと思います。それぞれ簡単に特徴を説明すると Enlive はセレクタベースのテンプレートエンジンであまり他の言語でも見ない特殊な形のテンプレートエンジンですが、 HTML を読み込み CSS セレクタで特定の部分に Clojure で処理を加え HTML を吐き出すという面白いものです。 Selmar は Django のテンプレート機能と似たようなもので、 HTML ファイルに直接ロジックを書くタイプのものです。最後に Hiccup ですが、これは Clojure のベクタをそのまま HTML へと変換するものです。</p>
+<p>さて、どれも一長一短なので一概にどれがいいというのを簡単に決めることは出来ないのですが、今回は学習コストが一番低く(私の勝手な印象ですが) Clojure そのものと親和性が高くて HTML を直接書く必要がない Hiccup を使っていきたいと思います。</p>
+</div>
+<div class="section" id="hiccup">
+<h2>Hiccup を導入する<a class="headerlink" href="#hiccup" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>早速 Hiccup をプロジェクトの依存性へと追加しましょう。 <code class="docutils literal"><span class="pre">project.clj</span></code> へ次のように足します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">compojure</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">hiccup</span> <span class="s">&quot;1.0.5&quot;</span><span class="p">]</span>
+               <span class="p">[</span><span class="nv">environ</span> <span class="s">&quot;1.0.1&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/314fe92ffc4eb9084cc27f6a23b14e12fe3508ee">commit: Hiccup を依存性へと追加</a></li>
+</ul>
+<p>追加したら、早速いつも通り REPL を再起動して以下のフォームを評価してみましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">hiccup.core</span> <span class="ss">:as</span> <span class="nv">hc</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">hc/html</span> <span class="p">[</span><span class="ss">:div</span> <span class="p">[</span><span class="ss">:h1</span> <span class="s">&quot;Hello&quot;</span><span class="p">]])</span>
+<span class="c1">;; =&gt; &quot;&lt;div&gt;&lt;h1&gt;Hello&lt;/h1&gt;&lt;/div&gt;&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">hiccup.core</span></code> の <code class="docutils literal"><span class="pre">html</span></code> マクロが主に使う機会が多いものになるとは思いますが、このようにベクターデータ(以下、タグベクター)を渡すことで HTML へと変換し吐き出してくれます。この Hiccup のタグベクターは次のような構造になっています。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">[</span><span class="nv">tag</span> <span class="o">&amp;</span> <span class="nv">body</span><span class="p">]</span>
+<span class="p">[</span><span class="nv">tag</span> <span class="nv">attributes</span> <span class="o">&amp;</span> <span class="nv">body</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>タグベクターのひとつめは必ず HTML のタグ名がきますが、これはキーワード、シンボル、文字列のどれでも使うことが出来るようになっています。またタグの属性をマップデータとしてふたつめに渡すことが出来ますがこれは省略可能です。属性を除いたタグベクターの残りは全てタグのボディとして扱われますが、これは文字列や他のタグベクターを含めることが可能です。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">hc/html</span> <span class="p">[</span><span class="ss">:h1</span> <span class="p">{</span><span class="ss">:class</span> <span class="s">&quot;black-bold&quot;</span><span class="p">}</span> <span class="s">&quot;Hello &quot;</span> <span class="p">[</span><span class="ss">:em</span> <span class="s">&quot;world&quot;</span><span class="p">]])</span>
+<span class="c1">;; =&gt; &quot;&lt;h1 class=\&quot;black-bold\&quot;&gt;Hello &lt;em&gt;world&lt;/em&gt;&lt;/h1&gt;&quot;</span>
+</pre></div>
+</div>
+<p>また、 Hiccup は <code class="docutils literal"><span class="pre">id</span></code> と <code class="docutils literal"><span class="pre">class</span></code> 属性に対して CSS スタイルのシンタックスシュガーを用意しているため、マップデータを使わずに次のように表すことが出来ます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">hc/html</span> <span class="p">[</span><span class="ss">:p#headline.red.bold</span> <span class="s">&quot;Welcome to Clojure&quot;</span><span class="p">])</span>
+<span class="c1">;; =&gt; &quot;&lt;p class=\&quot;red bold\&quot; id=\&quot;headline\&quot;&gt;Welcome to Clojure&lt;/p&gt;&quot;</span>
+</pre></div>
+</div>
+<p>CSS と同じように <code class="docutils literal"><span class="pre">#</span></code> の後が ID 、 各 <code class="docutils literal"><span class="pre">.</span></code> の後がクラスになります。ただし、 <code class="docutils literal"><span class="pre">:div.foo.bar#baz</span></code> のような <code class="docutils literal"><span class="pre">#</span></code> が後ろにくるような書き方は出来ないので、必ず <code class="docutils literal"><span class="pre">#</span></code> はひとつめに持ってくる必要があります。</p>
+<p>さらに、タグベクターのボディではシーケンスが展開されるようになっているため次のようなコードが書けます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">hc/html</span> <span class="p">[</span><span class="ss">:ul</span>
+                <span class="p">(</span><span class="nb">for </span><span class="p">[</span><span class="nv">x</span> <span class="p">(</span><span class="nb">range </span><span class="mi">4</span><span class="p">)]</span>
+                  <span class="p">[</span><span class="ss">:li</span> <span class="nv">x</span><span class="p">])])</span>
+<span class="c1">;; =&gt; &quot;&lt;ul&gt;&lt;li&gt;0&lt;/li&gt;&lt;li&gt;1&lt;/li&gt;&lt;li&gt;2&lt;/li&gt;&lt;li&gt;3&lt;/li&gt;&lt;/ul&gt;&quot;</span>
+</pre></div>
+</div>
+<p>ただし、展開されるのはシーケンスだけでベクターやセットなどのデータ型は展開されないので注意が必要です。</p>
+<p>ここまででなんとなく Hiccup の雰囲気が掴めたと思います。また他にも関数が幾つかありますが、出てきたタイミングでそれぞれ説明したいと思います。</p>
+</div>
+<div class="section" id="html-hiccup">
+<h2>文字列で書いていた HTML を Hiccup で書きなおしてみる<a class="headerlink" href="#html-hiccup" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>今まで HTML を文字列で書いていたのは次のふたつの関数でした。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">home-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="s">&quot;&lt;h1&gt;ホーム画面&lt;/h1&gt;</span>
+<span class="s">   &lt;a href=\&quot;/todo\&quot;&gt;TODO 一覧&lt;/a&gt;&quot;</span><span class="p">)</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="o">`</span><span class="p">(</span><span class="s">&quot;&lt;h1&gt;TODO 一覧&lt;/h1&gt;&quot;</span>
+    <span class="s">&quot;&lt;ul&gt;&quot;</span>
+    <span class="o">~@</span><span class="p">(</span><span class="nb">for </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">title</span><span class="p">]}</span> <span class="nv">todo-list</span><span class="p">]</span>
+        <span class="p">(</span><span class="nb">str </span><span class="s">&quot;&lt;li&gt;&quot;</span> <span class="nv">title</span> <span class="s">&quot;&lt;/li&gt;&quot;</span><span class="p">))</span>
+    <span class="s">&quot;&lt;/ul&gt;&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>これを Hiccup で書き直します。それから本格的に画面を作りこんでいくので、ネームスペースもついでに新しく作りましょう。 <code class="docutils literal"><span class="pre">src/todo_clj/view/main.clj</span></code> と <code class="docutils literal"><span class="pre">src/todo_clj/view/todo.clj</span></code> を作成します。まずは <code class="docutils literal"><span class="pre">src/todo_clj/view/main.clj</span></code> にホーム画面を表示する関数を書いていきます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/main.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.main</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">hiccup.core</span> <span class="ss">:as</span> <span class="nv">hc</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">home-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">list</span>
+       <span class="p">[</span><span class="ss">:h1</span> <span class="s">&quot;ホーム画面&quot;</span><span class="p">]</span>
+       <span class="p">[</span><span class="ss">:a</span> <span class="p">{</span><span class="ss">:href</span> <span class="s">&quot;/todo&quot;</span><span class="p">}</span> <span class="s">&quot;TODO 一覧&quot;</span><span class="p">])</span>
+      <span class="nv">hc/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>何をしているか簡単に分かるようになったと思います。ちなみにここではリストを <code class="docutils literal"><span class="pre">hiccup.core/html</span></code> へと渡していますが、タグベクターのボディでなくても展開できるのでこのように書くことが可能です。</p>
+<p>次は <code class="docutils literal"><span class="pre">src/todo_clj/view/todo.clj</span></code> を書いてみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">hiccup.core</span> <span class="ss">:as</span> <span class="nv">hc</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo-list</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="o">`</span><span class="p">([</span><span class="ss">:h1</span> <span class="s">&quot;TODO 一覧&quot;</span><span class="p">]</span>
+        <span class="p">[</span><span class="ss">:ul</span>
+         <span class="o">~@</span><span class="p">(</span><span class="nb">for </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">title</span><span class="p">]}</span> <span class="nv">todo-list</span><span class="p">]</span>
+             <span class="p">[</span><span class="ss">:li</span> <span class="nv">title</span><span class="p">])])</span>
+      <span class="nv">hc/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">todo-list</span></code> はハンドラーから呼び出されるときに受け取るようにしました。こちらも前より読みやすくなったんじゃないんでしょうか。またふたつの関数のネームスペースを変える際に、これらを呼び出している方も少々書き換えています。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/main.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.handler.main</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">GET</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">compojure.route</span> <span class="ss">:as</span> <span class="nv">route</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.view.main</span> <span class="ss">:as</span> <span class="nv">view</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">home</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/home-view</span> <span class="nv">req</span><span class="p">)</span>
+      <span class="nv">res/response</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.handler.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">context</span> <span class="nv">GET</span> <span class="nv">POST</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.view.todo</span> <span class="ss">:as</span> <span class="nv">view</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">view/todo-index-view</span> <span class="nv">req</span> <span class="nv">todo-list</span><span class="p">)</span>
+      <span class="nv">res/response</span>
+      <span class="nv">res/html</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/1799136e93e8bf6ae024b5c34e3c4c66543b6530">commit: ビュー用に新しいネームスペースを作って、文字列で書いていた HTML を Hiccup を 使って書きなおした</a></li>
+</ul>
+<p>サーバーを起動して、画面をリロードしたら今までと変わらない画面が表示出来ているかを確認し、出来ていたらここまでは大丈夫です。</p>
+</div>
+<div class="section" id="web">
+<h2>さらに Web アプリケーションらしくなるように装飾していく<a class="headerlink" href="#web" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>今まで素っ気ない画面だったのでこの辺で少々手の込んだ画面を作っていくことにしましょう。まずは全体での統一感を出すためにページのレイアウトを作っていきます。 <code class="docutils literal"><span class="pre">todo-clj.view.layout</span></code> というネームスペースを新たに作成して、そこに全ての画面で共通して使えるレイアウトを定義します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/layout.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.layout</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">hiccup.page</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">html5</span> <span class="nv">include-css</span> <span class="nv">include-js</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">common</span> <span class="p">[</span><span class="nv">req</span> <span class="o">&amp;</span> <span class="nv">body</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">html5</span>
+   <span class="p">[</span><span class="ss">:head</span>
+    <span class="p">[</span><span class="ss">:title</span> <span class="s">&quot;TODO-clj&quot;</span><span class="p">]</span>
+    <span class="p">(</span><span class="nf">include-css</span> <span class="s">&quot;/css/normalize.css&quot;</span>
+                 <span class="s">&quot;/css/papier-1.3.1.min.css&quot;</span>
+                 <span class="s">&quot;/css/style.css&quot;</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">include-js</span> <span class="s">&quot;/js/main.js&quot;</span><span class="p">)]</span>
+   <span class="p">[</span><span class="ss">:body</span>
+    <span class="p">[</span><span class="ss">:header.top-bar.bg-green.depth-3</span> <span class="s">&quot;TODO-clj&quot;</span><span class="p">]</span>
+    <span class="p">[</span><span class="ss">:main</span> <span class="nv">body</span><span class="p">]]))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/e5992ab5a471b578d4f7b394c3a2d6589d326280">commit: アプリケーションのレイアウトを作成</a></li>
+</ul>
+<p><code class="docutils literal"><span class="pre">common</span></code> という全ての画面で共通となるレイアウトを定義する関数を作りました。ひとつめにリクエストマップを受け取り、残りは全てボディとして受け取り HTML の内部でそのまま展開されます。ちなみに今まで特に説明もなくビューに関連する関数の第一引数にリクエストマップを指定して、今のところ使っていないので本当に必要なのか気になっている方もいるかもしれませんが、後々使う予定なので今はとりあえず書いてあると思ってもらえればいいです。</p>
+<p>それから <code class="docutils literal"><span class="pre">include-css</span></code>, <code class="docutils literal"><span class="pre">include-js</span></code> 関数で幾つか定義した覚えのないファイル名が出てきていますが、 <code class="docutils literal"><span class="pre">normalize.css</span></code> と <code class="docutils literal"><span class="pre">papier-1.3.1.min.css</span></code> は以下の URI からダウンロードして、 <code class="docutils literal"><span class="pre">resources/public/css</span></code> ディレクトリ以下に配置しておいてください。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/alexanderGugel/papier">alexanderGugel/papier</a></li>
+<li><a class="reference external" href="https://github.com/necolas/normalize.css">necolas/normalize.css</a></li>
+</ul>
+<p>また同様に <code class="docutils literal"><span class="pre">resources/public/css/style.css</span></code> を作成して以下の記述をします。</p>
+<div class="highlight-css"><div class="highlight"><pre><span class="nt">header</span><span class="nc">.top-bar</span> <span class="p">{</span>
+    <span class="k">padding</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">resources/public/js/main.js</span></code> は空のファイルを置いておくだけで今回はいいです。後々中身を書いていきます。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/bd6e792c7eaf3e6ff91804cd866726b77bca0fdf">commit: 使用する CSS/JavaScript ファイルを resources ディレクトリ配下へ</a></li>
+</ul>
+<p>さて <code class="docutils literal"><span class="pre">hiccup.page</span></code> というネームスペースが新たに出てきました。 <code class="docutils literal"><span class="pre">hiccup.page</span></code> ネームスペースは HTML のページを素早く構築するための関数を提供するネームスペースで、 <code class="docutils literal"><span class="pre">html5</span></code> 以外にも <code class="docutils literal"><span class="pre">xhtml</span></code>, <code class="docutils literal"><span class="pre">html4</span></code> などというマクロがあり、それに加え CSS と JavaScript 用に link タグと script タグのヘルパー関数がそれぞれ用意されています( <code class="docutils literal"><span class="pre">include-css</span></code>, <code class="docutils literal"><span class="pre">include-js</span></code> )。そして、このネームスペースが提供する <code class="docutils literal"><span class="pre">html5</span></code> マクロは内部で <code class="docutils literal"><span class="pre">hiccup.core/html</span></code> マクロを呼び出すため、明示的に <code class="docutils literal"><span class="pre">hiccup.core/html</span></code> を使用する必要がありません。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">hiccup.page</span> <span class="ss">:as</span> <span class="nv">hp</span><span class="p">])</span>
+<span class="c1">;; =&gt; nil</span>
+<span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">hp/html5</span> <span class="p">[</span><span class="ss">:p</span> <span class="s">&quot;Hello&quot;</span><span class="p">])</span>
+<span class="c1">;; =&gt; &quot;&lt;!DOCTYPE html&gt;\n&lt;html&gt;&lt;p&gt;Hello&lt;/p&gt;&lt;/html&gt;&quot;</span>
+</pre></div>
+</div>
+<p>このように <code class="docutils literal"><span class="pre">html5</span></code> マクロは <code class="docutils literal"><span class="pre">hiccup.core/html</span></code> マクロと同じように使うことができます。今回は HTML5 で良いので <code class="docutils literal"><span class="pre">html5</span></code> マクロを使っています。</p>
+<p>この定義したレイアウトを次のようにホーム画面へと適用してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/main.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.main</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.view.layout</span> <span class="ss">:as</span> <span class="nv">layout</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">home-view</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
+        <span class="p">[</span><span class="ss">:h2</span> <span class="s">&quot;ホーム画面&quot;</span><span class="p">]</span> <span class="c1">;; ちょっと H1 タグだとうるさいので小さくしました</span>
+        <span class="p">[</span><span class="ss">:a</span> <span class="p">{</span><span class="ss">:href</span> <span class="s">&quot;/todo&quot;</span><span class="p">}</span> <span class="s">&quot;TODO 一覧&quot;</span><span class="p">]]</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>ここで一度、画面をリロードしてみましょう。どうでしょう、今までと何か変わった気がしますか?レイアウトで追加したヘッダーが新しく表示されてますが、 CSS が適用されていない気がしますよね( <code class="docutils literal"><span class="pre">[:header.top-bar.bg-green.depth-3</span> <span class="pre">&quot;TODO-clj&quot;]</span></code> と書いてあるのでヘッダーの <code class="docutils literal"><span class="pre">TODO-clj</span></code> が緑色の背景になって少々影が付くのを期待しています)。</p>
+<p>この原因は <code class="docutils literal"><span class="pre">resources</span></code> 配下のファイルに対してリクエストを処理できていないためです。例えば画面を表示したときに <code class="docutils literal"><span class="pre">http://localhost:3000/css/normalize.css</span></code> というリクエストが投げられるんですが、それを解決する方法をサーバーが知らないので CSS ファイルを取得出来ずに読み込めないという状態になっています。これを解決するためにミドルウェアをひとつ追加しましょう。</p>
+<p>Ring ライブラリの中に最初からあるミドルウェアを使います。この問題に対応できそうなものに <code class="docutils literal"><span class="pre">ring.middleware.file</span></code> と <code class="docutils literal"><span class="pre">ring.middleware.resource</span></code> というミドルウェアがあるんですが、 <code class="docutils literal"><span class="pre">ring.middleware.resource</span></code> を使うことにします。 <code class="docutils literal"><span class="pre">ring.middleware.file</span></code> は jar や war にしたときにその内部にあるファイルに対してアクセスすることが出来ないので、あまり利用する意味がありません。 <code class="docutils literal"><span class="pre">ring.middleware.resource</span></code> ミドルウェアを次のように追加してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">ring.middleware.resource</span> <span class="ss">:as</span> <span class="nv">resource</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.main</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">main-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.handler.todo</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">todo-routes</span><span class="p">]]</span>
+            <span class="p">[</span><span class="nv">todo-clj.middleware</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">wrap-dev</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+  <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">routes</span>
+       <span class="nv">todo-routes</span>
+       <span class="nv">main-routes</span><span class="p">)</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">wrap-dev</span> <span class="p">(</span><span class="ss">:dev</span> <span class="nv">env</span><span class="p">))</span>
+      <span class="p">(</span><span class="nf">wrap</span> <span class="nv">resource/wrap-resource</span> <span class="s">&quot;public&quot;</span><span class="p">)))</span> <span class="c1">;; 足しました</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">ring.middleware.resource/wrap-resource</span></code> ミドルウェアは他のミドルウェアと同様に第一引数としてハンドラーを受け取り、第二引数にリソースを解決する際のルートパスを受け取ります。ここでは第二引数として <code class="docutils literal"><span class="pre">&quot;public&quot;</span></code> を渡すことで <code class="docutils literal"><span class="pre">resources/public</span></code> がリソースを解決するときのルートになるようにしました。</p>
+<div class="admonition note">
+<p class="first admonition-title">注釈</p>
+<p class="last"><code class="docutils literal"><span class="pre">resources</span></code> ディレクトリはデフォルトで Leiningen プロジェクトのリソースディレクトリになっているため、 <code class="docutils literal"><span class="pre">public</span></code> を指定すると <code class="docutils literal"><span class="pre">resources/public</span></code> をルートパスにするということになるんですが、リソースディレクトリ自体をデフォルトから変えたい場合は <code class="docutils literal"><span class="pre">project.clj</span></code> に <code class="docutils literal"><span class="pre">:resource-paths</span></code> を指定すれば変更することが出来ます。</p>
+</div>
+<p>さて、ミドルウェアを足したらブラウザをリロードしてみましょう。緑色のヘッダーが見えるようになったと思います。レイアウトがちゃんと適用されるようになったところで TODO 一覧にも同じようにレイアウトを適用してみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.view.todo</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.view.layout</span> <span class="ss">:as</span> <span class="nv">layout</span><span class="p">]))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo-list</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="o">`</span><span class="p">([</span><span class="ss">:h1</span> <span class="s">&quot;TODO 一覧&quot;</span><span class="p">]</span>
+         <span class="p">[</span><span class="ss">:ul</span>
+          <span class="o">~@</span><span class="p">(</span><span class="nb">for </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">title</span><span class="p">]}</span> <span class="nv">todo-list</span><span class="p">]</span>
+              <span class="p">[</span><span class="ss">:li</span> <span class="nv">title</span><span class="p">])])</span>
+       <span class="p">(</span><span class="nf">layout/common</span> <span class="nv">req</span><span class="p">)))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/1c99452be026cfd2bc4f14afaf4c85ec5cfcc3d7">commit: 画面レイアウトを既にある画面に適用する</a></li>
+</ul>
+<p>TODO 一覧を表示するとホーム画面同様に緑色のヘッダーが表示されるようになりました。これでようやく Web アプリケーションらしさが出てきました。</p>
+<p>次の Part では実際にデータベースを使って現実の Web アプリケーションにより近いものを作っていくことにしましょう。</p>
+</div>
+<div class="section" id="id2">
+<h2>ここまでで学んだこと<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Clojure で使えるテンプレートエンジンは幾つかある</li>
+<li>Hiccup は Clojure のデータ構造をそのまま HTML へ変換できる</li>
+<li>Hiccup を使った共通的なレイアウトの適用方法</li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">Clojure の日本語ガイド</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="column_add_deps_to_running_repl.html" title="Column: 起動している REPL に新しい依存関係を追加する" >前へ</a></li>
+        <li><a href="part5_connect_to_database.html" title="Part5: データベースへ接続する" >次へ</a></li>
+        <li><a href="../genindex.html" title="総合索引" >索引</a></li>
+        <li><a href="index.html" >Clojure で Web 開発をはじめてみよう</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2015, ayato_p.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+
+
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    
+    <title>Part7: どのようにして Heroku へデプロイするか &mdash; Clojure の日本語ガイド</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    
+
+<link rel="stylesheet" href="../_static/css/basicstrap-base.css" type="text/css" />
+<link rel="stylesheet" id="current-theme" href="../_static/css/bootstrap3/bootswatch-cosmo.css" type="text/css" />
+<link rel="stylesheet" id="current-adjust-theme" href="../_static/css/adjust_theme/bootswatch-cosmo.css" type="text/css" />
+
+<link rel="stylesheet" href="../_static/css/font-awesome.min.css">
+
+<style type="text/css">
+  body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+  }
+</style>
+
+<link rel="stylesheet" href="../_static/css/basicstrap.css" type="text/css" />
+<link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+    
+<script type="text/javascript">
+  var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:    '../',
+            VERSION:     '0.0.1',
+            COLLAPSE_INDEX: false,
+            FILE_SUFFIX: '.html',
+            HAS_SOURCE:  true
+  };
+</script>
+    <script type="text/javascript" src="../_static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/bootstrap3.min.js"></script>
+<script type="text/javascript" src="../_static/js/jquery.cookie.min.js"></script>
+<script type="text/javascript" src="../_static/js/basicstrap.js"></script>
+<script type="text/javascript">
+</script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
+    <link rel="up" title="Clojure で Web 開発をはじめてみよう" href="index.html" />
+    <link rel="prev" title="Part6: TODO アプリを組み上げる" href="part6_build_up_our_app.html" /> 
+  </head>
+  <body role="document">
+    <div id="navbar-top" class="navbar navbar-fixed-top navbar-default" role="navigation" aria-label="top navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">Clojure の日本語ガイド</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown visible-xs">
+                <a role="button" id="localToc" data-toggle="dropdown" data-target="#" href="#">目次 <b class="caret"></b></a>
+                <ul class="dropdown-menu localtoc sp-localtoc" role="menu" aria-labelledby="localToc">
+                <ul>
+<li><a class="reference internal" href="#">Part7: どのようにして Heroku へデプロイするか</a><ul>
+<li><a class="reference internal" href="#clojure">一般的な Clojure アプリケーションのデプロイの方法について</a></li>
+<li><a class="reference internal" href="#jar">実行可能 Jar を作成するための準備</a></li>
+<li><a class="reference internal" href="#id5">プロダクション環境用の設定を行う</a></li>
+<li><a class="reference internal" href="#heroku">Heroku へデプロイする</a></li>
+<li><a class="reference internal" href="#id6">ここまでで学んだこと</a></li>
+</ul>
+</li>
+</ul>
+
+                </ul>
+              </li>
+
+            
+              <li><a href="part6_build_up_our_app.html" title="Part6: TODO アプリを組み上げる" accesskey="P">前へ </a></li>
+              <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
+              <li><a href="index.html" accesskey="U">Clojure で Web 開発をはじめてみよう</a></li>
+            
+            <li class="visible-xs"><a href="../_sources/intro_web_development/part7_how_to_deploy_to_heroku.txt" rel="nofollow">ソースコードを表示</a></li>
+
+            <li class="visible-xs">
+                <form class="search form-search form-inline navbar-form navbar-right sp-searchbox" action="../search.html" method="get">
+                  <div class="input-append input-group">
+                    <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+                    <span class="input-group-btn">
+                    <input type="submit" class="btn" value="検索" />
+                    </span>
+                  </div>
+                  <input type="hidden" name="check_keywords" value="yes" />
+                  <input type="hidden" name="area" value="default" />
+                </form>
+            </li>
+
+            
+
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- container -->
+    <div class="container-fluid">
+
+      <!-- row -->
+      <div class="row">
+         
+<div class="col-md-3 hidden-xs" id="sidebar-wrapper">
+  <div class="sidebar hidden-xs" role="navigation" aria-label="main navigation"><div id="toc" class="sidebarRow">
+
+<h3><a href="../index.html">目次</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/clojure_on_web.html">Clojure を Web で試してみる</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started/intellij_with_cursive.html">IntelliJ IDEA と Cursive で始める</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Clojure で Web 開発をはじめてみよう</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">まえがき</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">中身について</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id3">目次</a></li>
+</ul>
+</li>
+</ul>
+
+
+</div>
+<link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  <h4>前のトピックへ</h4>
+  <p class="topless"><a href="part6_build_up_our_app.html"
+                        title="前の章へ">Part6: TODO アプリを組み上げる</a></p>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/intro_web_development/part7_how_to_deploy_to_heroku.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" role="search">
+  <h3>クイック検索</h3>
+  <form class="search form-inline" action="../search.html" method="get">
+      <div class="input-append input-group">
+        <input type="text" class="search-query form-control" name="q" placeholder="Search...">
+        <span class="input-group-btn">
+        <input type="submit" class="btn" value="検索" />
+        </span>
+      </div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+  </div>
+</div> 
+        
+
+        <div class="col-md-9" id="content-wrapper">
+          <div class="document" role="main">
+            <div class="documentwrapper">
+              <div class="bodywrapper">
+                <div class="body">
+                  
+  <div class="section" id="part7-heroku">
+<h1>Part7: どのようにして Heroku へデプロイするか<a class="headerlink" href="#part7-heroku" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="clojure">
+<h2>一般的な Clojure アプリケーションのデプロイの方法について<a class="headerlink" href="#clojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>これから Clojure で Web アプリケーションを作ろうとするひとにとって、 Clojure をどのようにデプロイし運用するかというのは興味があるひとつのポイントでしょう。 Clojure では大きく分けてふたつの方法を選ぶことができます。 (1) 組み込みサーバーを依存関係に入れて実行可能 Jar を作る、 (2) War にして Wildfly などのアプリケーションサーバーにデプロイする、というのが大凡一般的な方法になります。 Java で Web アプリケーションを作った経験があるなら恐らくどちらかでデプロイした経験があると思いますが、 Clojure でも同様にしてデプロイすることが出来ます <a class="footnote-reference" href="#id3" id="id1">[1]</a> 。</p>
+<p>2 の方法はアプリケーションサーバーを用意するのが面倒なので今回はやりませんが、一応やり方としては lein-ring プラグインを使うことで実現出来ます。詳しくは <a class="reference external" href="https://github.com/weavejester/lein-ring#war-files">README</a> を読んでください。また Immutant を使っていて、 Wildfly にデプロイする場合は次の記事が参考になると思います <a class="footnote-reference" href="#id4" id="id2">[2]</a> 。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://qiita.com/lambda-knight/items/16843ce82889a53308f3">immutantを用いてclojureで開発してWildflyで動かす/Qiita</a></li>
+</ul>
+<p>この Part では組み込みサーバーを依存関係に入れて実行可能 Jar を作るという方法を取ることにします。ちなみに今回は既に Jetty を開発用のアプリケーションサーバーとして使っているので、それをそのまま採用します。
+なので、まずは実行可能 Jar を作り、最後にそれを Heroku へとデプロイしましょう。</p>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>本当はもうひとつ <code class="docutils literal"><span class="pre">lein</span> <span class="pre">run</span> <span class="pre">with-profiles</span> <span class="pre">prod</span></code> などとして動かす方法もありますがあまり一般的ではないと思うのでここでは紹介しません</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>Immutant については後の Part で解説します</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="jar">
+<h2>実行可能 Jar を作成するための準備<a class="headerlink" href="#jar" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Web アプリケーションのエントリーポイントとなる新しいネームスペースを作成しましょう。 <code class="docutils literal"><span class="pre">todo-clj.main</span></code> としましょう。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/main.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.main</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">core</span><span class="p">])</span>
+  <span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:as</span> <span class="nv">args</span><span class="p">}]</span>
+  <span class="p">(</span><span class="nf">core/start-server</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>このように <code class="docutils literal"><span class="pre">todo-clj.core</span></code> ネームスペースを読み込んで、 <code class="docutils literal"><span class="pre">-main</span></code> 関数の中で <code class="docutils literal"><span class="pre">(core/start-server)</span></code> を実行するようにします。またネームスペースに <code class="docutils literal"><span class="pre">(:gen-class)</span></code> を付けておきましょう。次は <code class="docutils literal"><span class="pre">project.clj</span></code> の <code class="docutils literal"><span class="pre">:uberjar-name</span></code> と uberjar プロファイルを設定します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<span class="ss">:uberjar-name</span> <span class="s">&quot;todo-clj.jar&quot;</span>
+<span class="ss">:profiles</span>
+<span class="p">{</span><span class="ss">:dev</span> <span class="p">{</span><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">prone</span> <span class="s">&quot;0.8.2&quot;</span><span class="p">]]</span>
+       <span class="ss">:env</span> <span class="p">{</span><span class="ss">:dev</span> <span class="nv">true</span><span class="p">}}</span>
+ <span class="ss">:uberjar</span> <span class="p">{</span><span class="ss">:aot</span> <span class="ss">:all</span>
+           <span class="ss">:main</span> <span class="nv">todo-clj.main</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">:uberjar-name</span></code> を設定することで <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> で出来上がった実行可能 Jar の名前を設定することが出来ます。 uberjar プロファイルを設定すると <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> を実行するときだけの設定を追加できます。 <code class="docutils literal"><span class="pre">:aot</span></code> や <code class="docutils literal"><span class="pre">:main</span></code> などについての詳しい説明はここでは省きたいと思いますが、簡単に説明しておくと <code class="docutils literal"><span class="pre">:aot</span></code> を指定することでアプリケーションの起動が早くなったり、実行時にバイトコードを生成しなくなり、 <code class="docutils literal"><span class="pre">:main</span></code> はエントリーポイント( <code class="docutils literal"><span class="pre">-main</span></code> 関数)があるネームスペースを指定します。</p>
+<p>ここまで出来たら実際に実行可能 Jar を作って実行してみたいと思います。</p>
+<div class="highlight-shell"><div class="highlight"><pre><span class="nv">$ </span>lein uberjar
+<span class="nv">$ </span>java -jar target/todo-clj.jar
+</pre></div>
+</div>
+<p>ここまで出来たらブラウザから今までと同じように <code class="docutils literal"><span class="pre">http://localhost:3000</span></code> にアクセスして起動出来ているか確認してみましょう。ちゃんと動いていれば成功です。</p>
+<p>案外簡単に出来ましたよね。これを実際に Heroku で動かそうという話なんですが、実は幾つかの点で懸念が残っているのでそれを先に解消していきます。</p>
+</div>
+<div class="section" id="id5">
+<h2>プロダクション環境用の設定を行う<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>今までコード中にベタ書きしてきたもので開発環境とプロダクション環境で切り替えたいものというのが幾つかあります。ひとつはデータベースの設定、もうひとつはサーバーのポート番号など。これらを外部の環境変数やアプリケーション起動時の引数などから指定できるようにしておくとデプロイする前にファイルを修正する、なんていうことをせずに済みます。</p>
+<p>まずはデータベースの設定を環境変数から取れるように変更しましょう。 environ を使います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.db</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">clojure.java.jdbc</span> <span class="ss">:as</span> <span class="nv">jdbc</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]))</span>
+
+<span class="p">(</span><span class="k">def </span><span class="nv">db-spec</span>
+  <span class="p">(</span><span class="ss">:db</span> <span class="nv">env</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>非常に簡素になりましたが、今までここにあった設定は <code class="docutils literal"><span class="pre">project.clj</span></code> へと移しました。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<span class="p">{</span><span class="ss">:dev</span> <span class="p">{</span><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">prone</span> <span class="s">&quot;0.8.2&quot;</span><span class="p">]]</span>
+       <span class="ss">:env</span> <span class="p">{</span><span class="ss">:dev</span> <span class="nv">true</span>
+             <span class="ss">:db</span> <span class="p">{</span><span class="ss">:dbtype</span> <span class="s">&quot;postgresql&quot;</span> <span class="ss">:dbname</span> <span class="s">&quot;todo_clj_dev&quot;</span> <span class="ss">:host</span> <span class="s">&quot;localhost&quot;</span> <span class="ss">:port</span> <span class="mi">5432</span> <span class="ss">:user</span> <span class="s">&quot;username&quot;</span> <span class="ss">:password</span> <span class="s">&quot;password&quot;</span><span class="p">}}}</span>
+ <span class="ss">:uberjar</span> <span class="p">{</span><span class="ss">:aot</span> <span class="ss">:all</span>
+           <span class="ss">:main</span> <span class="nv">todo-clj.main</span><span class="p">}}</span>
+</pre></div>
+</div>
+<p>開発時は <code class="docutils literal"><span class="pre">project.clj</span></code> の設定値を読み込みますが、プロダクション環境では環境変数 <code class="docutils literal"><span class="pre">db</span></code> を設定することで問題なく稼働します。また、 <code class="docutils literal"><span class="pre">db-spec</span></code> は Part5 で触れたように URI 表記の文字列でも問題ないので環境変数を設定する際に Clojure のマップデータを設定出来ないのを悩む必要はないです。</p>
+<p>次はサーバーのポート番号などをアプリケーション起動時に設定出来るようにします。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">start-server</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">host</span> <span class="nv">port</span> <span class="nv">join?</span><span class="p">]</span>
+                       <span class="ss">:or</span> <span class="p">{</span><span class="nv">host</span> <span class="s">&quot;localhost&quot;</span> <span class="nv">port</span> <span class="mi">3000</span> <span class="nv">join?</span> <span class="nv">false</span><span class="p">}}]</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">port</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">string? </span><span class="nv">port</span><span class="p">)</span> <span class="p">(</span><span class="nf">Integer/parseInt</span> <span class="nv">port</span><span class="p">)</span> <span class="nv">port</span><span class="p">)]</span>
+    <span class="p">(</span><span class="nb">when-not </span><span class="o">@</span><span class="nv">server</span>
+      <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">server/run-jetty</span> <span class="o">#</span><span class="ss">&#39;app</span> <span class="p">{</span><span class="ss">:host</span> <span class="nv">host</span> <span class="ss">:port</span> <span class="nv">port</span> <span class="ss">:join?</span> <span class="nv">join?</span><span class="p">})))))</span>
+</pre></div>
+</div>
+<p>このように <code class="docutils literal"><span class="pre">todo-clj.core/start-server</span></code> 関数を書き換えます。こうすると REPL の中から引数なしで起動しても今までと同じように動きます。そうしたらアプリケーションのエントリーポイントも書き換える必要がありますね。次のようになります。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/main.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:as</span> <span class="nv">args</span><span class="p">}]</span>
+  <span class="p">(</span><span class="nf">core/start-server</span>
+   <span class="ss">:host</span> <span class="p">(</span><span class="nb">get </span><span class="nv">args</span> <span class="s">&quot;host&quot;</span><span class="p">)</span> <span class="ss">:port</span> <span class="p">(</span><span class="nb">get </span><span class="nv">args</span> <span class="s">&quot;port&quot;</span><span class="p">)</span> <span class="ss">:join?</span> <span class="nv">true</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">host</span></code>, <code class="docutils literal"><span class="pre">port</span></code> をアプリケーション起動時の引数として受け取るように修正しています。これでプロダクション環境に出してもうまく動かすことが出来るようになりました。</p>
+</div>
+<div class="section" id="heroku">
+<h2>Heroku へデプロイする<a class="headerlink" href="#heroku" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ここまででプロダクション環境に出しても稼働させることのできる実行可能 Jar を作ることが出来るようになったのですが、 Heroku にデプロイするのにもう少しだけ修正をします。</p>
+<p>まずは今回作ってきた TODO アプリはデータベースを使うので最初にマイグレーションする必要があります。本当はマイグレーション用のライブラリを使うなどして綺麗にやりたいところですが、ここで説明するにはちょっとやることが多いので簡単に実装出来る方法で逃げます。</p>
+<p><code class="docutils literal"><span class="pre">todo-clj.db</span></code> ネームスペースを次のように修正します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db.clj</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">migrated?</span> <span class="p">[]</span> <span class="c1">;; public スキーマにテーブルがひとつでもあればマイグレーション済みであると見做す(テーブルが増えると対応出来ないので後で修正します)</span>
+  <span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">count </span><span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db-spec</span> <span class="s">&quot;select tablename from pg_tables where schemaname = &#39;public&#39;&quot;</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">migrate</span> <span class="p">[]</span>
+  <span class="p">(</span><span class="nb">when-not </span><span class="p">(</span><span class="nf">migrated?</span><span class="p">)</span>
+    <span class="p">(</span><span class="nf">jdbc/db-do-commands</span>
+     <span class="nv">db-spec</span>
+     <span class="p">(</span><span class="nf">jdbc/create-table-ddl</span> <span class="ss">:todo</span> <span class="p">[</span><span class="ss">:id</span> <span class="ss">:serial</span><span class="p">]</span> <span class="p">[</span><span class="ss">:title</span> <span class="ss">:varchar</span><span class="p">]))))</span>
+</pre></div>
+</div>
+<p>今回はテーブルがひとつでも作成されていたら <code class="docutils literal"><span class="pre">migrate</span></code> 関数を実行できないようにしました。そしてこの <code class="docutils literal"><span class="pre">migrate</span></code> 関数を Web アプリケーションの起動時に呼び出します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.main</span>
+  <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">core</span><span class="p">]</span>
+            <span class="p">[</span><span class="nv">todo-clj.db</span> <span class="ss">:as</span> <span class="nv">db</span><span class="p">])</span>
+  <span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:as</span> <span class="nv">args</span><span class="p">}]</span>
+  <span class="p">(</span><span class="nf">db/migrate</span><span class="p">)</span> <span class="c1">;; サーバー起動前にマイグレーションを行う</span>
+  <span class="p">(</span><span class="nf">core/start-server</span>
+   <span class="ss">:host</span> <span class="p">(</span><span class="nb">get </span><span class="nv">args</span> <span class="s">&quot;host&quot;</span><span class="p">)</span> <span class="ss">:port</span> <span class="p">(</span><span class="nb">get </span><span class="nv">args</span> <span class="s">&quot;port&quot;</span><span class="p">)</span> <span class="ss">:join?</span> <span class="nv">true</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>これでいいでしょう。次に Heroku 特有のデプロイ設定を行いましょう。まずは <code class="docutils literal"><span class="pre">project.clj</span></code> に次の記述を足します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<span class="ss">:min-lein-version</span> <span class="s">&quot;2.5.3&quot;</span>
+</pre></div>
+</div>
+<p>これは Heroku の Leiningen のデフォルトバージョンが 1.X 系なのでこうする必要があります。</p>
+<p>そして、最後に <code class="docutils literal"><span class="pre">Procfile</span></code> を書きます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre>;; Procfile
+web: java $JVM_OPT -jar target/todo-clj.jar host 0.0.0.0 port $PORT
+</pre></div>
+</div>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/3567218b62d6d9445c7ca8e5cc3ced5133a8166c">commit: Heroku へデプロイするための設定を記述</a></li>
+</ul>
+<p>Heroku に Leiningen プロジェクトを push すると自動的に <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> を実行して Procfile に記述したようにコマンドを実行してくれます。ここまで出来たらターミナルから次のように実行します( Heroku のアカウントがあって <a class="reference external" href="https://toolbelt.heroku.com/">Heroku client</a> がインストールされている前提です)。</p>
+<div class="highlight-shell"><div class="highlight"><pre><span class="nv">$ </span>heroku login
+<span class="nv">$ </span>heroku create your-name-todo-clj
+<span class="nv">$ </span>heroku git:remote -a your-name-todo-clj
+<span class="nv">$ </span>heroku addons:create heroku-postgresql:hobby-dev --app your-name-todo-clj
+<span class="nv">$ </span>heroku config:set <span class="nv">db</span><span class="o">=</span><span class="sb">`</span>heroku config:get DATABASE_URL<span class="sb">`</span>
+<span class="nv">$ </span>git push heroku master
+</pre></div>
+</div>
+<p>Heroku へ <code class="docutils literal"><span class="pre">your-name-todo-clj</span></code> としてデプロイしました(アプリケーション名は適宜自分で付けてください/誰かと重複するとデプロイ出来ないため)。全てターミナルで操作しましたが、勿論ブラウザからダッシュボードで設定しても構いません。ここまで問題なく実行出来たら、 <code class="docutils literal"><span class="pre">heroku</span> <span class="pre">open</span></code> とターミナルから実行しブラウザでアプリケーションを開いてみましょう。ブラウザから TODO の追加や削除が出来たら成功です。</p>
+<p>これまでの Part を全部読んできた方はお疲れ様でした。これで 0 から作った TODO アプリをデプロイすることが出来ました。次の Part からはこれまで使ってきたライブラリをもっと便利なものに差し替えたり、ユーザー管理機能を付け加えたり、この Part でスキップしたデータベースマイグレーションについて触れていきます。</p>
+</div>
+<div class="section" id="id6">
+<h2>ここまでで学んだこと<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<ul class="simple">
+<li>Clojure で作った Web アプリケーションのデプロイ方法について</li>
+<li>Heroku へのデプロイ方法</li>
+</ul>
+</div>
+</div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div><!-- /row -->
+
+      <!-- row -->
+      <div class="row footer-relbar">
+<div id="navbar-related" class=" related navbar navbar-default" role="navigation" aria-label="related navigation">
+  <div class="navbar-inner">
+    <ul class="nav navbar-nav ">
+        <li><a href="../index.html">Clojure の日本語ガイド</a></li>
+    </ul>
+<ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
+      
+        <li><a href="part6_build_up_our_app.html" title="Part6: TODO アプリを組み上げる" >前へ</a></li>
+        <li><a href="../genindex.html" title="総合索引" >索引</a></li>
+        <li><a href="index.html" >Clojure で Web 開発をはじめてみよう</a></li>
+        <li><a href="#">top</a></li> 
+      
+    </ul>
+  </div>
+</div>
+      </div><!-- /row -->
+
+      <!-- footer -->
+      <footer role="contentinfo">
+          &copy; Copyright 2015, ayato_p.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+      </footer>
+      <!-- /footer -->
+
+    </div>
+    <!-- /container -->
+
+  </body>
+</html>
