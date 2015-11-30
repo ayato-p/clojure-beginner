@@ -77,7 +77,7 @@
 <li><a class="reference internal" href="#id1">まずは簡単なルーティング機能を実装する</a></li>
 <li><a class="reference internal" href="#compojure">Compojure ってなんでしょう</a></li>
 <li><a class="reference internal" href="#id12">Compojure を導入する</a><ul>
-<li><a class="reference internal" href="#id13">まずは Compojure に依存性を追加する</a></li>
+<li><a class="reference internal" href="#id13">まずは Compojure を依存性に追加する</a></li>
 <li><a class="reference internal" href="#id14">Compojure でルーティングを書き換える</a></li>
 <li><a class="reference internal" href="#id16">Compojure についてもう少し詳しく知る</a></li>
 </ul>
@@ -348,7 +348,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 <div class="section" id="id12">
 <h2>Compojure を導入する<a class="headerlink" href="#id12" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id13">
-<h3>まずは Compojure に依存性を追加する<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>まずは Compojure を依存性に追加する<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Ring を追加したときのように <code class="docutils literal"><span class="pre">project.clj</span></code> へと依存性を追加します。</p>
 <div class="highlight-clojure"><div class="highlight"><pre><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
                <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
@@ -451,7 +451,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 <span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span>
   <span class="p">(</span><span class="nb">prn-str </span><span class="nv">id</span><span class="p">))</span>
 
-<span class="p">(</span><span class="nf">defroutes</span> <span class="nv">but?-handler</span>
+<span class="p">(</span><span class="nf">defroutes</span> <span class="nv">bad?-handler</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/todo/:id&quot;</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span> <span class="nv">todo-show</span><span class="p">))</span> <span class="c1">;; id を渡したいがリクエストマップが直接渡される</span>
 
 <span class="p">(</span><span class="nf">defroutes</span> <span class="nv">good-handler</span>
