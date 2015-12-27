@@ -402,7 +402,7 @@ TODO の削除画面を作る
 
 .. sourcecode:: clojure
 
-  ;; src/todo_clj/db/todo.clj
+  ;; src/todo_clj/handler/todo.clj
   (defn todo-delete-post [{:as req :keys [params]}]
     (let [todo-id (Long/parseLong (:todo-id params))]
       (if (pos? (first (todo/delete-todo todo-id)))
@@ -414,7 +414,7 @@ TODO の削除画面を作る
 
 .. sourcecode:: clojure
 
-  ;; src/todo_clj/handler/todo.clj
+  ;; src/todo_clj/view/todo.clj
   (defn todo-index-view [req todo-list]
     (->> [:section.card
           (when-let [{:keys [msg]} (:flash req)]
