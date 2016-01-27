@@ -17,6 +17,7 @@
 
    getting_started/index
    intro_web_development/index
+   troubleshooting_guide/index
 
 インデックス
 ==================

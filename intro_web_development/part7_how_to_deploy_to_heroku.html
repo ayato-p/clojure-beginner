@@ -52,6 +52,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="top" title="Clojure の日本語ガイド" href="../index.html" />
     <link rel="up" title="Clojure で Web 開発をはじめてみよう" href="index.html" />
+    <link rel="next" title="トラブルシューティングガイド" href="../troubleshooting_guide/index.html" />
     <link rel="prev" title="Part6: TODO アプリを組み上げる" href="part6_build_up_our_app.html" /> 
   </head>
   <body role="document">
@@ -87,6 +88,7 @@
 
             
               <li><a href="part6_build_up_our_app.html" title="Part6: TODO アプリを組み上げる" accesskey="P">前へ </a></li>
+              <li><a href="../troubleshooting_guide/index.html" title="トラブルシューティングガイド" accesskey="N">次へ </a></li>
               <li><a href="../genindex.html" title="総合索引" accesskey="I">索引 </a></li>
               <li><a href="index.html" accesskey="U">Clojure で Web 開発をはじめてみよう</a></li>
             
@@ -136,6 +138,10 @@
 <li class="toctree-l2 current"><a class="reference internal" href="index.html#id3">目次</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting_guide/index.html">トラブルシューティングガイド</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting_guide/cider_jack_in_does_not_work.html">[Emacs][cider-mode] cider-jack-in が出来ない</a></li>
+</ul>
+</li>
 </ul>
 
 
@@ -144,6 +150,9 @@
   <h4>前のトピックへ</h4>
   <p class="topless"><a href="part6_build_up_our_app.html"
                         title="前の章へ">Part6: TODO アプリを組み上げる</a></p>
+  <h4>次のトピックへ</h4>
+  <p class="topless"><a href="../troubleshooting_guide/index.html"
+                        title="次の章へ">トラブルシューティングガイド</a></p>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
@@ -225,8 +234,8 @@
 </div>
 <p><code class="docutils literal"><span class="pre">:uberjar-name</span></code> を設定することで <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> で出来上がった実行可能 Jar の名前を設定することが出来ます。 uberjar プロファイルを設定すると <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> を実行するときだけの設定を追加できます。 <code class="docutils literal"><span class="pre">:aot</span></code> や <code class="docutils literal"><span class="pre">:main</span></code> などについての詳しい説明はここでは省きたいと思いますが、簡単に説明しておくと <code class="docutils literal"><span class="pre">:aot</span></code> を指定することでアプリケーションの起動が早くなったり、実行時にバイトコードを生成しなくなり、 <code class="docutils literal"><span class="pre">:main</span></code> はエントリーポイント( <code class="docutils literal"><span class="pre">-main</span></code> 関数)があるネームスペースを指定します。</p>
 <p>ここまで出来たら実際に実行可能 Jar を作って実行してみたいと思います。</p>
-<div class="highlight-shell"><div class="highlight"><pre><span class="nv">$ </span>lein uberjar
-<span class="nv">$ </span>java -jar target/todo-clj.jar
+<div class="highlight-shell"><div class="highlight"><pre>$ lein uberjar
+$ java -jar target/todo-clj.jar
 </pre></div>
 </div>
 <p>ここまで出来たらブラウザから今までと同じように <code class="docutils literal"><span class="pre">http://localhost:3000</span></code> にアクセスして起動出来ているか確認してみましょう。ちゃんと動いていれば成功です。</p>
@@ -317,12 +326,12 @@ web: java $JVM_OPT -jar target/todo-clj.jar host 0.0.0.0 port $PORT
 <li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/3567218b62d6d9445c7ca8e5cc3ced5133a8166c">commit: Heroku へデプロイするための設定を記述</a></li>
 </ul>
 <p>Heroku に Leiningen プロジェクトを push すると自動的に <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> を実行して Procfile に記述したようにコマンドを実行してくれます。ここまで出来たらターミナルから次のように実行します( Heroku のアカウントがあって <a class="reference external" href="https://toolbelt.heroku.com/">Heroku client</a> がインストールされている前提です)。</p>
-<div class="highlight-shell"><div class="highlight"><pre><span class="nv">$ </span>heroku login
-<span class="nv">$ </span>heroku create your-name-todo-clj
-<span class="nv">$ </span>heroku git:remote -a your-name-todo-clj
-<span class="nv">$ </span>heroku addons:create heroku-postgresql:hobby-dev --app your-name-todo-clj
-<span class="nv">$ </span>heroku config:set <span class="nv">db</span><span class="o">=</span><span class="sb">`</span>heroku config:get DATABASE_URL<span class="sb">`</span>
-<span class="nv">$ </span>git push heroku master
+<div class="highlight-shell"><div class="highlight"><pre>$ heroku login
+$ heroku create your-name-todo-clj
+$ heroku git:remote -a your-name-todo-clj
+$ heroku addons:create heroku-postgresql:hobby-dev --app your-name-todo-clj
+$ heroku config:set <span class="nv">db</span><span class="o">=</span><span class="sb">`</span>heroku config:get DATABASE_URL<span class="sb">`</span>
+$ git push heroku master
 </pre></div>
 </div>
 <p>Heroku へ <code class="docutils literal"><span class="pre">your-name-todo-clj</span></code> としてデプロイしました(アプリケーション名は適宜自分で付けてください/誰かと重複するとデプロイ出来ないため)。全てターミナルで操作しましたが、勿論ブラウザからダッシュボードで設定しても構いません。ここまで問題なく実行出来たら、 <code class="docutils literal"><span class="pre">heroku</span> <span class="pre">open</span></code> とターミナルから実行しブラウザでアプリケーションを開いてみましょう。ブラウザから TODO の追加や削除が出来たら成功です。</p>
@@ -357,6 +366,7 @@ web: java $JVM_OPT -jar target/todo-clj.jar host 0.0.0.0 port $PORT
 <ul class="nav navbar-nav pull-right hidden-xs hidden-sm">
       
         <li><a href="part6_build_up_our_app.html" title="Part6: TODO アプリを組み上げる" >前へ</a></li>
+        <li><a href="../troubleshooting_guide/index.html" title="トラブルシューティングガイド" >次へ</a></li>
         <li><a href="../genindex.html" title="総合索引" >索引</a></li>
         <li><a href="index.html" >Clojure で Web 開発をはじめてみよう</a></li>
         <li><a href="#">top</a></li> 
@@ -369,7 +379,7 @@ web: java $JVM_OPT -jar target/todo-clj.jar host 0.0.0.0 port $PORT
       <!-- footer -->
       <footer role="contentinfo">
           &copy; Copyright 2015, ayato_p.
-        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.1.
+        Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.3.5.
       </footer>
       <!-- /footer -->
 
