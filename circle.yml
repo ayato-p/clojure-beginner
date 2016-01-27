@@ -11,7 +11,7 @@ machine:
 dependencies:
   pre:
     - pip install Sphinx
-    - pip install sphinxjp.themes.basicstrap
+    - pip install sphinx_rtd_theme
 
 deployment:
   publish:
