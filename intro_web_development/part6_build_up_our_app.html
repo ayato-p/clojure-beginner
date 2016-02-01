@@ -490,7 +490,7 @@
 </pre></div>
 </div>
 <p>これも更新関数と同様に更新件数を返します。なので、削除対象が 0 件の場合は 0 が返ってきます。最後に POST を処理する関数を書いたら完成です。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">todo-delete-post</span> <span class="p">[{</span><span class="ss">:as</span> <span class="nv">req</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nv">params</span><span class="p">]}]</span>
   <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">todo-id</span> <span class="p">(</span><span class="nf">Long/parseLong</span> <span class="p">(</span><span class="ss">:todo-id</span> <span class="nv">params</span><span class="p">))]</span>
     <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nf">todo/delete-todo</span> <span class="nv">todo-id</span><span class="p">)))</span>
@@ -500,7 +500,7 @@
 </pre></div>
 </div>
 <p>削除したあとのリダイレクト先に TODO の一覧画面にします。一覧画面上にアラートを出したいので、一覧画面の方にも修正を加えます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/view/todo.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">todo-index-view</span> <span class="p">[</span><span class="nv">req</span> <span class="nv">todo-list</span><span class="p">]</span>
   <span class="p">(</span><span class="nf">-&gt;&gt;</span> <span class="p">[</span><span class="ss">:section.card</span>
         <span class="p">(</span><span class="nb">when-let </span><span class="p">[{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">msg</span><span class="p">]}</span> <span class="p">(</span><span class="ss">:flash</span> <span class="nv">req</span><span class="p">)]</span>
