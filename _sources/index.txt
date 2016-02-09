@@ -16,8 +16,10 @@
    :maxdepth: 2
 
    getting_started/index
+   idioms/index
    intro_web_development/index
    troubleshooting_guide/index
+
 
 インデックス
 ==================
