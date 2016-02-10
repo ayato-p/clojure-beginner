@@ -35,8 +35,7 @@
 
   
     <link rel="top" title="Clojure の日本語ガイド" href="../index.html"/>
-        <link rel="next" title="Clojure で Web 開発をはじめてみよう" href="../intro_web_development/index.html"/>
-        <link rel="prev" title="構造的編集 (a.k.a. Paredit)" href="../getting_started/intellij_with_cursive/structural_editing.html"/> 
+        <link rel="prev" title="[Emacs][cider-mode] cider-jack-in が出来ない" href="../troubleshooting_guide/cider_jack_in_does_not_work.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -90,6 +89,8 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../getting_started/index.html">Clojure を始めよう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro_web_development/index.html">Clojure で Web 開発をはじめてみよう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting_guide/index.html">トラブルシューティングガイド</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">イディオム集</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#index">複数のコレクションの要素を index ごとにまとめる</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">マップを平坦なシーケンスへと変換する</a></li>
@@ -99,10 +100,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">複数の候補の中から <code class="docutils literal"><span class="pre">nil</span></code> でない値を見つけたら値を返す</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id5">シーケンスが空かどうかを確かめたい</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#assoc-dissoc">マップに対して条件を満すときだけ <code class="docutils literal"><span class="pre">assoc/dissoc</span></code> して、それ以外のときはそのまま返したい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reduce"><code class="docutils literal"><span class="pre">reduce</span></code> を途中で止めたい</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../intro_web_development/index.html">Clojure で Web 開発をはじめてみよう</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../troubleshooting_guide/index.html">トラブルシューティングガイド</a></li>
 </ul>
 
             
@@ -155,7 +155,8 @@
 <span class="p">[</span><span class="ss">:a</span> <span class="ss">:b</span> <span class="ss">:c</span> <span class="ss">:d</span> <span class="ss">:e</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>というふたつのベクタがあるときにこれらの要素を簡単に index ごとにまとめる方法。</p>
+<p>というふたつのベクタがあるときにこれらの要素を簡単に index
+ごとにまとめる方法。</p>
 <div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">a</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
       <span class="nv">b</span> <span class="p">[</span><span class="ss">:a</span> <span class="ss">:b</span> <span class="ss">:c</span> <span class="ss">:d</span> <span class="ss">:e</span><span class="p">]]</span>
   <span class="p">(</span><span class="nb">map </span><span class="nv">vector</span>
@@ -164,7 +165,8 @@
 <span class="c1">;; ([0 :a] [1 :b] [2 :c] [3 :d] [4 :e])</span>
 </pre></div>
 </div>
-<p>気を付けないといけないのは <code class="docutils literal"><span class="pre">map</span></code> が一番短かいコレクションの長さで止まるので、全ての要素に対して行ないたい場合などは注意が必要です。</p>
+<p>気を付けないといけないのは <code class="docutils literal"><span class="pre">map</span></code>
+が一番短かいコレクションの長さで止まるので、全ての要素に対して行ないたい場合などは注意が必要です。</p>
 </div>
 <div class="section" id="id2">
 <h2>マップを平坦なシーケンスへと変換する<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -188,7 +190,8 @@
 <span class="c1">;; (:name &quot;ayato-p&quot; :age &quot;24&quot; :address &quot;Japan&quot;)</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">seq</span></code> + <code class="docutils literal"><span class="pre">flatten</span></code> という方法もありますが、 <code class="docutils literal"><span class="pre">flatten</span></code> がネストした配列も全て平滑化してしまうため、この場合はあまり使うことが出来ません。</p>
+<p><code class="docutils literal"><span class="pre">seq</span></code> + <code class="docutils literal"><span class="pre">flatten</span></code> という方法もありますが、 <code class="docutils literal"><span class="pre">flatten</span></code>
+がネストした配列も全て平滑化してしまうため、この場合はあまり使うことが出来ません。</p>
 </div>
 <div class="section" id="id3">
 <h2>可変長引数を受け取る関数にシーケンスのデータを渡したい<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -198,7 +201,8 @@
   <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;, &quot;</span> <span class="nv">args</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>このような関数とデータがあった場合にどのようにすれば関数 <code class="docutils literal"><span class="pre">f</span></code> へベクタ <code class="docutils literal"><span class="pre">v</span></code> が渡せるかという問題です。 これは次のように書けます。</p>
+<p>このような関数とデータがあった場合にどのようにすれば関数 <code class="docutils literal"><span class="pre">f</span></code> へベクタ
+<code class="docutils literal"><span class="pre">v</span></code> が渡せるかという問題です。 これは次のように書けます。</p>
 <div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">apply </span><span class="nv">f</span> <span class="nv">v</span><span class="p">)</span>
 <span class="c1">;; &quot;foo, bar, baz&quot;</span>
 </pre></div>
@@ -296,6 +300,21 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="reduce">
+<h2><code class="docutils literal"><span class="pre">reduce</span></code> を途中で止めたい<a class="headerlink" href="#reduce" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">reduced</span></code> を使いましょう。</p>
+<p>まず次のような無限の数値シーケンスに対してかけ算することを考えます。このときかけ算なので
+<code class="docutils literal"><span class="pre">0</span></code> を見つけたところで <code class="docutils literal"><span class="pre">0</span></code> を返すことが可能です(もし <code class="docutils literal"><span class="pre">0</span></code>
+が見つからなくて本当に無限のシーケンスがきたら止まらないですね)。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">reduce </span><span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">acc</span> <span class="nv">x</span><span class="p">]</span>
+          <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">x</span><span class="p">)</span>
+            <span class="p">(</span><span class="nf">reduced</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="p">(</span><span class="nb">* </span><span class="nv">acc</span> <span class="nv">x</span><span class="p">)))</span>
+        <span class="mi">1</span>
+        <span class="p">(</span><span class="nb">cycle </span><span class="p">[</span><span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -305,10 +324,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../intro_web_development/index.html" class="btn btn-neutral float-right" title="Clojure で Web 開発をはじめてみよう" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="../getting_started/intellij_with_cursive/structural_editing.html" class="btn btn-neutral" title="構造的編集 (a.k.a. Paredit)" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../troubleshooting_guide/cider_jack_in_does_not_work.html" class="btn btn-neutral" title="[Emacs][cider-mode] cider-jack-in が出来ない" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
