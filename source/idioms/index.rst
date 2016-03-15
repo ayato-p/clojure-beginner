@@ -293,3 +293,41 @@ java.util.LinkedList のインスタンスをベクターにしたい
     (set-data :foo 1)
     (get-data :foo)
     ;; 1
+
+falsy な値をリストから除去する
+------------------------------
+
+``filter`` + ``identity`` で実現できます。
+
+.. sourcecode:: clojure
+
+    (filter identity [nil false true 1 "hello" [1 2] {:foo 1} :hoge])
+    ;; (true 1 "hello" [1 2] {:foo 1} :hoge)
+
+オブジェクトの一覧にインデックスを付ける
+----------------------------------------
+
+``map-indexed`` + ``vector`` の組み合わせで実現できます。
+
+.. sourcecode:: clojure
+
+    (map-indexed vector (repeat 5 {}))
+    ;; ([0 {}] [1 {}] [2 {}] [3 {}] [4 {}])
+
+こうすることで次のように利用できます。
+
+.. sourcecode:: clojure
+
+    (for [[idx m] (map-indexed vector (repeat 5 {}))]
+      (str idx " is " (pr-str m)))
+    ;; ("0 is {}" "1 is {}" "2 is {}" "3 is {}" "4 is {}")
+
+または次のようにも書けます。
+
+.. sourcecode:: clojure
+
+    (group-by first (map-indexed vector (repeat 5 {})))
+    ;; {0 [[0 {}]], 1 [[1 {}]], 2 [[2 {}]], 3 [[3 {}]], 4 [[4 {}]]}
+
+    (into {} (map-indexed vector (repeat 5 {})))
+    ;; {0 {}, 1 {}, 2 {}, 3 {}, 4 {}}
