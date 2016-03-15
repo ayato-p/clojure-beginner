@@ -140,7 +140,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -193,14 +193,14 @@
 </tbody>
 </table>
 <p><code class="docutils literal"><span class="pre">src/todo_clj/core.clj</span></code> を開き、 REPL を起動してやっていきましょう。 <code class="docutils literal"><span class="pre">core.clj</span></code> には Part2 までの内容が書いてあると思いますが、 Part2 の最後と同じようにサーバーをまず起動します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">c</span><span class="p">])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">c</span><span class="p">])</span>
 <span class="c1">;; =&gt; nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">c/start-server</span><span class="p">)</span>
 <span class="c1">;; =&gt; #object[org.eclipse.jetty.server.Server 0x55b1143a &quot;org.eclipse.jetty.server.Server@55b1143a&quot;]</span>
 </pre></div>
 </div>
 <p>何の変哲もない <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> が表示されたと思います。次にファイル上の <code class="docutils literal"><span class="pre">handler</span></code> 関数を書き換えてみます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
   <span class="p">{</span><span class="ss">:status</span> <span class="mi">200</span>
    <span class="ss">:headers</span> <span class="p">{</span><span class="s">&quot;Content-Type&quot;</span> <span class="s">&quot;text/plain&quot;</span><span class="p">}</span>
    <span class="ss">:body</span> <span class="s">&quot;Hello, world!!&quot;</span><span class="p">})</span>
@@ -209,7 +209,7 @@
 <p>何の変哲もない <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> にエクスクラメーションマークをふたつ付けてみました。試しにこの関数をカーソル位置のフォームを REPL に送って評価(これ以降、単に &#8220;評価する&#8221; と書いているときはこの機能を使っていると思ってください)する機能を使ってみます。
 そしてブラウザを更新してみると前と何も変わっていません。仕方ないので REPL 上で <code class="docutils literal"><span class="pre">(c/restart-server)</span></code> を評価してみましょう。その後、ブラウザを更新すると出力結果が変わっていると思います。</p>
 <p>ですが、これではあまり嬉しくないのでもうちょっと変更を加えてどうにかしてみましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">start-server</span> <span class="p">[]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">start-server</span> <span class="p">[]</span>
   <span class="p">(</span><span class="nb">when-not </span><span class="o">@</span><span class="nv">server</span>
     <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">server/run-jetty</span> <span class="o">#</span><span class="ss">&#39;handler</span> <span class="p">{</span><span class="ss">:port</span> <span class="mi">3000</span> <span class="ss">:join?</span> <span class="nv">false</span><span class="p">}))))</span>
 </pre></div>
@@ -218,7 +218,7 @@
 <p>これはサーバーを起動する際に渡している <code class="docutils literal"><span class="pre">handler</span></code> 関数のシンボルを、 <code class="docutils literal"><span class="pre">Var</span></code> オブジェクトに変更したんですね。シンボルを直接渡してしまうと <code class="docutils literal"><span class="pre">handler</span></code> を束縛していたオブジェクト(関数)が直接 <code class="docutils literal"><span class="pre">run-server</span></code> に渡ってしまい、それを後から変更することは出来なくなるのですが、 <code class="docutils literal"><span class="pre">Var</span></code> オブジェクトを渡しておけば <code class="docutils literal"><span class="pre">handler</span></code> を束縛するオブジェクトが変わっても <code class="docutils literal"><span class="pre">run-server</span></code> 関数は <code class="docutils literal"><span class="pre">Var</span></code> に格納されたオブジェクトをその都度参照出来るようになるので、サーバーを再起動せずに <code class="docutils literal"><span class="pre">handler</span></code> 関数の再評価だけで出力結果を変更することができるようになります。</p>
 <p><code class="docutils literal"><span class="pre">Var</span></code> の話は少し難しいので分からなければ、とりあえず <code class="docutils literal"><span class="pre">run-jetty</span></code> には <code class="docutils literal"><span class="pre">Var</span></code> を渡したら良いらしいということを覚えておいてもらえればいいです。</p>
 <p>さて、 <code class="docutils literal"><span class="pre">handler</span></code> 関数を次のように書き換えると HTML が出力出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
   <span class="p">{</span><span class="ss">:status</span> <span class="mi">200</span>
    <span class="ss">:headers</span> <span class="p">{</span><span class="s">&quot;Content-Type&quot;</span> <span class="s">&quot;text/html&quot;</span><span class="p">}</span>
    <span class="ss">:body</span> <span class="s">&quot;&lt;h1&gt;Hello, world&lt;/h1&gt;&quot;</span><span class="p">})</span>
@@ -253,7 +253,7 @@
 </li>
 </ul>
 <p>このような使い分けをするものの、例えば REPL 上で次のようなフォームを評価すると、さっきまでのコードを上書き出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span><span class="p">])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span><span class="p">])</span>
 <span class="c1">;; =&gt; nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">in-ns </span><span class="ss">&#39;todo-clj.core</span><span class="p">)</span>
 <span class="c1">;; =&gt; #object[clojure.lang.Namespace 0x25ea002f &quot;todo-clj.core&quot;]</span>

@@ -141,7 +141,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -171,20 +171,20 @@
 <h2>まずは簡単なルーティング機能を実装する<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Web アプリケーションに必要なもののひとつにルーティング機能があります。前の Part までで <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> が出来るようになりましたが、このままでは <code class="docutils literal"><span class="pre">/todo/new</span></code> という URI にアクセスしたら TODO を新規作成する画面を表示するようにしたいという要望に対応出来ません。そこでまずは特定の URI に対して適切なコンテンツを返すことことをまずは特別なライブラリを使わずに実装してみます。</p>
 <p>最初にホーム画面と TODO の一覧画面を表示するために以下のルーティングを定義しようと思います。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">{</span><span class="s">&quot;/&quot;</span>     <span class="nv">home</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s">&quot;/&quot;</span>     <span class="nv">home</span>
  <span class="s">&quot;/todo&quot;</span> <span class="nv">todo-index</span><span class="p">}</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">http://localhost:3000/</span></code> でホーム画面を表示して、 <code class="docutils literal"><span class="pre">http://localhost:3000/todo</span></code> で TODO の一覧を表示するだけの簡単なものです。</p>
 <p>早速上記のマップを定義してみましょう。ファイルは <code class="docutils literal"><span class="pre">src/todo_clj/core.clj</span></code> です。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="k">def </span><span class="nv">routes</span>
   <span class="p">{</span><span class="s">&quot;/&quot;</span> <span class="nv">home</span>
    <span class="s">&quot;/todo&quot;</span> <span class="nv">todo-index</span><span class="p">})</span>
 </pre></div>
 </div>
 <p>これを評価すると当然エラーが出るので <code class="docutils literal"><span class="pre">home</span></code> 関数と <code class="docutils literal"><span class="pre">todo-index</span></code> 関数を実装しましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">ok</span> <span class="p">[</span><span class="nv">body</span><span class="p">]</span>
   <span class="p">{</span><span class="ss">:status</span> <span class="mi">200</span>
    <span class="ss">:body</span> <span class="nv">body</span><span class="p">})</span>
@@ -226,7 +226,7 @@
 </div>
 <p>一気に色んな関数が増えましたが、よくよく見ると共通的な処理をまとめているだけなのが分かると思います。そして、 <code class="docutils literal"><span class="pre">routes</span></code> をエラーなく評価することが出来るようになりました。まだデータベースを使うことが出来ないので、ここでは単純なマップのベクタを <code class="docutils literal"><span class="pre">todo-list</span></code> という名前で定義しておきます。</p>
 <p>これらの関数は独立しているのでテストするのが容易です。ファイルを保存してロードした後に(もしくは全ての関数を評価した後に) REPL 上で次のようなコードを試してみましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">in-ns </span><span class="ss">&#39;todo-clj.core</span><span class="p">)</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">in-ns </span><span class="ss">&#39;todo-clj.core</span><span class="p">)</span>
 <span class="c1">;; =&gt; #object[clojure.lang.Namespace 0x121aaddc &quot;todo-clj.core&quot;]</span>
 <span class="nv">todo-clj.core&gt;</span> <span class="p">(</span><span class="nf">home</span> <span class="p">{})</span>
 <span class="c1">;; =&gt; {:status 200, :body &quot;&lt;h1&gt;ホーム画面&lt;/h1&gt;\n   &lt;a href=\&quot;/todo\&quot;&gt;TODO 一覧&lt;/a&gt;&quot;, :headers {&quot;Content-Type&quot; &quot;text/html; charset=utf-8&quot;}}</span>
@@ -234,7 +234,7 @@
 </div>
 <p>ネームスペースを切り替えた後 <a class="footnote-reference" href="#id4" id="id2">[1]</a> <a class="footnote-reference" href="#id5" id="id3">[2]</a> に <code class="docutils literal"><span class="pre">(home</span> <span class="pre">{})</span></code> を評価することでレスポンスマップを手に入れることが出来ました。 <code class="docutils literal"><span class="pre">home</span></code> 関数へと渡している空のマップはリクエストマップですが、これは <code class="docutils literal"><span class="pre">home</span></code> 関数が今回は内部で他のパラメーターを使わないためこのように空を渡しています。</p>
 <p>あとはこれを <code class="docutils literal"><span class="pre">handler</span></code> 関数から呼び出せるようにするだけです。残りの関数を書いてみましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">match-route</span> <span class="p">[</span><span class="nv">uri</span><span class="p">]</span>
   <span class="p">(</span><span class="nb">get </span><span class="nv">routes</span> <span class="nv">uri</span><span class="p">))</span>
 
@@ -250,7 +250,7 @@
 <li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/c40de77abd80a39011939fcca1193ad0a86f01aa">commit: ルーティング機能を実装してみる</a></li>
 </ul>
 <p>最終的にこんな感じになりました。 <code class="docutils literal"><span class="pre">match-route</span></code> 関数を新しく作り、 <code class="docutils literal"><span class="pre">handler</span></code> 関数を修正しました。これも先ほどと同様に以下のように REPL 上でテスト出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">todo-clj.core&gt;</span> <span class="p">(</span><span class="nf">handler</span> <span class="p">{})</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">todo-clj.core&gt;</span> <span class="p">(</span><span class="nf">handler</span> <span class="p">{})</span>
 <span class="c1">;; =&gt; {:status 404, :body &quot;&lt;h1&gt;404 page not found&lt;/1&gt;&quot;}</span>
 <span class="nv">todo-clj.core&gt;</span> <span class="p">(</span><span class="nf">handler</span> <span class="p">{</span><span class="ss">:uri</span> <span class="s">&quot;/&quot;</span><span class="p">})</span>
 <span class="c1">;; =&gt; {:status 200, :body &quot;&lt;h1&gt;ホーム画面&lt;/h1&gt;\n   &lt;a href=\&quot;/todo\&quot;&gt;TODO 一覧&lt;/a&gt;&quot;, :headers {&quot;Content-Type&quot; &quot;text/html; charset=utf-8&quot;}}</span>
@@ -277,7 +277,7 @@
 <h2>Compojure ってなんでしょう<a class="headerlink" href="#compojure" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>前の方でルーティング機能を実装したので流れで分かるとは思いますが <a class="reference external" href="https://github.com/weavejester/compojure">Compojure</a> はルーティング機能を提供するシンプルなライブラリです。一般的に何故か Web フレームワークという風に認知されていますが、主にルーティングのためのみに使用するライブラリとなります <a class="footnote-reference" href="#id9" id="id7">[3]</a> 。</p>
 <p>Compojure を導入することで今まで無理やり書いていたルーティングがよりシンプルになります。具体的には次のように書くことが出来るようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">handler</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">handler</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/todo&quot;</span> <span class="nv">req</span> <span class="nv">todo-index</span><span class="p">))</span>
 </pre></div>
@@ -328,7 +328,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 <div class="section" id="id13">
 <h3>まずは Compojure を依存性に追加する<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Ring を追加したときのように <code class="docutils literal"><span class="pre">project.clj</span></code> へと依存性を追加します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
                <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]</span>
                <span class="p">[</span><span class="nv">compojure</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]]</span>
 </pre></div>
@@ -341,7 +341,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 <div class="section" id="id14">
 <h3>Compojure でルーティングを書き換える<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>次に Compojure を使って今のコードを書き換えてみます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">context</span> <span class="nv">GET</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">compojure.route</span> <span class="ss">:as</span> <span class="nv">route</span><span class="p">]</span>
@@ -351,7 +351,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </div>
 <p>まずは <code class="docutils literal"><span class="pre">ns</span></code> マクロの <code class="docutils literal"><span class="pre">:require</span></code> 部分に Compojure を追加します。 <code class="docutils literal"><span class="pre">:refer</span></code> と <code class="docutils literal"><span class="pre">:as</span></code> の使い分けを何処でしているのか分かりにくいかもしれませんが、 <code class="docutils literal"><span class="pre">defroutes</span></code> や <code class="docutils literal"><span class="pre">GET</span></code> のようなマクロはネームスペース内で衝突し難いですし、使うときにネームスペースの指定をせずに使えたほうが簡単でいいので <code class="docutils literal"><span class="pre">:refer</span></code> を使っています。勿論、 <code class="docutils literal"><span class="pre">[compojure.core</span> <span class="pre">:as</span> <span class="pre">c]</span></code> として <code class="docutils literal"><span class="pre">(c/defroutes</span> <span class="pre">hoge</span> <span class="pre">...)</span></code> と書いても間違いではないです。ちなみに今回ついでに <code class="docutils literal"><span class="pre">ring.util.response</span></code> も加えています。これについては後述します。</p>
 <p>次に <code class="docutils literal"><span class="pre">handler</span></code> 関数を再定義しましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="nf">defroutes</span> <span class="nv">handler</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/todo&quot;</span> <span class="nv">req</span> <span class="nv">todo-index</span><span class="p">)</span>
@@ -360,14 +360,14 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </div>
 <p>これを再評価して REPL からサーバーを起動して確認してみましょう。すると今まで通り、ホーム画面や TODO 一覧画面が表示されているのが確認出来ると思います。 <code class="docutils literal"><span class="pre">defroutes</span></code> は <code class="docutils literal"><span class="pre">def</span></code> や <code class="docutils literal"><span class="pre">defn</span></code> と似ていますが、第一引数にハンドラ名となるシンボルを受け取り、第二引数以降にルート定義を受け取ります。ルート定義は主に <code class="docutils literal"><span class="pre">GET</span></code> , <code class="docutils literal"><span class="pre">POST</span></code> などの <code class="docutils literal"><span class="pre">compojure.core</span></code> にあるマクロを使いますが、その他にも <code class="docutils literal"><span class="pre">not-found</span></code> のような <code class="docutils literal"><span class="pre">compojure.route</span></code> の関数なども使うことが出来ます。</p>
 <p>それから <code class="docutils literal"><span class="pre">ok</span></code>, <code class="docutils literal"><span class="pre">not-found</span></code> 関数を削除し、 <code class="docutils literal"><span class="pre">html</span></code> 関数も少々書き換えます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">html</span> <span class="p">[</span><span class="nv">res</span><span class="p">]</span>
   <span class="p">(</span><span class="nf">res/content-type</span> <span class="nv">res</span> <span class="s">&quot;text/html; charset=utf-8&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">ring.util.response</span></code> には幾つかのレスポンスマップを操作する便利な関数が定義されているためこれを利用することにしました。 <code class="docutils literal"><span class="pre">ring.util.response/content-type</span></code> 関数はレスポンスマップとヘッダーの Context-Type に設定するバリューを受け取り、レスポンスマップのヘッダーの <code class="docutils literal"><span class="pre">&quot;Context-Type&quot;</span></code> キーに受け取ったバリューを設定するという簡単なものです。前の <code class="docutils literal"><span class="pre">html</span></code> 関数のように自分でキーを設定してもいいのですが、このように既にある関数を利用できるのであれば使った方がいいでしょう。</p>
 <p>また <code class="docutils literal"><span class="pre">ok</span></code> 関数を削除したので <code class="docutils literal"><span class="pre">home</span></code>, <code class="docutils literal"><span class="pre">todo-index</span></code> 関数にも多少の修正が必要となります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">home</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
   <span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">home-view</span> <span class="nv">req</span><span class="p">)</span>
       <span class="nv">res/response</span>
@@ -388,28 +388,28 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 <h3>Compojure についてもう少し詳しく知る<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ここまでで Compojure を使ってコードを書き換えてきましたが、もう少し Compojure が何を出来るのかを説明したいと思います。その後に今回作る TODO アプリの骨格となるルーティングの定義をもう少し行いましょう。</p>
 <p>今まで見てきたように Compojure でのルート定義は以下のようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>このようなルート定義はリクエストマップを受け取りレスポンスマップを返す Ring ハンドラーを返します。この Ring ハンドラーを実行出来るかというのは HTTP メソッドとパスの定義によって決まります。この例では HTTP メソッドが GET でパスが <code class="docutils literal"><span class="pre">&quot;/&quot;</span></code> のときのみ実行されるということが分かります。また実行できない場合、ルート定義は <code class="docutils literal"><span class="pre">nil</span></code> を返します。</p>
 <p><code class="docutils literal"><span class="pre">compojure.core</span></code> ネームスペースには <code class="docutils literal"><span class="pre">GET</span></code> や <code class="docutils literal"><span class="pre">POST</span></code> というマクロがあると書きましたが、これらは Ring が扱える HTTP メソッドと同名のマクロがあります。なので、実際に使えるものとしては <code class="docutils literal"><span class="pre">GET</span></code>, <code class="docutils literal"><span class="pre">POST</span></code>, <code class="docutils literal"><span class="pre">PUT</span></code>, <code class="docutils literal"><span class="pre">DELETE</span></code>, <code class="docutils literal"><span class="pre">OPTIONS</span></code>, <code class="docutils literal"><span class="pre">PATCH</span></code>, <code class="docutils literal"><span class="pre">HEAD</span></code> があり、どの HTTP メソッドでも良いという場合には <code class="docutils literal"><span class="pre">ANY</span></code> マクロを使うことができます。</p>
 <p><code class="docutils literal"><span class="pre">GET</span></code> などのマクロは 2 つ以上の引数を受け取ります。第一引数はパスで、第二引数はバインディング、第三引数以降ではバインディングを利用して返却するレスポンスを作る部分になります。</p>
 <p>パスは文字列で定義でき <code class="docutils literal"><span class="pre">&quot;/&quot;</span></code> や <code class="docutils literal"><span class="pre">&quot;/todo&quot;</span></code> などと定義するのですが、 <code class="docutils literal"><span class="pre">&quot;/todo/:id&quot;</span></code> などといったルートパラメーターを含めた特殊な指定も出来ます。このように指定することで次の <code class="docutils literal"><span class="pre">&quot;/&quot;</span></code> もしくは <code class="docutils literal"><span class="pre">&quot;.&quot;</span></code> まで <code class="docutils literal"><span class="pre">:id</span></code> の部分にどのような文字列でもパスとして受け入れることができるようになります。ただ、これでは数字だけを使いたいなどというときに少々不便です。 Compojure ではその問題を解決するために指定できる文字を正規表現によって次のように制限することができます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; todo-show はまだ未定義の架空の関数です</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; todo-show はまだ未定義の架空の関数です</span>
 <span class="p">(</span><span class="nf">GET</span> <span class="p">[</span><span class="s">&quot;/todo/:id&quot;</span> <span class="ss">:id</span> <span class="o">#</span><span class="s">&quot;[0-9]+&quot;</span><span class="p">]</span> <span class="nv">req</span> <span class="nv">todo-show</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>バインディングの機能については Clojure の <code class="docutils literal"><span class="pre">let</span></code> などで使える分配束縛と似たような機能が提供されていると考えてもらえるといいと思います。今回は分配束縛を使っていませんが使うことで多少楽にルート定義をすることが出来ます。例えば次のように <code class="docutils literal"><span class="pre">:params</span></code> を簡単にリクエストマップから取り出すことが出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">GET</span> <span class="p">[</span><span class="s">&quot;/todo/:id&quot;</span> <span class="ss">:id</span> <span class="o">#</span><span class="s">&quot;[0-9]+&quot;</span><span class="p">]</span> <span class="p">{</span><span class="nv">params</span> <span class="ss">:params</span><span class="p">}</span> <span class="p">(</span><span class="nf">todo-show</span> <span class="nv">params</span><span class="p">))</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">GET</span> <span class="p">[</span><span class="s">&quot;/todo/:id&quot;</span> <span class="ss">:id</span> <span class="o">#</span><span class="s">&quot;[0-9]+&quot;</span><span class="p">]</span> <span class="p">{</span><span class="nv">params</span> <span class="ss">:params</span><span class="p">}</span> <span class="p">(</span><span class="nf">todo-show</span> <span class="nv">params</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>なれないと分かり難いかもしれませんが、 <code class="docutils literal"><span class="pre">let</span></code> の左辺を <code class="docutils literal"><span class="pre">{params</span> <span class="pre">:params}</span></code> として右辺にはリクエストマップがきていると思えば理解がしやすいと思います(実際にそういう風にマクロが展開されています)。
 また次の例は Compojure の中でも特徴的なものですが、パスの中で <code class="docutils literal"><span class="pre">:id</span></code> などのルートパラメーターを定義している場合、それを簡単に取り出すことが出来るようになっています。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">GET</span> <span class="p">[</span><span class="s">&quot;/todo/:id&quot;</span> <span class="ss">:id</span> <span class="o">#</span><span class="s">&quot;[0-9]+&quot;</span><span class="p">]</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span> <span class="p">(</span><span class="nf">todo-show</span> <span class="nv">id</span><span class="p">))</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">GET</span> <span class="p">[</span><span class="s">&quot;/todo/:id&quot;</span> <span class="ss">:id</span> <span class="o">#</span><span class="s">&quot;[0-9]+&quot;</span><span class="p">]</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span> <span class="p">(</span><span class="nf">todo-show</span> <span class="nv">id</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>このようにベクターの中でルートパラメーターを直接指定することで、それを簡単に抜き出し利用することが出来ます。これだけだと <code class="docutils literal"><span class="pre">id</span></code> はただの文字列ですが、これを数値に変換することも Compojure では出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.coercions</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">as-int</span><span class="p">]]</span> <span class="c1">;; これを追加していると…</span>
             <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">context</span> <span class="nv">GET</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">compojure.route</span> <span class="ss">:as</span> <span class="nv">route</span><span class="p">]</span>
@@ -421,11 +421,11 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </div>
 <p>ちょっと複雑ですね。とはいえこのようにルートパラメーターを簡単に展開出来るのは便利なこともあるので使ってみてもいいかもしれません。</p>
 <p>次に <code class="docutils literal"><span class="pre">GET</span></code> などのマクロの第三引数にあたる部分について説明しようと思います。ここまでの例では第三引数に対して <code class="docutils literal"><span class="pre">home</span></code> や <code class="docutils literal"><span class="pre">todo-index</span></code> というような関数だけを渡していました。実はここには関数以外にも文字列やマップなどを渡すことが出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="p">(</span><span class="nf">home-view</span> <span class="nv">req</span><span class="p">))</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="p">(</span><span class="nf">home-view</span> <span class="nv">req</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>これは <code class="docutils literal"><span class="pre">home</span></code> 関数の中で呼び出されていた <code class="docutils literal"><span class="pre">home-view</span></code> 関数をルート定義の中で呼び出して実行し、文字列を返すようにしています。このように書いても今までと同様にホーム画面を表示することが出来ます。これは Compojure が内部的に <code class="docutils literal"><span class="pre">compojure.response</span></code> ネームスペースで定義されている <code class="docutils literal"><span class="pre">render</span></code> 関数を呼び出していて、文字列型が渡されたときに自動的にレスポンスマップを生成し返すようになっているからです。この第三引数部分では第二引数部分で束縛しておいたパラメーターを利用することが出来るので分配束縛と組み合わせて何かをしたいときには便利です。ただし、関数を直接渡した場合は第二引数部分で束縛しておいたパラメーターは使うことが出来ず、その関数には元々のリクエストマップが直接渡されます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; id を利用したい関数</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; id を利用したい関数</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">todo-show</span> <span class="p">[</span><span class="nv">id</span><span class="p">]</span>
   <span class="p">(</span><span class="nb">prn-str </span><span class="nv">id</span><span class="p">))</span>
 
@@ -437,7 +437,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </pre></div>
 </div>
 <p>そしてルート定義は <code class="docutils literal"><span class="pre">routes</span></code> 関数でまとめることが出来ます。 <code class="docutils literal"><span class="pre">routes</span></code> 関数はそれぞれのルート定義(ハンドラー)をひとつの Ring ハンドラーへとする役割を持っています。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">handler</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">handler</span>
   <span class="p">(</span><span class="nf">routes</span> <span class="c1">;; compojure.core/routes</span>
    <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
    <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/todo&quot;</span> <span class="nv">req</span> <span class="nv">todo-index</span><span class="p">)</span>
@@ -445,7 +445,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </pre></div>
 </div>
 <p>それぞれのルート定義は上から順番に解決出来るかが試行され、 <code class="docutils literal"><span class="pre">nil</span></code> を返さないルート定義を探します。またルート定義をまとめるこのパターンは一般的なので <code class="docutils literal"><span class="pre">defroutes</span></code> マクロが提供されます(ここまでで既に使っていますが)。 <code class="docutils literal"><span class="pre">routes</span></code> 関数は <code class="docutils literal"><span class="pre">routes</span></code> 関数でまとめたハンドラーを含めることが可能なので次のような定義も可能です。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">main-routes</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">main-routes</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">req</span> <span class="nv">home</span><span class="p">)</span>
   <span class="p">(</span><span class="nf">route/not-found</span> <span class="s">&quot;&lt;h1&gt;404 page not found&lt;/h1&gt;&quot;</span><span class="p">))</span>
 
@@ -470,7 +470,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 <div class="section" id="id17">
 <h2>ルーティング定義を行いアプリケーションの骨格をつくる<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>TODO アプリに必要なものはなんでしょう。まずは TODO を作成、編集、表示、削除、一覧表示、検索など出来ればいいですよね。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">main-routes</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">defroutes</span> <span class="nv">main-routes</span>
   <span class="p">(</span><span class="nf">GET</span> <span class="s">&quot;/&quot;</span> <span class="nv">_</span> <span class="nv">home</span><span class="p">)</span>
   <span class="p">(</span><span class="nf">route/not-found</span> <span class="s">&quot;&lt;h1&gt;Not found&lt;/h1&gt;&quot;</span><span class="p">))</span>
 
@@ -495,7 +495,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </pre></div>
 </div>
 <p>こんな感じの定義が出来れば良さそうですね。ですが、これを <code class="docutils literal"><span class="pre">src/todo_clj/core.clj</span></code> に全て定義していくのはファイルが大きくなりすぎるのでそろそろファイルをわけていきましょう。 <code class="docutils literal"><span class="pre">src/todo_clj/handler</span></code> というディレクトリを作ってそこに <code class="docutils literal"><span class="pre">main.clj</span></code> と <code class="docutils literal"><span class="pre">todo.clj</span></code> を作ります。さらに <code class="docutils literal"><span class="pre">html</span></code> 関数をいろんなところで使いたくなるので <code class="docutils literal"><span class="pre">src/todo_clj/util/response.clj</span></code> を作りましょう( <code class="docutils literal"><span class="pre">core.clj</span></code> に <code class="docutils literal"><span class="pre">html</span></code> 関数を置いたままでも他のネームスペースから使えるんですが、循環参照が起きてしまうので違うネームスペースを作ったほうがいいんです)。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/util/response.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/util/response.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.util.response</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">ring.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]))</span>
 
@@ -508,7 +508,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </div>
 <p>まずは <code class="docutils literal"><span class="pre">src/todo_clj/util/response.clj</span></code> を作成します。今まで使っていた <code class="docutils literal"><span class="pre">html</span></code> の定義はそのままに持ってきていますが、 <code class="docutils literal"><span class="pre">ring.util.response/response</span></code> もこのネームスペースに再定義します。再定義する際に <code class="docutils literal"><span class="pre">ring.util.response/response</span></code> の <code class="docutils literal"><span class="pre">Var</span></code> を <code class="docutils literal"><span class="pre">todo-clj.util.response/response</span></code> に渡しているわけですが、このときにメタ情報が失われます(つまり引数の数などといった情報)。なので、 <code class="docutils literal"><span class="pre">alter-meta!</span></code> でメタ情報を更新しています。こうすることでハンドラー用のネームスペースは <code class="docutils literal"><span class="pre">ring.util.response</span></code> と <code class="docutils literal"><span class="pre">todo-clj.util.response</span></code> のふたつを <code class="docutils literal"><span class="pre">require</span></code> しなくても <code class="docutils literal"><span class="pre">ring.util.response</span></code> のみを <code class="docutils literal"><span class="pre">require</span></code> すればよくなります(必要に応じて関数をここに再定義したり足せば不便はなくなります)。</p>
 <p>次はアプリケーション本体のハンドラーを定義しましょう。主にホーム画面や 404 ページへリダイレクトさせるハンドラーを定義していくネームスペース、 <code class="docutils literal"><span class="pre">todo-clj.handler.main</span></code> を作成します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/main.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/handler/main.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.handler.main</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">GET</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">compojure.route</span> <span class="ss">:as</span> <span class="nv">route</span><span class="p">]</span>
@@ -530,7 +530,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </div>
 <p>特筆すべきところはあまりないでしょう。どれも今までに書いてきたものの流用です。</p>
 <p>次は TODO アプリのコア部分になるハンドラーを定義していきます。とは言っても最初なのでルーティングだけをずらずらと定義していきます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/todo.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/handler/todo.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.handler.todo</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">defroutes</span> <span class="nv">context</span> <span class="nv">GET</span> <span class="nv">POST</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">todo-clj.util.response</span> <span class="ss">:as</span> <span class="nv">res</span><span class="p">]))</span>
@@ -578,7 +578,7 @@ Compojure の基礎となる部分でルーティングに関する幾つかの�
 </div>
 <p>TODO 一覧、新規作成、検索、表示、編集、それから削除機能までをカバーしたハンドラーとルーティングを定義しました。ハンドラーは幾つか新しく足していますが、これらは仮実装なので後ほど実装することにしましょう。</p>
 <p>ここまでで今まで <code class="docutils literal"><span class="pre">todo-clj.core</span></code> に定義してあったもののほとんどを他のネームスペースに移動しました。綺麗になった <code class="docutils literal"><span class="pre">todo-clj.core</span></code> は次のようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>

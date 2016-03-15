@@ -141,7 +141,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -192,7 +192,7 @@
 <div class="section" id="jar">
 <h2>実行可能 Jar を作成するための準備<a class="headerlink" href="#jar" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Web アプリケーションのエントリーポイントとなる新しいネームスペースを作成しましょう。 <code class="docutils literal"><span class="pre">todo-clj.main</span></code> としましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/main.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/main.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.main</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">core</span><span class="p">])</span>
   <span class="p">(</span><span class="ss">:gen-class</span><span class="p">))</span>
@@ -202,7 +202,7 @@
 </pre></div>
 </div>
 <p>このように <code class="docutils literal"><span class="pre">todo-clj.core</span></code> ネームスペースを読み込んで、 <code class="docutils literal"><span class="pre">-main</span></code> 関数の中で <code class="docutils literal"><span class="pre">(core/start-server)</span></code> を実行するようにします。またネームスペースに <code class="docutils literal"><span class="pre">(:gen-class)</span></code> を付けておきましょう。次は <code class="docutils literal"><span class="pre">project.clj</span></code> の <code class="docutils literal"><span class="pre">:uberjar-name</span></code> と uberjar プロファイルを設定します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; project.clj</span>
 <span class="ss">:uberjar-name</span> <span class="s">&quot;todo-clj.jar&quot;</span>
 <span class="ss">:profiles</span>
 <span class="p">{</span><span class="ss">:dev</span> <span class="p">{</span><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">prone</span> <span class="s">&quot;0.8.2&quot;</span><span class="p">]]</span>
@@ -213,7 +213,7 @@
 </div>
 <p><code class="docutils literal"><span class="pre">:uberjar-name</span></code> を設定することで <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> で出来上がった実行可能 Jar の名前を設定することが出来ます。 uberjar プロファイルを設定すると <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> を実行するときだけの設定を追加できます。 <code class="docutils literal"><span class="pre">:aot</span></code> や <code class="docutils literal"><span class="pre">:main</span></code> などについての詳しい説明はここでは省きたいと思いますが、簡単に説明しておくと <code class="docutils literal"><span class="pre">:aot</span></code> を指定することでアプリケーションの起動が早くなったり、実行時にバイトコードを生成しなくなり、 <code class="docutils literal"><span class="pre">:main</span></code> はエントリーポイント( <code class="docutils literal"><span class="pre">-main</span></code> 関数)があるネームスペースを指定します。</p>
 <p>ここまで出来たら実際に実行可能 Jar を作って実行してみたいと思います。</p>
-<div class="highlight-shell"><div class="highlight"><pre>$ lein uberjar
+<div class="highlight-shell"><div class="highlight"><pre><span></span>$ lein uberjar
 $ java -jar target/todo-clj.jar
 </pre></div>
 </div>
@@ -224,7 +224,7 @@ $ java -jar target/todo-clj.jar
 <h2>プロダクション環境用の設定を行う<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>今までコード中にベタ書きしてきたもので開発環境とプロダクション環境で切り替えたいものというのが幾つかあります。ひとつはデータベースの設定、もうひとつはサーバーのポート番号など。これらを外部の環境変数やアプリケーション起動時の引数などから指定できるようにしておくとデプロイする前にファイルを修正する、なんていうことをせずに済みます。</p>
 <p>まずはデータベースの設定を環境変数から取れるように変更しましょう。 environ を使います。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/db.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.db</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">clojure.java.jdbc</span> <span class="ss">:as</span> <span class="nv">jdbc</span><span class="p">]</span>
             <span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]]))</span>
@@ -234,7 +234,7 @@ $ java -jar target/todo-clj.jar
 </pre></div>
 </div>
 <p>非常に簡素になりましたが、今までここにあった設定は <code class="docutils literal"><span class="pre">project.clj</span></code> へと移しました。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; project.clj</span>
 <span class="p">{</span><span class="ss">:dev</span> <span class="p">{</span><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">prone</span> <span class="s">&quot;0.8.2&quot;</span><span class="p">]]</span>
        <span class="ss">:env</span> <span class="p">{</span><span class="ss">:dev</span> <span class="nv">true</span>
              <span class="ss">:db</span> <span class="p">{</span><span class="ss">:dbtype</span> <span class="s">&quot;postgresql&quot;</span> <span class="ss">:dbname</span> <span class="s">&quot;todo_clj_dev&quot;</span> <span class="ss">:host</span> <span class="s">&quot;localhost&quot;</span> <span class="ss">:port</span> <span class="mi">5432</span> <span class="ss">:user</span> <span class="s">&quot;username&quot;</span> <span class="ss">:password</span> <span class="s">&quot;password&quot;</span><span class="p">}}}</span>
@@ -244,7 +244,7 @@ $ java -jar target/todo-clj.jar
 </div>
 <p>開発時は <code class="docutils literal"><span class="pre">project.clj</span></code> の設定値を読み込みますが、プロダクション環境では環境変数 <code class="docutils literal"><span class="pre">db</span></code> を設定することで問題なく稼働します。また、 <code class="docutils literal"><span class="pre">db-spec</span></code> は Part5 で触れたように URI 表記の文字列でも問題ないので環境変数を設定する際に Clojure のマップデータを設定出来ないのを悩む必要はないです。</p>
 <p>次はサーバーのポート番号などをアプリケーション起動時に設定出来るようにします。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">start-server</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:keys</span> <span class="p">[</span><span class="nv">host</span> <span class="nv">port</span> <span class="nv">join?</span><span class="p">]</span>
                        <span class="ss">:or</span> <span class="p">{</span><span class="nv">host</span> <span class="s">&quot;localhost&quot;</span> <span class="nv">port</span> <span class="mi">3000</span> <span class="nv">join?</span> <span class="nv">false</span><span class="p">}}]</span>
   <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">port</span> <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">string? </span><span class="nv">port</span><span class="p">)</span> <span class="p">(</span><span class="nf">Integer/parseInt</span> <span class="nv">port</span><span class="p">)</span> <span class="nv">port</span><span class="p">)]</span>
@@ -253,7 +253,7 @@ $ java -jar target/todo-clj.jar
 </pre></div>
 </div>
 <p>このように <code class="docutils literal"><span class="pre">todo-clj.core/start-server</span></code> 関数を書き換えます。こうすると REPL の中から引数なしで起動しても今までと同じように動きます。そうしたらアプリケーションのエントリーポイントも書き換える必要がありますね。次のようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/main.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/main.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">-main</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:as</span> <span class="nv">args</span><span class="p">}]</span>
   <span class="p">(</span><span class="nf">core/start-server</span>
    <span class="ss">:host</span> <span class="p">(</span><span class="nb">get </span><span class="nv">args</span> <span class="s">&quot;host&quot;</span><span class="p">)</span> <span class="ss">:port</span> <span class="p">(</span><span class="nb">get </span><span class="nv">args</span> <span class="s">&quot;port&quot;</span><span class="p">)</span> <span class="ss">:join?</span> <span class="nv">true</span><span class="p">))</span>
@@ -266,7 +266,7 @@ $ java -jar target/todo-clj.jar
 <p>ここまででプロダクション環境に出しても稼働させることのできる実行可能 Jar を作ることが出来るようになったのですが、 Heroku にデプロイするのにもう少しだけ修正をします。</p>
 <p>まずは今回作ってきた TODO アプリはデータベースを使うので最初にマイグレーションする必要があります。本当はマイグレーション用のライブラリを使うなどして綺麗にやりたいところですが、ここで説明するにはちょっとやることが多いので簡単に実装出来る方法で逃げます。</p>
 <p><code class="docutils literal"><span class="pre">todo-clj.db</span></code> ネームスペースを次のように修正します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/db.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">migrated?</span> <span class="p">[]</span> <span class="c1">;; public スキーマにテーブルがひとつでもあればマイグレーション済みであると見做す(テーブルが増えると対応出来ないので後で修正します)</span>
   <span class="p">(</span><span class="nb">pos? </span><span class="p">(</span><span class="nb">count </span><span class="p">(</span><span class="nf">jdbc/query</span> <span class="nv">db-spec</span> <span class="s">&quot;select tablename from pg_tables where schemaname = &#39;public&#39;&quot;</span><span class="p">))))</span>
 
@@ -278,7 +278,7 @@ $ java -jar target/todo-clj.jar
 </pre></div>
 </div>
 <p>今回はテーブルがひとつでも作成されていたら <code class="docutils literal"><span class="pre">migrate</span></code> 関数を実行できないようにしました。そしてこの <code class="docutils literal"><span class="pre">migrate</span></code> 関数を Web アプリケーションの起動時に呼び出します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/db/todo.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.main</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">core</span><span class="p">]</span>
             <span class="p">[</span><span class="nv">todo-clj.db</span> <span class="ss">:as</span> <span class="nv">db</span><span class="p">])</span>
@@ -291,13 +291,13 @@ $ java -jar target/todo-clj.jar
 </pre></div>
 </div>
 <p>これでいいでしょう。次に Heroku 特有のデプロイ設定を行いましょう。まずは <code class="docutils literal"><span class="pre">project.clj</span></code> に次の記述を足します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; project.clj</span>
 <span class="ss">:min-lein-version</span> <span class="s">&quot;2.5.3&quot;</span>
 </pre></div>
 </div>
 <p>これは Heroku の Leiningen のデフォルトバージョンが 1.X 系なのでこうする必要があります。</p>
 <p>そして、最後に <code class="docutils literal"><span class="pre">Procfile</span></code> を書きます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre>;; Procfile
+<div class="highlight-clojure"><div class="highlight"><pre><span></span>;; Procfile
 web: java $JVM_OPT -jar target/todo-clj.jar host 0.0.0.0 port $PORT
 </pre></div>
 </div>
@@ -305,7 +305,7 @@ web: java $JVM_OPT -jar target/todo-clj.jar host 0.0.0.0 port $PORT
 <li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/3567218b62d6d9445c7ca8e5cc3ced5133a8166c">commit: Heroku へデプロイするための設定を記述</a></li>
 </ul>
 <p>Heroku に Leiningen プロジェクトを push すると自動的に <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> を実行して Procfile に記述したようにコマンドを実行してくれます。ここまで出来たらターミナルから次のように実行します( Heroku のアカウントがあって <a class="reference external" href="https://toolbelt.heroku.com/">Heroku client</a> がインストールされている前提です)。</p>
-<div class="highlight-shell"><div class="highlight"><pre>$ heroku login
+<div class="highlight-shell"><div class="highlight"><pre><span></span>$ heroku login
 $ heroku create your-name-todo-clj
 $ heroku git:remote -a your-name-todo-clj
 $ heroku addons:create heroku-postgresql:hobby-dev --app your-name-todo-clj

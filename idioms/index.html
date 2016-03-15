@@ -101,6 +101,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#id5">シーケンスが空かどうかを確かめたい</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#assoc-dissoc">マップに対して条件を満すときだけ <code class="docutils literal"><span class="pre">assoc/dissoc</span></code> して、それ以外のときはそのまま返したい</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reduce"><code class="docutils literal"><span class="pre">reduce</span></code> を途中で止めたい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map">マップのキー(バリュー)すべてに対して関数を適用( map )したい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">ベクターからインデックスを元に要素を落としたい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#java-util-linkedlist">java.util.LinkedList のインスタンスをベクターにしたい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">ループの間で何度か更新する値を保持していたい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">プログラム全体で参照できるような簡易データベースが欲しい</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#falsy">falsy な値をリストから除去する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">オブジェクトの一覧にインデックスを付ける</a></li>
 </ul>
 </li>
 </ul>
@@ -125,7 +132,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -151,13 +158,13 @@
 <h1>イディオム集<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="index">
 <h2>複数のコレクションの要素を index ごとにまとめる<a class="headerlink" href="#index" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
 <span class="p">[</span><span class="ss">:a</span> <span class="ss">:b</span> <span class="ss">:c</span> <span class="ss">:d</span> <span class="ss">:e</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>というふたつのベクタがあるときにこれらの要素を簡単に index
 ごとにまとめる方法。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">a</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">a</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">]</span>
       <span class="nv">b</span> <span class="p">[</span><span class="ss">:a</span> <span class="ss">:b</span> <span class="ss">:c</span> <span class="ss">:d</span> <span class="ss">:e</span><span class="p">]]</span>
   <span class="p">(</span><span class="nb">map </span><span class="nv">vector</span>
        <span class="nv">a</span>
@@ -171,20 +178,20 @@
 <div class="section" id="id2">
 <h2>マップを平坦なシーケンスへと変換する<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>次のようなマップデータを平坦なシーケンスへと変更したいときに使える方法です。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">{</span><span class="ss">:name</span>    <span class="s">&quot;ayato-p&quot;</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">{</span><span class="ss">:name</span>    <span class="s">&quot;ayato-p&quot;</span>
  <span class="ss">:age</span>     <span class="s">&quot;24&quot;</span>
  <span class="ss">:address</span> <span class="s">&quot;Japan&quot;</span><span class="p">}</span>
 </pre></div>
 </div>
 <p>これはこのまま <code class="docutils literal"><span class="pre">seq</span></code> などを使うと平坦なシーケンスにはなりません。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">seq </span><span class="p">{</span><span class="ss">:name</span>    <span class="s">&quot;ayato-p&quot;</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">seq </span><span class="p">{</span><span class="ss">:name</span>    <span class="s">&quot;ayato-p&quot;</span>
       <span class="ss">:age</span>     <span class="s">&quot;24&quot;</span>
       <span class="ss">:address</span> <span class="s">&quot;Japan&quot;</span><span class="p">})</span>
 <span class="c1">;; ([:name &quot;ayato-p&quot;] [:age &quot;24&quot;] [:address &quot;Japan&quot;])</span>
 </pre></div>
 </div>
 <p>この場合は次のように書きます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">apply concat </span><span class="p">{</span><span class="ss">:name</span>    <span class="s">&quot;ayato-p&quot;</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">apply concat </span><span class="p">{</span><span class="ss">:name</span>    <span class="s">&quot;ayato-p&quot;</span>
                <span class="ss">:age</span>     <span class="s">&quot;24&quot;</span>
                <span class="ss">:address</span> <span class="s">&quot;Japan&quot;</span><span class="p">})</span>
 <span class="c1">;; (:name &quot;ayato-p&quot; :age &quot;24&quot; :address &quot;Japan&quot;)</span>
@@ -195,7 +202,7 @@
 </div>
 <div class="section" id="id3">
 <h2>可変長引数を受け取る関数にシーケンスのデータを渡したい<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">v</span> <span class="p">[</span><span class="s">&quot;foo&quot;</span> <span class="s">&quot;bar&quot;</span> <span class="s">&quot;baz&quot;</span><span class="p">])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">v</span> <span class="p">[</span><span class="s">&quot;foo&quot;</span> <span class="s">&quot;bar&quot;</span> <span class="s">&quot;baz&quot;</span><span class="p">])</span>
 
 <span class="p">(</span><span class="kd">defn </span><span class="nv">f</span> <span class="p">[</span><span class="o">&amp;</span> <span class="nv">args</span><span class="p">]</span>
   <span class="p">(</span><span class="nf">clojure.string/join</span> <span class="s">&quot;, &quot;</span> <span class="nv">args</span><span class="p">))</span>
@@ -203,13 +210,13 @@
 </div>
 <p>このような関数とデータがあった場合にどのようにすれば関数 <code class="docutils literal"><span class="pre">f</span></code> へベクタ
 <code class="docutils literal"><span class="pre">v</span></code> が渡せるかという問題です。 これは次のように書けます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">apply </span><span class="nv">f</span> <span class="nv">v</span><span class="p">)</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">apply </span><span class="nv">f</span> <span class="nv">v</span><span class="p">)</span>
 <span class="c1">;; &quot;foo, bar, baz&quot;</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">apply</span></code> を使う関数適用の形はよく使うので覚えておくと良いでしょう。</p>
 <p>また、ベクタではなくマップの場合は次のように書けます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">m</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;ayato-p&quot;</span> <span class="ss">:age</span> <span class="mi">24</span><span class="p">})</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">m</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;ayato-p&quot;</span> <span class="ss">:age</span> <span class="mi">24</span><span class="p">})</span>
 
 <span class="p">(</span><span class="kd">defn </span><span class="nv">g</span> <span class="p">[</span><span class="o">&amp;</span> <span class="p">{</span><span class="ss">:as</span> <span class="nv">m</span> <span class="ss">:keys</span> <span class="p">[</span><span class="nb">name </span><span class="nv">age</span><span class="p">]}]</span>
   <span class="p">(</span><span class="nb">str </span><span class="s">&quot;name: &quot;</span> <span class="nb">name </span><span class="s">&quot;, &quot;</span>
@@ -224,7 +231,7 @@
 <div class="section" id="nil">
 <h2>シーケンスの全要素に関数を適用して <code class="docutils literal"><span class="pre">nil</span></code> を捨てる<a class="headerlink" href="#nil" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">keep</span></code> 関数を使いましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">people</span> <span class="p">[{</span><span class="ss">:name</span> <span class="s">&quot;ayato_p&quot;</span> <span class="ss">:age</span> <span class="mi">11</span><span class="p">}</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">people</span> <span class="p">[{</span><span class="ss">:name</span> <span class="s">&quot;ayato_p&quot;</span> <span class="ss">:age</span> <span class="mi">11</span><span class="p">}</span>
              <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;alea12&quot;</span> <span class="ss">:age</span> <span class="mi">10</span><span class="p">}</span>
              <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;zer0_u&quot;</span><span class="p">}])</span>
 
@@ -235,7 +242,7 @@
 </div>
 <div class="section" id="boolean">
 <h2>ある値が boolean かどうかを知りたい<a class="headerlink" href="#boolean" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">boolean?</span> <span class="p">[</span><span class="nv">b</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">boolean?</span> <span class="p">[</span><span class="nv">b</span><span class="p">]</span>
   <span class="p">(</span><span class="nb">or </span><span class="p">(</span><span class="nb">true? </span><span class="nv">b</span><span class="p">)</span>
       <span class="p">(</span><span class="nb">false? </span><span class="nv">b</span><span class="p">)))</span>
 
@@ -257,7 +264,7 @@
 <div class="section" id="id4">
 <h2>複数の候補の中から <code class="docutils literal"><span class="pre">nil</span></code> でない値を見つけたら値を返す<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">or</span></code> が使えます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">or </span><span class="nv">nil</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">or </span><span class="nv">nil</span>
     <span class="s">&quot;ayato-p&quot;</span><span class="p">)</span>
 <span class="c1">;; &quot;ayato-p&quot;</span>
 </pre></div>
@@ -268,7 +275,7 @@
 <div class="section" id="id5">
 <h2>シーケンスが空かどうかを確かめたい<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">seq</span></code> 関数を使います。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">ev</span> <span class="p">[])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">ev</span> <span class="p">[])</span>
 <span class="p">(</span><span class="k">def </span><span class="nv">v</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">])</span>
 
 <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">seq </span><span class="nv">nil</span><span class="p">)</span>
@@ -290,7 +297,7 @@
 <div class="section" id="assoc-dissoc">
 <h2>マップに対して条件を満すときだけ <code class="docutils literal"><span class="pre">assoc/dissoc</span></code> して、それ以外のときはそのまま返したい<a class="headerlink" href="#assoc-dissoc" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><code class="docutils literal"><span class="pre">cond-&gt;</span></code> を使うと簡単です。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">m</span> <span class="p">{</span><span class="ss">:foo</span> <span class="mi">1</span> <span class="ss">:bar</span> <span class="mi">2</span><span class="p">})</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">m</span> <span class="p">{</span><span class="ss">:foo</span> <span class="mi">1</span> <span class="ss">:bar</span> <span class="mi">2</span><span class="p">})</span>
 
 <span class="p">(</span><span class="nf">cond-&gt;</span> <span class="nv">m</span>
   <span class="nv">true</span> <span class="p">(</span><span class="nb">assoc </span><span class="ss">:baz</span> <span class="mi">3</span><span class="p">))</span> <span class="c1">;{:foo 1, :bar 2, :baz 3}</span>
@@ -306,12 +313,121 @@
 <p>まず次のような無限の数値シーケンスに対してかけ算することを考えます。このときかけ算なので
 <code class="docutils literal"><span class="pre">0</span></code> を見つけたところで <code class="docutils literal"><span class="pre">0</span></code> を返すことが可能です(もし <code class="docutils literal"><span class="pre">0</span></code>
 が見つからなくて本当に無限のシーケンスがきたら止まらないですね)。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nb">reduce </span><span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">acc</span> <span class="nv">x</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">reduce </span><span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">acc</span> <span class="nv">x</span><span class="p">]</span>
           <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="nv">x</span><span class="p">)</span>
             <span class="p">(</span><span class="nf">reduced</span> <span class="mi">0</span><span class="p">)</span>
             <span class="p">(</span><span class="nb">* </span><span class="nv">acc</span> <span class="nv">x</span><span class="p">)))</span>
         <span class="mi">1</span>
         <span class="p">(</span><span class="nb">cycle </span><span class="p">[</span><span class="mi">9</span> <span class="mi">8</span> <span class="mi">7</span> <span class="mi">6</span> <span class="mi">5</span> <span class="mi">4</span> <span class="mi">3</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="map">
+<h2>マップのキー(バリュー)すべてに対して関数を適用( map )したい<a class="headerlink" href="#map" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>マップデータのキー(バリュー)すべてに対して関数を適用したいというのはよくある問題です。
+例えば次のコードを考えてみます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">m</span> <span class="p">{</span><span class="s">&quot;key1&quot;</span> <span class="mi">1</span>
+        <span class="s">&quot;key2&quot;</span> <span class="mi">2</span>
+        <span class="s">&quot;key3&quot;</span> <span class="mi">3</span><span class="p">})</span>
+</pre></div>
+</div>
+<p>このときキーをキーワード化したいと思うことがあるかもしれません。そのようなときは次のように書けます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">reduce-kv</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">m</span> <span class="nv">k</span> <span class="nv">v</span><span class="p">]</span>
+             <span class="p">(</span><span class="nb">assoc </span><span class="nv">m</span> <span class="p">(</span><span class="nb">keyword </span><span class="nv">k</span><span class="p">)</span> <span class="nv">v</span><span class="p">))</span>
+           <span class="p">{}</span>
+           <span class="nv">m</span><span class="p">)</span>
+<span class="c1">;; {:key1 1, :key2 2, :key3 3}</span>
+</pre></div>
+</div>
+<p>また、これを一般化した関数が
+<a class="reference external" href="https://github.com/plumatic/plumbing">plumbing</a>
+というライブラリにある( <code class="docutils literal"><span class="pre">map-keys</span></code>, <code class="docutils literal"><span class="pre">map-vals</span></code>
+)のでこちらを使うことを検討してもいいかもしれません。</p>
+</div>
+<div class="section" id="id6">
+<h2>ベクターからインデックスを元に要素を落としたい<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>Clojure
+には沢山の関数があるのでそのような関数がありそうなものですが、残念ながらありません。次のように書きます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">drop-by-idx</span> <span class="p">[</span><span class="nv">v</span> <span class="nv">idx</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">vec</span> <span class="p">(</span><span class="nb">concat </span><span class="p">(</span><span class="nb">subvec </span><span class="nv">v</span> <span class="mi">0</span> <span class="nv">idx</span><span class="p">)</span>
+               <span class="p">(</span><span class="nb">subvec </span><span class="nv">v</span> <span class="p">(</span><span class="nb">inc </span><span class="nv">idx</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="nf">drop-by-idx</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span><span class="p">]</span>
+             <span class="mi">5</span><span class="p">)</span>
+<span class="c1">;; [0 1 2 3 4 6 7 8 9]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="java-util-linkedlist">
+<h2>java.util.LinkedList のインスタンスをベクターにしたい<a class="headerlink" href="#java-util-linkedlist" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">linkedlist</span> <span class="p">(</span><span class="nb">doto </span><span class="p">(</span><span class="nf">java.util.LinkedList.</span><span class="p">)</span>
+                   <span class="p">(</span><span class="nf">.add</span> <span class="s">&quot;foo&quot;</span><span class="p">)</span>
+                   <span class="p">(</span><span class="nf">.add</span> <span class="s">&quot;bar&quot;</span><span class="p">)</span>
+                   <span class="p">(</span><span class="nf">.add</span> <span class="s">&quot;baz&quot;</span><span class="p">))]</span>
+  <span class="c1">;; (nth linkedlist 1) ;=&gt; Unable to resolve symbol: linkedlist in this context</span>
+  <span class="p">(</span><span class="nb">nth </span><span class="p">(</span><span class="nb">into </span><span class="p">[]</span> <span class="nv">linkedlist</span><span class="p">)</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c1">;; &quot;bar&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>ループの間で何度か更新する値を保持していたい<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>何らかの繰り返し処理中に更新や参照をしたい値を一時的に保持しておきたいというのはよくありますが、この場合
+<code class="docutils literal"><span class="pre">map</span></code> や <code class="docutils literal"><span class="pre">reduce</span></code> を使うことはできません。 なので <code class="docutils literal"><span class="pre">loop</span></code>
+を使います。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; この例であれば reduce や apply,+ の方がいいですが…</span>
+<span class="p">(</span><span class="k">loop </span><span class="p">[</span><span class="nv">li</span> <span class="p">(</span><span class="nb">range </span><span class="mi">10</span><span class="p">)</span>
+       <span class="nv">total</span> <span class="mi">0</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">if-let </span><span class="p">[</span><span class="nv">a</span> <span class="p">(</span><span class="nb">first </span><span class="nv">li</span><span class="p">)]</span>
+    <span class="p">(</span><span class="nf">recur</span> <span class="p">(</span><span class="nb">rest </span><span class="nv">li</span><span class="p">)</span> <span class="p">(</span><span class="nb">+ </span><span class="nv">a</span> <span class="nv">total</span><span class="p">))</span>
+    <span class="nv">total</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>プログラム全体で参照できるような簡易データベースが欲しい<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>レキシカルスコープを使って <code class="docutils literal"><span class="pre">java.util.Map</span></code>
+のインスタンスを束縛してしまうという方法があります。</p>
+<p>(あまり推奨するわけではないですが、こういう方法があるというくらいで知っておいても良いかもしれません)</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="o">^</span><span class="nv">java.util.Map</span> <span class="nv">+easy-database+</span> <span class="p">(</span><span class="nf">java.util.Collections/synchronizedMap</span> <span class="p">(</span><span class="nf">java.util.WeakHashMap.</span><span class="p">))]</span>
+  <span class="p">(</span><span class="kd">defn </span><span class="nv">set-data</span> <span class="p">[</span><span class="nb">key </span><span class="nv">val</span><span class="p">]</span>
+    <span class="p">(</span><span class="nf">.put</span> <span class="nv">+easy-database+</span> <span class="nb">key </span><span class="nv">val</span><span class="p">))</span>
+  <span class="p">(</span><span class="kd">defn </span><span class="nv">get-data</span> <span class="p">[</span><span class="nv">key</span><span class="p">]</span>
+    <span class="p">(</span><span class="nf">.get</span> <span class="nv">+easy-database+</span> <span class="nv">key</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="nf">set-data</span> <span class="ss">:foo</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="nf">get-data</span> <span class="ss">:foo</span><span class="p">)</span>
+<span class="c1">;; 1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="falsy">
+<h2>falsy な値をリストから除去する<a class="headerlink" href="#falsy" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">filter</span></code> + <code class="docutils literal"><span class="pre">identity</span></code> で実現できます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">filter identity </span><span class="p">[</span><span class="nv">nil</span> <span class="nv">false</span> <span class="nv">true</span> <span class="mi">1</span> <span class="s">&quot;hello&quot;</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]</span> <span class="p">{</span><span class="ss">:foo</span> <span class="mi">1</span><span class="p">}</span> <span class="ss">:hoge</span><span class="p">])</span>
+<span class="c1">;; (true 1 &quot;hello&quot; [1 2] {:foo 1} :hoge)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>オブジェクトの一覧にインデックスを付ける<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><code class="docutils literal"><span class="pre">map-indexed</span></code> + <code class="docutils literal"><span class="pre">vector</span></code> の組み合わせで実現できます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">map-indexed</span> <span class="nb">vector </span><span class="p">(</span><span class="nb">repeat </span><span class="mi">5</span> <span class="p">{}))</span>
+<span class="c1">;; ([0 {}] [1 {}] [2 {}] [3 {}] [4 {}])</span>
+</pre></div>
+</div>
+<p>こうすることで次のように利用できます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nb">for </span><span class="p">[[</span><span class="nv">idx</span> <span class="nv">m</span><span class="p">]</span> <span class="p">(</span><span class="nf">map-indexed</span> <span class="nb">vector </span><span class="p">(</span><span class="nb">repeat </span><span class="mi">5</span> <span class="p">{}))]</span>
+  <span class="p">(</span><span class="nb">str </span><span class="nv">idx</span> <span class="s">&quot; is &quot;</span> <span class="p">(</span><span class="nb">pr-str </span><span class="nv">m</span><span class="p">)))</span>
+<span class="c1">;; (&quot;0 is {}&quot; &quot;1 is {}&quot; &quot;2 is {}&quot; &quot;3 is {}&quot; &quot;4 is {}&quot;)</span>
+</pre></div>
+</div>
+<p>または次のようにも書けます。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">group-by</span> <span class="nb">first </span><span class="p">(</span><span class="nf">map-indexed</span> <span class="nb">vector </span><span class="p">(</span><span class="nb">repeat </span><span class="mi">5</span> <span class="p">{})))</span>
+<span class="c1">;; {0 [[0 {}]], 1 [[1 {}]], 2 [[2 {}]], 3 [[3 {}]], 4 [[4 {}]]}</span>
+
+<span class="p">(</span><span class="nb">into </span><span class="p">{}</span> <span class="p">(</span><span class="nf">map-indexed</span> <span class="nb">vector </span><span class="p">(</span><span class="nb">repeat </span><span class="mi">5</span> <span class="p">{})))</span>
+<span class="c1">;; {0 {}, 1 {}, 2 {}, 3 {}, 4 {}}</span>
 </pre></div>
 </div>
 </div>

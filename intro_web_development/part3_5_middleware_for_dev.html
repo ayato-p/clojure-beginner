@@ -138,7 +138,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -170,7 +170,7 @@
 <p>Part3 で一気にファイルが増えてしまい編集する度にファイルをロードしたりするのがそろそろ大変になってきました。どんなに REPL 駆動開発が出来て便利だとは言えどもファイルを編集して保存したらロードする必要があるというのは少々面倒ですよね。なのでこの問題を Ring ミドルウェアを追加することで解決したいと思います。またエラーが起きたときに分かり難いのでもうちょっと親切なエラー画面を出すようにします。</p>
 <p>ファイルを編集して保存した際に自動的にロードしてくれるミドルウェアは ring-devel に入っていて、それは既に ring 自体の依存性に入っているため既に使える状態となっています。親切なエラー画面を出すためのミドルウェアは新しいライブラリを追加して対応しましょう。 <a class="reference external" href="https://github.com/magnars/prone">prone</a> を使います。 prone は Rails の better_errors に似たような画面を出力してくれます。</p>
 <p><code class="docutils literal"><span class="pre">project.clj</span></code> に次の依存性を dev プロファイルへと追加します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defproject </span><span class="nv">todo-clj</span> <span class="s">&quot;0.1.0-SNAPSHOT&quot;</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defproject </span><span class="nv">todo-clj</span> <span class="s">&quot;0.1.0-SNAPSHOT&quot;</span>
 
   <span class="c1">;; 中略</span>
 
@@ -179,7 +179,7 @@
 </pre></div>
 </div>
 <p>次に <code class="docutils literal"><span class="pre">todo-clj.middleware</span></code> ネームスペースを作成して、そこに今回足す開発用ミドルウェアを <code class="docutils literal"><span class="pre">wrap-dev</span></code> という関数にまとめたいと思います。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/middleware.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/middleware.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.middleware</span><span class="p">)</span>
 
 <span class="p">(</span><span class="kd">defn- </span><span class="nv">try-resolve</span> <span class="p">[</span><span class="nv">sym</span><span class="p">]</span>
@@ -206,7 +206,7 @@
 <p class="last">dev プロファイルに追加している依存性は <code class="docutils literal"><span class="pre">lein</span> <span class="pre">uberjar</span></code> などするときには参照されなくなるので注意が必要。</p>
 </div>
 <p>次に <code class="docutils literal"><span class="pre">todo-clj.core/app</span></code> にこのミドルウェアを適用しましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>
@@ -223,7 +223,7 @@
 </div>
 <p>Part3 で説明したように <code class="docutils literal"><span class="pre">routes</span></code> 関数はハンドラーを返すので、このようにミドルウェアを適用することが出来ます。しかし、これでは開発環境とプロダクション環境の切り分けが出来ていないため、折角 <code class="docutils literal"><span class="pre">wrap-dev</span></code> が動的に <code class="docutils literal"><span class="pre">require</span></code> するようになっているのにいつでも読み込まれるようになってしまい意味がありません。なのでここでまたもうひとつライブラリを追加します。</p>
 <p><a class="reference external" href="https://github.com/weavejester/environ">environ</a> というライブラリを追加しましょう。これは環境変数や Java のシステムプロパティを同じようにアクセス出来るようにまとめてくれる便利なものです。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defproject </span><span class="nv">todo-clj</span> <span class="s">&quot;0.1.0-SNAPSHOT&quot;</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defproject </span><span class="nv">todo-clj</span> <span class="s">&quot;0.1.0-SNAPSHOT&quot;</span>
   <span class="ss">:description</span> <span class="s">&quot;FIXME: write description&quot;</span>
   <span class="ss">:url</span> <span class="s">&quot;http://example.com/FIXME&quot;</span>
   <span class="ss">:license</span> <span class="p">{</span><span class="ss">:name</span> <span class="s">&quot;Eclipse Public License&quot;</span>
@@ -239,7 +239,7 @@
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">project.clj</span></code> はこのようになりました。 environ を使って <code class="docutils literal"><span class="pre">project.clj</span></code> の dev プロファイルを参照したい場合は、依存性だけでなく Leiningen プラグインを追加する必要があります。さらに dev プロファイルの <code class="docutils literal"><span class="pre">:env</span></code> に対してマップを与えておくとプログラム中からこの値を参照することが出来ます。実際にここまで書いたら一度 REPL を再起動して、 REPL 上で次のようなフォームを評価してみましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">environ.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">env</span><span class="p">]])</span>
 <span class="nv">nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">env</span> <span class="ss">:dev</span><span class="p">)</span>
 <span class="nv">true</span>
@@ -248,7 +248,7 @@
 </pre></div>
 </div>
 <p>このように <code class="docutils literal"><span class="pre">environ.core</span></code> ネームスペースにある <code class="docutils literal"><span class="pre">env</span></code> は環境変数などが詰まったマップデータなので通常のマップと同じように扱うことが出来ます。これを実際に使って先ほどのミドルウェア適用部分を書き換えると次のようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">compojure.core</span> <span class="ss">:refer</span> <span class="p">[</span><span class="nv">routes</span><span class="p">]]</span>
             <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]</span>
@@ -281,7 +281,7 @@
 <li>例外を投げたら prone の画面が出てくるか</li>
 </ol>
 <p>ひとつめは <code class="docutils literal"><span class="pre">todo-clj.handler.main/home-view</span></code> 関数や <code class="docutils literal"><span class="pre">todo-clj.handler.todo/todo-list</span></code> を書き換えて変更を保存した後に、ブラウザをリロードして確かめると分かりやすいでしょう。ふたつめは <code class="docutils literal"><span class="pre">todo-clj.handler.main/home</span></code> 関数を次のように書き換えると簡単に確かめることが出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/handler/main.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/handler/main.clj</span>
 <span class="p">(</span><span class="kd">defn </span><span class="nv">home</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
   <span class="p">(</span><span class="nf">throw</span> <span class="p">(</span><span class="nf">Exception.</span> <span class="s">&quot;Test Exception!!&quot;</span><span class="p">))</span>
   <span class="o">#</span><span class="nv">_</span><span class="p">(</span><span class="nb">-&gt; </span><span class="p">(</span><span class="nf">home-view</span> <span class="nv">req</span><span class="p">)</span>

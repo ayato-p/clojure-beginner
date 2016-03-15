@@ -140,7 +140,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -185,7 +185,7 @@
 <div class="section" id="id2">
 <h3>リクエストをハンドリングする<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Ring はクライアントからのリクエストとサーバーからのレスポンスを表現するのに Clojure のマップ(関数ではなくてデータ構造)を使います。ハンドラーはリクエストマップを受け取りレスポンスマップを返す関数です。例えば一番シンプルなハンドラーは次のようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">handler</span> <span class="p">[</span><span class="nv">req</span><span class="p">]</span>
   <span class="p">{</span><span class="ss">:status</span> <span class="mi">200</span>
    <span class="ss">:headers</span> <span class="p">{</span><span class="s">&quot;Content-Type&quot;</span> <span class="s">&quot;text/plain&quot;</span><span class="p">}</span>
    <span class="ss">:body</span> <span class="p">(</span><span class="ss">:remote-addr</span> <span class="nv">req</span><span class="p">)})</span>
@@ -250,7 +250,7 @@ HTTP ステータス</li>
 <h3>機能をミドルウェアを使って足す<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ミドルウェアはハンドラーのための高階関数として定義されます。ミドルウェア関数は第一引数としてハンドラーを受け取り、新しいハンドラー関数を返さなければなりません。</p>
 <p>シンプルな例は次のようになります。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-exclamation-mark</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-exclamation-mark</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
   <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">request</span><span class="p">]</span>
     <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">response</span> <span class="p">(</span><span class="nf">handler</span> <span class="nv">request</span><span class="p">)]</span>
       <span class="p">(</span><span class="nf">update</span> <span class="nv">response</span> <span class="ss">:body</span> <span class="o">#</span><span class="p">(</span><span class="nb">str </span><span class="nv">%</span> <span class="s">&quot;!!&quot;</span><span class="p">)))))</span>
@@ -258,7 +258,7 @@ HTTP ステータス</li>
 </div>
 <p>このミドルウェア関数はハンドラーが作る全てのレスポンスのボディに対してビックリマークを最後に足すものです(実用性は皆無ですが)。</p>
 <p>パッと見ると複雑そうに見えますが、冷静に見るととてもシンプルです。またこの例では古いハンドラーを評価して得たレスポンスマップに対して変更を加えていますが、リクエストマップに対して変更を加えるようなミドルウェアは次のように定義できます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-parse-query-string</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">wrap-parse-query-string</span> <span class="p">[</span><span class="nv">handler</span><span class="p">]</span>
   <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">request</span><span class="p">]</span>
     <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">params</span> <span class="p">(</span><span class="nf">parse-query-string</span> <span class="p">(</span><span class="ss">:query-string</span> <span class="nv">request</span><span class="p">))</span>
           <span class="nv">updated-request</span> <span class="p">(</span><span class="nb">assoc </span><span class="nv">request</span> <span class="ss">:params</span> <span class="nv">params</span><span class="p">)]</span>
@@ -268,13 +268,13 @@ HTTP ステータス</li>
 <p><code class="docutils literal"><span class="pre">parse-query-string</span></code> という関数はここでは存在するものとして扱いますが、名前の通り <code class="docutils literal"><span class="pre">query-string</span></code> をパースしてマップに変換するものだと思ってください。
 ハンドラーを受け取ったミドルウェアは新しいハンドラーを返しますが、その新しいハンドラーの中でリクエストマップを編集し更新したリクエストマップを古いハンドラーに渡すということをしています。</p>
 <p>このようなミドルウェアは次のようにハンドラーへと適用します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
   <span class="p">(</span><span class="nf">wrap-parse-query-string</span> <span class="p">(</span><span class="nf">wrap-exclamation-mark</span> <span class="nv">handler</span><span class="p">)))</span>
 </pre></div>
 </div>
 <p>これは新しいハンドラー <code class="docutils literal"><span class="pre">app</span></code> を <code class="docutils literal"><span class="pre">handler</span></code> に <code class="docutils literal"><span class="pre">wrap-exclamation-mark</span></code> を適用したものとして定義しています。</p>
 <p>またスレッディングマクロ( <code class="docutils literal"><span class="pre">-&gt;</span></code> )を用いることで読みやすく出来ます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">app</span>
   <span class="p">(</span><span class="nb">-&gt; </span><span class="nv">handler</span>
       <span class="nv">wrap-exclamation-mark</span>
       <span class="nv">wrap-parse-query-string</span><span class="p">))</span>
@@ -292,7 +292,7 @@ HTTP ステータス</li>
 <h2>サーバーを起動して &#8220;Hello, world&#8221; してみる<a class="headerlink" href="#hello-world" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>長々と Ring の基本的なことについて説明したところで実際に Ring を使ってみることにします。</p>
 <p>準備編で作成したプロジェクトの依存性に Ring を追加します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/clojure</span> <span class="s">&quot;1.7.0&quot;</span><span class="p">]</span>
                <span class="p">[</span><span class="nv">ring</span> <span class="s">&quot;1.4.0&quot;</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -309,7 +309,7 @@ HTTP ステータス</li>
 </ul>
 <p>主に使うことになるのは ring-core, ring-devel ですが、今回は Ring アダプターのリファレンス実装でもある ring-jetty-adapter も使います。</p>
 <p>次に REPL を起動して次のようなコードを REPL 上で評価してみましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">s</span><span class="p">])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">s</span><span class="p">])</span>
 <span class="c1">;; =&gt; nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">server</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">))</span>
 <span class="c1">;; =&gt; #&#39;user/server</span>
@@ -319,20 +319,20 @@ HTTP ステータス</li>
 </div>
 <p>ここまで評価したら <code class="docutils literal"><span class="pre">http://localhost:3000/</span></code> をブラウザで見てみましょう。すると <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> と出力されているのが確認出来たと思います。これが Ring アプリケーションのはじめの一歩です。あ、 REPL は落とさないでくださいね。</p>
 <p>さて、少しずつ説明していきましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">s</span><span class="p">])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">s</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>これは先ほど書いた Jetty と Ring アプリケーションの世界を繋ぐ Ring アダプタのリファレンス実装なんですが、それを <code class="docutils literal"><span class="pre">s</span></code> という別名をつけて <code class="docutils literal"><span class="pre">require</span></code> しているだけです。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="k">def </span><span class="nv">server</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">))</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="k">def </span><span class="nv">server</span> <span class="p">(</span><span class="nf">atom</span> <span class="nv">nil</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>サーバーを起動したあとに返ってくるサーバーのインスタンスを捨ててしまうと REPL を止めるまでサーバーを止めることができなくなるのでその受け皿です。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">s/run-jetty</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">req</span><span class="p">]</span> <span class="p">{</span><span class="ss">:body</span> <span class="s">&quot;Hello, world&quot;</span><span class="p">})</span> <span class="p">{</span><span class="ss">:port</span> <span class="mi">3000</span> <span class="ss">:join?</span> <span class="nv">false</span><span class="p">}))</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="p">(</span><span class="nf">s/run-jetty</span> <span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">req</span><span class="p">]</span> <span class="p">{</span><span class="ss">:body</span> <span class="s">&quot;Hello, world&quot;</span><span class="p">})</span> <span class="p">{</span><span class="ss">:port</span> <span class="mi">3000</span> <span class="ss">:join?</span> <span class="nv">false</span><span class="p">}))</span>
 </pre></div>
 </div>
 <p>ちょっと長いですね。 <code class="docutils literal"><span class="pre">reset!</span></code> で <code class="docutils literal"><span class="pre">s/run-jetty</span></code> が返すインスタンスを <code class="docutils literal"><span class="pre">server</span></code> へとセットしています。 <code class="docutils literal"><span class="pre">s/run-jetty</span></code> はふたつの引数を受け取るのですが、ひとつめがリクエストマップを受け取りレスポンスマップを返す Ring ハンドラー、次がサーバーのオプションです。 <code class="docutils literal"><span class="pre">(fn</span> <span class="pre">[req]</span> <span class="pre">{:body</span> <span class="pre">&quot;Hello,</span> <span class="pre">world&quot;})</span></code> は簡単ですが Ring ハンドラーです(本当は <code class="docutils literal"><span class="pre">:status</span></code> , <code class="docutils literal"><span class="pre">:headers</span></code> もあったほうがいいのですが、 <code class="docutils literal"><span class="pre">Hello,</span> <span class="pre">world</span></code> するだけなら少々足りなくても問題ありません)。 <code class="docutils literal"><span class="pre">{:port</span> <span class="pre">3000</span> <span class="pre">:join?</span> <span class="pre">false}</span></code> はオプションで <code class="docutils literal"><span class="pre">:port</span></code> はポートなので良いと思いますが、 <code class="docutils literal"><span class="pre">:join?</span></code> は <code class="docutils literal"><span class="pre">true</span></code> (デフォルト値です)だとスレッドをサーバーが止まるまでブロックしてしまう、つまり REPL が返ってこなくなってしまうので <code class="docutils literal"><span class="pre">false</span></code> を指定しています。</p>
 <p>さて、起動したサーバーはちゃんと止めましょう、ということで次のコードを REPL 上で評価します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">.stop</span> <span class="o">@</span><span class="nv">server</span><span class="p">)</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">.stop</span> <span class="o">@</span><span class="nv">server</span><span class="p">)</span>
 <span class="c1">;; =&gt; nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">reset!</span> <span class="nv">server</span> <span class="nv">nil</span><span class="p">)</span>
 <span class="c1">;; =&gt; nil</span>
@@ -340,7 +340,7 @@ HTTP ステータス</li>
 </div>
 <p>サーバーのインスタンスから <code class="docutils literal"><span class="pre">stop</span></code> メソッドを実行して、 <code class="docutils literal"><span class="pre">server</span></code> 変数を <code class="docutils literal"><span class="pre">nil</span></code> にしてサーバーのインスタンスを捨てています。</p>
 <p>今 REPL 上でやったことをちょっと手を入れてファイル(src/todo_clj/core.clj)に書いていきましょう。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; src/todo_clj/core.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/core.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.core</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">ring.adapter.jetty</span> <span class="ss">:as</span> <span class="nv">server</span><span class="p">]))</span>
 
@@ -373,7 +373,7 @@ HTTP ステータス</li>
 <p>こんな感じになりました。さっきは <code class="docutils literal"><span class="pre">run-jetty</span></code> に匿名関数として渡していた Ring ハンドラーを <code class="docutils literal"><span class="pre">handler</span></code> として定義して、返り値のレスポンスマップを綺麗にしました。あとはそれぞれサーバーを起動/停止/再起動する関数を定義しました。
 それと <code class="docutils literal"><span class="pre">server</span></code> 変数が <code class="docutils literal"><span class="pre">defonce</span></code> で定義されているのはファイルをリロードした際に再定義されるのを防ぐためです(再定義されてしまうと起動中のサーバーインスタンスを止めることが出来なくなるので)。</p>
 <p>ファイルにここまで書いたら REPL 上にファイルをロードしましょう <a class="footnote-reference" href="#id8" id="id7">[1]</a> 。そして REPL 上で次のフォームを評価します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">c</span><span class="p">])</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">c</span><span class="p">])</span>
 <span class="c1">;; =&gt; nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">c/start-server</span><span class="p">)</span>
 <span class="c1">;; =&gt; #object[org.eclipse.jetty.server.Server 0x55b1143a &quot;org.eclipse.jetty.server.Server@55b1143a&quot;]</span>

@@ -140,7 +140,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -190,19 +190,19 @@
 <div class="section" id="id3">
 <h2>書き方について<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>ターミナルで実行するコマンドの場合以下のように記述します。</p>
-<div class="highlight-shell"><div class="highlight"><pre>$ <span class="nb">command</span> <span class="nb">exec</span> arg1 arg2
+<div class="highlight-shell"><div class="highlight"><pre><span></span>$ <span class="nb">command</span> <span class="nb">exec</span> arg1 arg2
 </pre></div>
 </div>
 <p>先頭に <code class="docutils literal"><span class="pre">$</span></code> が付いている場合はターミナルの中でのコマンドです。</p>
 <p>また REPL 内での関数実行については以下のように記述します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">println </span><span class="s">&quot;Hello, world&quot;</span><span class="p">)</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nb">println </span><span class="s">&quot;Hello, world&quot;</span><span class="p">)</span>
 <span class="c1">;; Hello, world</span>
 <span class="c1">;;=&gt; nil</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">user&gt;</span></code> 部分でネームスペースを示すので、ここが <code class="docutils literal"><span class="pre">user&gt;</span></code> でない場合もあります。その場合はネームスペースを切り替えてください。その関数の返り値は <code class="docutils literal"><span class="pre">;;=&gt;</span></code> の後に表示するようにします。ただし、特に関数の返り値に意味がない場合などには省略することもあります。</p>
 <p>REPL で実行しないコードは以下のように記述します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">(</span><span class="kd">ns </span><span class="nv">example.core</span><span class="p">)</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">ns </span><span class="nv">example.core</span><span class="p">)</span>
 
 <span class="p">(</span><span class="kd">defn </span><span class="nv">foo</span> <span class="p">[]</span> <span class="s">&quot;this is foo&quot;</span><span class="p">)</span>
 </pre></div>
@@ -213,7 +213,7 @@
 <h2>プロジェクトを用意する<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>それでは早速 TODO アプリを作っていきましょう。アプリケーションの名前は安直ですが <strong>todo-clj</strong> ということにします(もし気に食わなければところどころで出てくる todo-clj という名前を自分の好きな名前に変更してください…)。</p>
 <p>まずはターミナルで適当なディレクトリの下に行き、次のコマンドを実行します。</p>
-<div class="highlight-shell"><div class="highlight"><pre>$ lein new todo-clj
+<div class="highlight-shell"><div class="highlight"><pre><span></span>$ lein new todo-clj
 </pre></div>
 </div>
 <ul class="simple">

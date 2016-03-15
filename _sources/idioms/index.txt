@@ -1,3 +1,5 @@
+:Author: ayato
+
 イディオム集
 ============
 
@@ -199,3 +201,133 @@
                 (* acc x)))
             1
             (cycle [9 8 7 6 5 4 3 2 1 0]))
+
+マップのキー(バリュー)すべてに対して関数を適用( map )したい
+-----------------------------------------------------------
+
+マップデータのキー(バリュー)すべてに対して関数を適用したいというのはよくある問題です。
+例えば次のコードを考えてみます。
+
+.. sourcecode:: clojure
+
+    (def m {"key1" 1
+            "key2" 2
+            "key3" 3})
+
+このときキーをキーワード化したいと思うことがあるかもしれません。そのようなときは次のように書けます。
+
+.. sourcecode:: clojure
+
+    (reduce-kv (fn [m k v]
+                 (assoc m (keyword k) v))
+               {}
+               m)
+    ;; {:key1 1, :key2 2, :key3 3}
+
+また、これを一般化した関数が
+`plumbing <https://github.com/plumatic/plumbing>`__
+というライブラリにある( ``map-keys``, ``map-vals``
+)のでこちらを使うことを検討してもいいかもしれません。
+
+ベクターからインデックスを元に要素を落としたい
+----------------------------------------------
+
+Clojure
+には沢山の関数があるのでそのような関数がありそうなものですが、残念ながらありません。次のように書きます。
+
+.. sourcecode:: clojure
+
+    (defn drop-by-idx [v idx]
+      (vec (concat (subvec v 0 idx)
+                   (subvec v (inc idx)))))
+
+    (drop-by-idx [0 1 2 3 4 5 6 7 8 9]
+                 5)
+    ;; [0 1 2 3 4 6 7 8 9]
+
+java.util.LinkedList のインスタンスをベクターにしたい
+-----------------------------------------------------
+
+.. sourcecode:: clojure
+
+    (let [linkedlist (doto (java.util.LinkedList.)
+                       (.add "foo")
+                       (.add "bar")
+                       (.add "baz"))]
+      ;; (nth linkedlist 1) ;=> Unable to resolve symbol: linkedlist in this context
+      (nth (into [] linkedlist) 1))
+    ;; "bar"
+
+ループの間で何度か更新する値を保持していたい
+--------------------------------------------
+
+何らかの繰り返し処理中に更新や参照をしたい値を一時的に保持しておきたいというのはよくありますが、この場合
+``map`` や ``reduce`` を使うことはできません。 なので ``loop``
+を使います。
+
+.. sourcecode:: clojure
+
+    ;; この例であれば reduce や apply,+ の方がいいですが…
+    (loop [li (range 10)
+           total 0]
+      (if-let [a (first li)]
+        (recur (rest li) (+ a total))
+        total))
+
+プログラム全体で参照できるような簡易データベースが欲しい
+--------------------------------------------------------
+
+レキシカルスコープを使って ``java.util.Map``
+のインスタンスを束縛してしまうという方法があります。
+
+(あまり推奨するわけではないですが、こういう方法があるというくらいで知っておいても良いかもしれません)
+
+.. sourcecode:: clojure
+
+    (let [^java.util.Map +easy-database+ (java.util.Collections/synchronizedMap (java.util.WeakHashMap.))]
+      (defn set-data [key val]
+        (.put +easy-database+ key val))
+      (defn get-data [key]
+        (.get +easy-database+ key)))
+
+    (set-data :foo 1)
+    (get-data :foo)
+    ;; 1
+
+falsy な値をリストから除去する
+------------------------------
+
+``filter`` + ``identity`` で実現できます。
+
+.. sourcecode:: clojure
+
+    (filter identity [nil false true 1 "hello" [1 2] {:foo 1} :hoge])
+    ;; (true 1 "hello" [1 2] {:foo 1} :hoge)
+
+オブジェクトの一覧にインデックスを付ける
+----------------------------------------
+
+``map-indexed`` + ``vector`` の組み合わせで実現できます。
+
+.. sourcecode:: clojure
+
+    (map-indexed vector (repeat 5 {}))
+    ;; ([0 {}] [1 {}] [2 {}] [3 {}] [4 {}])
+
+こうすることで次のように利用できます。
+
+.. sourcecode:: clojure
+
+    (for [[idx m] (map-indexed vector (repeat 5 {}))]
+      (str idx " is " (pr-str m)))
+    ;; ("0 is {}" "1 is {}" "2 is {}" "3 is {}" "4 is {}")
+
+または次のようにも書けます。
+
+.. sourcecode:: clojure
+
+    (group-by first (map-indexed vector (repeat 5 {})))
+    ;; {0 [[0 {}]], 1 [[1 {}]], 2 [[2 {}]], 3 [[3 {}]], 4 [[4 {}]]}
+
+    (into {} (map-indexed vector (repeat 5 {})))
+    ;; {0 {}, 1 {}, 2 {}, 3 {}, 4 {}}

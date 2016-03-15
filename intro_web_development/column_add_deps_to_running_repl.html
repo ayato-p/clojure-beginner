@@ -137,7 +137,7 @@
         <div class="rst-content">
           
 
-
+ 
 
 
 
@@ -167,7 +167,7 @@
 <h2>alembic を使って起動している REPL に依存関係を追加する<a class="headerlink" href="#alembic-repl" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>これまでの Part では基本的に新しいライブラリを追加する度に REPL を再起動していましたが、実は再起動しなくてもライブラリを依存関係に追加することが出来ます。それには <a class="reference external" href="https://github.com/pallet/alembic">alembic</a> というライブラリを使います。</p>
 <p>まずは準備として <code class="docutils literal"><span class="pre">~/.lein/profiles.clj</span></code> を修正します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="p">{</span><span class="ss">:repl</span> <span class="p">{</span><span class="ss">:plugins</span> <span class="p">[[</span><span class="nv">cider/cider-nrepl</span> <span class="s">&quot;0.10.0-SNAPSHOT&quot;</span><span class="p">]</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">{</span><span class="ss">:repl</span> <span class="p">{</span><span class="ss">:plugins</span> <span class="p">[[</span><span class="nv">cider/cider-nrepl</span> <span class="s">&quot;0.10.0-SNAPSHOT&quot;</span><span class="p">]</span>
                   <span class="p">[</span><span class="nv">refactor-nrepl</span> <span class="s">&quot;2.0.0-SNAPSHOT&quot;</span><span class="p">]</span>
                   <span class="p">[</span><span class="nv">lein-try</span> <span class="s">&quot;0.4.3&quot;</span><span class="p">]]</span>
         <span class="ss">:dependencies</span> <span class="p">[[</span><span class="nv">org.clojure/tools.nrepl</span> <span class="s">&quot;0.2.12&quot;</span><span class="p">]</span>
@@ -179,7 +179,7 @@
 <li>ref: <a class="reference external" href="http://blog.maio.cz/2015/11/cider-slows-down-leiningen-startup-here.html">CIDER slows down Leiningen startup. Here is how to fix that.</a></li>
 </ul>
 <p>そして、実際に使う場合は次のように起動中の REPL で実行すれば動きます。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span class="c1">;; project.clj を編集した後で…</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; project.clj を編集した後で…</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">alembic.still</span><span class="p">])</span>
 <span class="c1">;; =&gt; nil</span>
 <span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">alembic.still/load-project</span><span class="p">)</span>
