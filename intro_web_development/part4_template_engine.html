@@ -101,7 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="part3_what_is_compojure.html">Part3: Compojure とはなんなのか</a></li>
 <li class="toctree-l3"><a class="reference internal" href="part3_5_middleware_for_dev.html">Part3.5: 開発用のミドルウェアを追加する</a></li>
 <li class="toctree-l3"><a class="reference internal" href="column_add_deps_to_running_repl.html">Column: 起動している REPL に新しい依存関係を追加する</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="">Part4: テンプレートエンジンを使う</a><ul>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Part4: テンプレートエンジンを使う</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#clojure">Clojure におけるテンプレートエンジン</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#hiccup">Hiccup を導入する</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#html-hiccup">文字列で書いていた HTML を Hiccup で書きなおしてみる</a></li>
@@ -183,7 +183,7 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/314fe92ffc4eb9084cc27f6a23b14e12fe3508ee">commit: Hiccup を依存性へと追加</a></li>
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/75cf9b19846a69cb6db54592c483cdd749d6b579">commit: Hiccup を依存性へと追加</a></li>
 </ul>
 <p>追加したら、早速いつも通り REPL を再起動して以下のフォームを評価してみましょう。</p>
 <div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">hiccup.core</span> <span class="ss">:as</span> <span class="nv">hc</span><span class="p">])</span>
@@ -286,7 +286,7 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/1799136e93e8bf6ae024b5c34e3c4c66543b6530">commit: ビュー用に新しいネームスペースを作って、文字列で書いていた HTML を Hiccup を 使って書きなおした</a></li>
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/9093b1042213539226af93f3b024682914aa1206">commit: ビュー用に新しいネームスペースを作って、文字列で書いていた HTML を Hiccup を 使って書きなおした</a></li>
 </ul>
 <p>サーバーを起動して、画面をリロードしたら今までと変わらない画面が表示出来ているかを確認し、出来ていたらここまでは大丈夫です。</p>
 </div>
@@ -311,7 +311,7 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/e5992ab5a471b578d4f7b394c3a2d6589d326280">commit: アプリケーションのレイアウトを作成</a></li>
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/2779822700443b1adb324f167e8126b44667b7ce">commit: アプリケーションのレイアウトを作成</a></li>
 </ul>
 <p><code class="docutils literal"><span class="pre">common</span></code> という全ての画面で共通となるレイアウトを定義する関数を作りました。ひとつめにリクエストマップを受け取り、残りは全てボディとして受け取り HTML の内部でそのまま展開されます。ちなみに今まで特に説明もなくビューに関連する関数の第一引数にリクエストマップを指定して、今のところ使っていないので本当に必要なのか気になっている方もいるかもしれませんが、後々使う予定なので今はとりあえず書いてあると思ってもらえればいいです。</p>
 <p>それから <code class="docutils literal"><span class="pre">include-css</span></code>, <code class="docutils literal"><span class="pre">include-js</span></code> 関数で幾つか定義した覚えのないファイル名が出てきていますが、 <code class="docutils literal"><span class="pre">normalize.css</span></code> と <code class="docutils literal"><span class="pre">papier-1.3.1.min.css</span></code> は以下の URI からダウンロードして、 <code class="docutils literal"><span class="pre">resources/public/css</span></code> ディレクトリ以下に配置しておいてください。</p>
@@ -327,7 +327,7 @@
 </div>
 <p><code class="docutils literal"><span class="pre">resources/public/js/main.js</span></code> は空のファイルを置いておくだけで今回はいいです。後々中身を書いていきます。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/bd6e792c7eaf3e6ff91804cd866726b77bca0fdf">commit: 使用する CSS/JavaScript ファイルを resources ディレクトリ配下へ</a></li>
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/2779822700443b1adb324f167e8126b44667b7ce">commit: 使用する CSS/JavaScript ファイルを resources ディレクトリ配下へ</a></li>
 </ul>
 <p>さて <code class="docutils literal"><span class="pre">hiccup.page</span></code> というネームスペースが新たに出てきました。 <code class="docutils literal"><span class="pre">hiccup.page</span></code> ネームスペースは HTML のページを素早く構築するための関数を提供するネームスペースで、 <code class="docutils literal"><span class="pre">html5</span></code> 以外にも <code class="docutils literal"><span class="pre">xhtml</span></code>, <code class="docutils literal"><span class="pre">html4</span></code> などというマクロがあり、それに加え CSS と JavaScript 用に link タグと script タグのヘルパー関数がそれぞれ用意されています( <code class="docutils literal"><span class="pre">include-css</span></code>, <code class="docutils literal"><span class="pre">include-js</span></code> )。そして、このネームスペースが提供する <code class="docutils literal"><span class="pre">html5</span></code> マクロは内部で <code class="docutils literal"><span class="pre">hiccup.core/html</span></code> マクロを呼び出すため、明示的に <code class="docutils literal"><span class="pre">hiccup.core/html</span></code> を使用する必要がありません。</p>
 <div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="nv">user&gt;</span> <span class="p">(</span><span class="nf">require</span> <span class="o">&#39;</span><span class="p">[</span><span class="nv">hiccup.page</span> <span class="ss">:as</span> <span class="nv">hp</span><span class="p">])</span>
@@ -389,7 +389,7 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/1c99452be026cfd2bc4f14afaf4c85ec5cfcc3d7">commit: 画面レイアウトを既にある画面に適用する</a></li>
+<li><a class="reference external" href="https://github.com/ayato-p/intro-web-clojure/commit/02dbff965045ce5c1ca94b94292a1329d1a62f00">commit: 画面レイアウトを既にある画面に適用する</a></li>
 </ul>
 <p>TODO 一覧を表示するとホーム画面同様に緑色のヘッダーが表示されるようになりました。これでようやく Web アプリケーションらしさが出てきました。</p>
 <p>次の Part では実際にデータベースを使って現実の Web アプリケーションにより近いものを作っていくことにしましょう。</p>

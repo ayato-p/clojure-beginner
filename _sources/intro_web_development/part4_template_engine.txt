@@ -22,7 +22,7 @@ Hiccup を導入する
                  [hiccup "1.0.5"]
                  [environ "1.0.1"]]
 
-* `commit: Hiccup を依存性へと追加 <https://github.com/ayato-p/intro-web-clojure/commit/314fe92ffc4eb9084cc27f6a23b14e12fe3508ee>`_
+* `commit: Hiccup を依存性へと追加 <https://github.com/ayato-p/intro-web-clojure/commit/75cf9b19846a69cb6db54592c483cdd749d6b579>`_
 
 追加したら、早速いつも通り REPL を再起動して以下のフォームを評価してみましょう。
 
@@ -147,7 +147,7 @@ CSS と同じように ``#`` の後が ID 、 各 ``.`` の後がクラスにな
         res/response
         res/html))
 
-* `commit: ビュー用に新しいネームスペースを作って、文字列で書いていた HTML を Hiccup を 使って書きなおした <https://github.com/ayato-p/intro-web-clojure/commit/1799136e93e8bf6ae024b5c34e3c4c66543b6530>`_
+* `commit: ビュー用に新しいネームスペースを作って、文字列で書いていた HTML を Hiccup を 使って書きなおした <https://github.com/ayato-p/intro-web-clojure/commit/9093b1042213539226af93f3b024682914aa1206>`_
 
 サーバーを起動して、画面をリロードしたら今までと変わらない画面が表示出来ているかを確認し、出来ていたらここまでは大丈夫です。
 
@@ -174,7 +174,7 @@ CSS と同じように ``#`` の後が ID 、 各 ``.`` の後がクラスにな
       [:header.top-bar.bg-green.depth-3 "TODO-clj"]
       [:main body]]))
 
-* `commit: アプリケーションのレイアウトを作成 <https://github.com/ayato-p/intro-web-clojure/commit/e5992ab5a471b578d4f7b394c3a2d6589d326280>`_
+* `commit: アプリケーションのレイアウトを作成 <https://github.com/ayato-p/intro-web-clojure/commit/2779822700443b1adb324f167e8126b44667b7ce>`_
 
 ``common`` という全ての画面で共通となるレイアウトを定義する関数を作りました。ひとつめにリクエストマップを受け取り、残りは全てボディとして受け取り HTML の内部でそのまま展開されます。ちなみに今まで特に説明もなくビューに関連する関数の第一引数にリクエストマップを指定して、今のところ使っていないので本当に必要なのか気になっている方もいるかもしれませんが、後々使う予定なので今はとりあえず書いてあると思ってもらえればいいです。
 
@@ -193,7 +193,7 @@ CSS と同じように ``#`` の後が ID 、 各 ``.`` の後がクラスにな
 
 ``resources/public/js/main.js`` は空のファイルを置いておくだけで今回はいいです。後々中身を書いていきます。
 
-* `commit: 使用する CSS/JavaScript ファイルを resources ディレクトリ配下へ <https://github.com/ayato-p/intro-web-clojure/commit/bd6e792c7eaf3e6ff91804cd866726b77bca0fdf>`_
+* `commit: 使用する CSS/JavaScript ファイルを resources ディレクトリ配下へ <https://github.com/ayato-p/intro-web-clojure/commit/2779822700443b1adb324f167e8126b44667b7ce>`_
 
 さて ``hiccup.page`` というネームスペースが新たに出てきました。 ``hiccup.page`` ネームスペースは HTML のページを素早く構築するための関数を提供するネームスペースで、 ``html5`` 以外にも ``xhtml``, ``html4`` などというマクロがあり、それに加え CSS と JavaScript 用に link タグと script タグのヘルパー関数がそれぞれ用意されています( ``include-css``, ``include-js`` )。そして、このネームスペースが提供する ``html5`` マクロは内部で ``hiccup.core/html`` マクロを呼び出すため、明示的に ``hiccup.core/html`` を使用する必要がありません。
 
@@ -266,7 +266,7 @@ Ring ライブラリの中に最初からあるミドルウェアを使います
                 [:li title])])
          (layout/common req)))
 
-* `commit: 画面レイアウトを既にある画面に適用する <https://github.com/ayato-p/intro-web-clojure/commit/1c99452be026cfd2bc4f14afaf4c85ec5cfcc3d7>`_
+* `commit: 画面レイアウトを既にある画面に適用する <https://github.com/ayato-p/intro-web-clojure/commit/02dbff965045ce5c1ca94b94292a1329d1a62f00>`_
 
 TODO 一覧を表示するとホーム画面同様に緑色のヘッダーが表示されるようになりました。これでようやく Web アプリケーションらしさが出てきました。
 
