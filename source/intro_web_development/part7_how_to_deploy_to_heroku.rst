@@ -134,7 +134,7 @@ Heroku へデプロイする
 
 .. sourcecode:: clojure
 
-  ;; src/todo_clj/db/todo.clj
+  ;; src/todo_clj/main.clj
   (ns todo-clj.main
     (:require [todo-clj.core :as core]
               [todo-clj.db :as db])
