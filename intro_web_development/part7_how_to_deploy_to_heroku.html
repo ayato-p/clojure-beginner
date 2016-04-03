@@ -278,7 +278,7 @@ $ java -jar target/todo-clj.jar
 </pre></div>
 </div>
 <p>今回はテーブルがひとつでも作成されていたら <code class="docutils literal"><span class="pre">migrate</span></code> 関数を実行できないようにしました。そしてこの <code class="docutils literal"><span class="pre">migrate</span></code> 関数を Web アプリケーションの起動時に呼び出します。</p>
-<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/db/todo.clj</span>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/main.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.main</span>
   <span class="p">(</span><span class="ss">:require</span> <span class="p">[</span><span class="nv">todo-clj.core</span> <span class="ss">:as</span> <span class="nv">core</span><span class="p">]</span>
             <span class="p">[</span><span class="nv">todo-clj.db</span> <span class="ss">:as</span> <span class="nv">db</span><span class="p">])</span>
