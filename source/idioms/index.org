@@ -297,3 +297,30 @@
    (into {} (map-indexed vector (repeat 5 {})))
    ;; {0 {}, 1 {}, 2 {}, 3 {}, 4 {}}
    #+end_src
+
+** シーケンスから最初に条件に合致するものを取得する
+
+   幾つか実装方法がありますが、ここではひとつ例を示します。
+
+   #+begin_src clojure
+   (defn find-first [pred coll]
+     (first (drop-while (complement pred) coll)))
+   #+end_src
+
+   述語関数とコレクションをひとつ引数に受け取る関数として実装します。 =drop-while= によって条件に合致しないものを全て drop し、残ったものの先頭を返却するというものです。
+
+   #+begin_src clojure
+   (defn prime? [x]
+     (reduce (fn [res n]
+               (if (zero? (mod x n))
+                 (reduced false)
+                 true))
+             true
+             (range 2 (inc (Math/round (Math/sqrt x))))))
+
+   (find-first prime?
+               (range 1000 Double/POSITIVE_INFINITY)) ;; 1009
+   #+end_src
+
+   同様の関数が [[https://github.com/weavejester/medley/blob/master/src/medley/core.cljc#L6-L9][medley]] というライブラリでも実装されています。
+   ただ、 Clojure の場合遅延シーケンスがあるので条件に一致しない場合、処理が終了しない可能性があることに注意してください。
