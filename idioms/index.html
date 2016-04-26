@@ -108,6 +108,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#id8">プログラム全体で参照できるような簡易データベースが欲しい</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#falsy">falsy な値をリストから除去する</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id9">オブジェクトの一覧にインデックスを付ける</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">シーケンスから最初に条件に合致するものを取得する</a></li>
 </ul>
 </li>
 </ul>
@@ -430,6 +431,33 @@
 <span class="c1">;; {0 {}, 1 {}, 2 {}, 3 {}, 4 {}}</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="id10">
+<h2>シーケンスから最初に条件に合致するものを取得する<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>幾つか実装方法がありますが、ここではひとつ例を示します。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">find-first</span> <span class="p">[</span><span class="nv">pred</span> <span class="nv">coll</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">first </span><span class="p">(</span><span class="nb">drop-while </span><span class="p">(</span><span class="nb">complement </span><span class="nv">pred</span><span class="p">)</span> <span class="nv">coll</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>述語関数とコレクションをひとつ引数に受け取る関数として実装します。
+<code class="docutils literal"><span class="pre">drop-while</span></code> によって条件に合致しないものを全て drop
+し、残ったものの先頭を返却するというものです。</p>
+<div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="p">(</span><span class="kd">defn </span><span class="nv">prime?</span> <span class="p">[</span><span class="nv">x</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">reduce </span><span class="p">(</span><span class="k">fn </span><span class="p">[</span><span class="nv">res</span> <span class="nv">n</span><span class="p">]</span>
+            <span class="p">(</span><span class="k">if </span><span class="p">(</span><span class="nb">zero? </span><span class="p">(</span><span class="nf">mod</span> <span class="nv">x</span> <span class="nv">n</span><span class="p">))</span>
+              <span class="p">(</span><span class="nf">reduced</span> <span class="nv">false</span><span class="p">)</span>
+              <span class="nv">true</span><span class="p">))</span>
+          <span class="nv">true</span>
+          <span class="p">(</span><span class="nb">range </span><span class="mi">2</span> <span class="p">(</span><span class="nb">inc </span><span class="p">(</span><span class="nf">Math/round</span> <span class="p">(</span><span class="nf">Math/sqrt</span> <span class="nv">x</span><span class="p">))))))</span>
+
+<span class="p">(</span><span class="nf">find-first</span> <span class="nv">prime?</span>
+            <span class="p">(</span><span class="nb">range </span><span class="mi">1000</span> <span class="nv">Double/POSITIVE_INFINITY</span><span class="p">))</span> <span class="c1">;; 1009</span>
+</pre></div>
+</div>
+<p>同様の関数が
+<a class="reference external" href="https://github.com/weavejester/medley/blob/master/src/medley/core.cljc#L6-L9">medley</a>
+というライブラリでも実装されています。 ただ、 Clojure
+の場合遅延シーケンスがあるので条件に一致しない場合、処理が終了しない可能性があることに注意してください。</p>
 </div>
 </div>
 
