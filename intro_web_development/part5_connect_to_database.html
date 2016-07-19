@@ -283,7 +283,7 @@ Clojure には Java の JDBC をラップして Clojure から使いやすくし
 </div>
 <div class="section" id="todo">
 <h2>TODO をデータベースで管理する<a class="headerlink" href="#todo" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ちょっと前置きが長くなりましたが、ここからは今までファイルにベタ書きされていた TDOO リストをデータベースへ投入します。まずはテーブルを用意しないといけないので、簡単に作ります。</p>
+<p>ちょっと前置きが長くなりましたが、ここからは今までファイルにベタ書きされていた TODO リストをデータベースへ投入します。まずはテーブルを用意しないといけないので、簡単に作ります。</p>
 <p><code class="docutils literal"><span class="pre">todo-clj.db</span></code> ネームスペースを作って <code class="docutils literal"><span class="pre">db-spec</span></code> と <code class="docutils literal"><span class="pre">migrate</span></code> 関数を用意しましょう。</p>
 <div class="highlight-clojure"><div class="highlight"><pre><span></span><span class="c1">;; src/todo_clj/db.clj</span>
 <span class="p">(</span><span class="kd">ns </span><span class="nv">todo-clj.db</span>
