@@ -39,7 +39,7 @@ Web アプリケーションに必要なもののひとつにルーティング�
 
   (defn not-found []
     {:status 404
-     :body "<h1>404 page not found</1>"})
+     :body "<h1>404 page not found</h1>"})
 
   (defn home-view [req]
     "<h1>ホーム画面</h1>
